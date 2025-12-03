@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>B24 Architecture</title>
+  <link rel="stylesheet" href="/css/index.css">
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --success: #2ecc71;
+  --dark-bg: #2c3e50;
+  --light-bg: #f5f7fa;
+  --card-bg: #ffffff;
+  --text-primary: #2c3e50;
+  --text-secondary: #7f8c8d;
+  --border: #e0e0e0;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--light-bg);
+  color: var(--text-primary);
+}
+
+/* ===== APP WRAPPER ===== */
+.app-wrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 200px;
+  background: linear-gradient(180deg, var(--dark-bg) 0%, #34495e 100%);
+  color: #ecf0f1;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+}
+
+.sidebar-top {
+  display: flex;
+  justify-content: center;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  color: #ecf0f1;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+}
+
+.menu-item.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.menu-item .icon {
+  font-size: 1.2rem;
+  min-width: 24px;
+}
+
+.menu-item .label {
+  font-size: 0.95rem;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1rem;
+}
+
+.menu-item.logout {
+  color: #e74c3c;
+}
+
+.menu-item.logout:hover {
+  background: rgba(231, 76, 60, 0.1);
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.header h1 {
+  font-size: 1.8rem;
+  color: var(--text-primary);
+}
+
+.header-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.date-info,
+.month-info {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.btn-add {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.btn-add:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+}
+
+/* ===== CONTENT ===== */
+.content {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  overflow-y: auto;
+}
+
+/* ===== HERO SECTION ===== */
+.hero-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.hero-card {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hero-card h2 {
+  font-size: 2.2rem;
+}
+
+.hero-card p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* ===== FEATURES SECTION ===== */
+.features-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.features-section h3 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.feature-item {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border-top: 4px solid var(--primary);
+}
+
+.feature-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.feature-item h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.feature-item p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* ===== STATS SECTION ===== */
+.stats-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stats-section h3 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.progress-bar {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* ===== CTA SECTION ===== */
+.cta-section {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 3rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+}
+
+.cta-content h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.cta-content p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--card-bg);
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 150px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .features-grid,
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .app-wrapper {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .sidebar-menu {
+    flex-direction: row;
+    flex: 1;
+  }
+
+  .sidebar-bottom {
+    border: none;
+    padding: 0;
+  }
+
+  .content {
+    padding: 1.5rem;
+  }
+
+  .features-grid,
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+  }
+
+  .hero-card {
+    padding: 2rem;
+  }
+
+  .hero-card h2 {
+    font-size: 1.5rem;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="app-wrapper">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="avatar">👤</div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <a href="/" class="menu-item active">
+          <span class="icon">🏠</span>
+          <span class="label">Home</span>
+        </a>
+        <a href="#dashboard" class="menu-item">
+          <span class="icon">📊</span>
+          <span class="label">Dashboard</span>
+        </a>
+        <a href="#admin" class="menu-item">
+          <span class="icon">👨‍💼</span>
+          <span class="label">Admin</span>
+        </a>
+        <a href="#messages" class="menu-item">
+          <span class="icon">💬</span>
+          <span class="label">Messages</span>
+        </a>
+        <a href="#settings" class="menu-item">
+          <span class="icon">⚙️</span>
+          <span class="label">Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="#logout" class="menu-item logout">
+          <span class="icon">🚪</span>
+          <span class="label">Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Top Header -->
+      <header class="header">
+        <h1>B24 Architecture</h1>
+        <div class="header-info">
+          <span class="date-info">2020/01</span>
+          <span class="month-info">January</span>
+          <button class="btn-add">+</button>
+        </div>
+      </header>
+
+      <!-- Content Container -->
+      <div class="content">
+        
+        <!-- Hero Section with Welcome Message -->
+        <section class="hero-section">
+          <div class="hero-card">
+            <h2>Bienvenido</h2>
+            <p>Architecture of B24 Switch Platform</p>
+            <button class="btn btn-primary" onclick="handleStart()">Comenzar Ahora</button>
+          </div>
+        </section>
+
+        <!-- Features Grid -->
+        <section class="features-section">
+          <h3>Características Principales</h3>
+          <div class="features-grid">
+            <div class="feature-item">
+              <div class="feature-icon">📊</div>
+              <h4>Componentes</h4>
+              <p>Obtén insights en tiempo real</p>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🔒</div>
+              <h4>Seguridad</h4>
+              <p>Protección de datos garantizada</p>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">⚡</div>
+              <h4>Rendimiento</h4>
+              <p>Operaciones rápidas y eficientes</p>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🌍</div>
+              <h4>Global</h4>
+              <p>Acceso desde cualquier lugar</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Stats Overview -->
+        <section class="stats-section">
+          <h3>Resumen de Actividad</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-number">25%</span>
+              <span class="stat-label">Crecimiento</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 25%; background: #667eea;"></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">50%</span>
+              <span class="stat-label">Engagement</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 50%; background: #764ba2;"></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">75%</span>
+              <span class="stat-label">Conversión</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 75%; background: #f093fb;"></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Disponibilidad</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%; background: #2ecc71;"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+          <div class="cta-content">
+            <h2>¿Listo para Comenzar?</h2>
+            <p>Únete a miles de empresas que confían en nosotros</p>
+            <div class="cta-buttons">
+              <button class="btn btn-primary" onclick="handleSignUp()">Registrarse</button>
+              <button class="btn btn-secondary" onclick="handleDemo()">Ver Demo</button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>&copy; 2025 Mi Plataforma. Todos los derechos reservados.</p>
+      </footer>
+
+    </main>
+
+  </div>
+
+  <script src="/js/index.js"></script>
+</body>
+</html>
