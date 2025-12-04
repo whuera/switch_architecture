@@ -1,0 +1,216 @@
+<!-- filepath: c:\projects\app-shoping-cart-reload\app-shopping-cart-with-terraform\views\index.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="avatar">👤</div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <a href="/" class="menu-item active" data-route="home">
+          <span class="icon">🏠</span>
+          <span class="label">Home</span>
+        </a>
+        
+        <!-- Cambiado: href real a /componentes y id para seleccionarlo -->
+        <a href="/componentes" class="menu-item" data-route="componentes" id="menuComponentes">
+          <span class="icon">📦</span>
+          <span class="label">Componentes</span>
+        </a>
+
+        <a href="#admin" class="menu-item" data-route="admin">
+          <span class="icon">👨‍💼</span>
+          <span class="label">Admin</span>
+        </a>
+        <a href="#messages" class="menu-item" data-route="messages">
+          <span class="icon">💬</span>
+          <span class="label">Messages</span>
+        </a>
+        <a href="#settings" class="menu-item" data-route="settings">
+          <span class="icon">⚙️</span>
+          <span class="label">Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="#logout" class="menu-item logout" data-route="logout">
+          <span class="icon">🚪</span>
+          <span class="label">Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Top Header -->
+      <header class="header">
+        <h1><%= title %></h1>
+        <div class="header-info">
+          <span class="date-info">2020/01</span>
+          <span class="month-info">January</span>
+          <button class="btn-add">+</button>
+        </div>
+      </header>
+
+      <!-- Content Container -->
+      <div class="content">
+        
+        <!-- Hero Section with Welcome Message -->
+        <section class="hero-section">
+          <div class="hero-card">
+            <h2>Bienvenido</h2>
+            <p><%= description %></p>
+            <button class="btn btn-primary" onclick="handleStart()">Comenzar Ahora</button>
+          </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+          <h3>Características Principales</h3>
+          <div class="features-grid">
+            <div class="feature-item">
+              <div class="feature-icon">📊</div>
+              <h4>Análisis Avanzado</h4>
+              <p>Obtén insights en tiempo real</p>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🔒</div>
+              <h4>Seguridad</h4>
+              <p>Protección de datos garantizada</p>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">⚡</div>
+              <h4>Rendimiento</h4>
+              <p>Operaciones rápidas y eficientes</p>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🌍</div>
+              <h4>Global</h4>
+              <p>Acceso desde cualquier lugar</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Stats Overview -->
+        <section class="stats-section">
+          <h3>Resumen de Actividad</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-number">25%</span>
+              <span class="stat-label">Crecimiento</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 25%; background: #667eea;"></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">50%</span>
+              <span class="stat-label">Engagement</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 50%; background: #764ba2;"></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">75%</span>
+              <span class="stat-label">Conversión</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 75%; background: #f093fb;"></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Disponibilidad</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%; background: #2ecc71;"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+          <div class="cta-content">
+            <h2>¿Listo para Comenzar?</h2>
+            <p>Únete a miles de empresas que confían en nosotros</p>
+            <div class="cta-buttons">
+              <button class="btn btn-primary" onclick="handleSignUp()">Registrarse</button>
+              <button class="btn btn-secondary" onclick="handleDemo()">Ver Demo</button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>&copy; 2025 Mi Plataforma. Todos los derechos reservados.</p>
+      </footer>
+
+    </main>
+
+  </div>
+
+  <script src="/js/index.js"></script>
+  <script>
+    function initNavigation() {
+      try {
+        const menuItems = document.querySelectorAll('.menu-item');
+        
+        menuItems.forEach(item => {
+          item.addEventListener('click', function(e) {
+            const route = this.getAttribute('data-route');
+            const href = this.getAttribute('href');
+
+            // Si href es ruta absoluta interna, navegar a ella explícitamente.
+            if (href && href.startsWith('/')) {
+              e.preventDefault();
+              // marcar activo y luego navegar
+              menuItems.forEach(m => m.classList.remove('active'));
+              this.classList.add('active');
+              window.location.href = href;
+              return;
+            }
+
+            // Para home/logout dejar comportamiento por defecto
+            if (route === 'home' || route === 'logout') {
+              return true;
+            }
+
+            // Si no hay href, solo manejar estado activo (SPA parcial)
+            menuItems.forEach(m => m.classList.remove('active'));
+            this.classList.add('active');
+          });
+        });
+
+        // establecer item activo según URL actual
+        const currentPath = window.location.pathname;
+        menuItems.forEach(item => {
+          const href = item.getAttribute('href');
+          if (href === currentPath) {
+            menuItems.forEach(m => m.classList.remove('active'));
+            item.classList.add('active');
+          }
+        });
+
+      } catch (error) {
+        console.error('Error en initNavigation:', error.message);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initNavigation();
+    });
+  </script>
+</body>
+</html>

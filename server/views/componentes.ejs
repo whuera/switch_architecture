@@ -1,0 +1,188 @@
+<!-- filepath: c:\projects\app-shoping-cart-reload\app-shopping-cart-with-terraform\views\componentes.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="avatar">👤</div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <a href="/" class="menu-item" data-route="home">
+          <span class="icon">🏠</span>
+          <span class="label">Home</span>
+        </a>
+        
+        <a href="/componentes" class="menu-item active" data-route="componentes">
+          <span class="icon">📦</span>
+          <span class="label">Componentes</span>
+        </a>
+
+        <a href="#admin" class="menu-item" data-route="admin">
+          <span class="icon">👨‍💼</span>
+          <span class="label">Admin</span>
+        </a>
+        <a href="#messages" class="menu-item" data-route="messages">
+          <span class="icon">💬</span>
+          <span class="label">Messages</span>
+        </a>
+        <a href="#settings" class="menu-item" data-route="settings">
+          <span class="icon">⚙️</span>
+          <span class="label">Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a href="#logout" class="menu-item logout" data-route="logout">
+          <span class="icon">🚪</span>
+          <span class="label">Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Top Header -->
+      <header class="header">
+        <h1><%= title %></h1>
+        <div class="header-info">
+          <a href="/" class="btn-back">← Volver al Inicio</a>
+        </div>
+      </header>
+
+      <!-- Content Container -->
+      <div class="content">
+        
+        <!-- Componentes Introduction -->
+        <section class="intro-section">
+          <h2>Componentes de la Plataforma</h2>
+          <p>Explora y utiliza todos los componentes disponibles en nuestra plataforma</p>
+        </section>
+
+        <!-- Componentes Grid -->
+        <section class="componentes-section">
+          <div class="componentes-grid">
+            
+            <!-- Componente: Botones -->
+            <div class="componente-card" onclick="loadComponentDetail(event, 'botones')">
+              <div class="componente-header">
+                <span class="componente-icon">🔘</span>
+                <h3>Botones</h3>
+              </div>
+              <p class="componente-desc">Botones interactivos con diferentes estilos y estados</p>
+              <div class="componente-preview">
+                <button class="btn btn-primary" style="pointer-events: none;">Primario</button>
+                <button class="btn btn-secondary" style="pointer-events: none;">Secundario</button>
+              </div>
+              <a href="javascript:void(0);" class="componente-link" onclick="event.stopPropagation(); loadComponentDetail(event, 'botones');">Ver Más →</a>
+            </div>
+
+            <!-- Componente: Cards -->
+            <div class="componente-card" onclick="loadComponentDetail(event, 'cards')">
+              <div class="componente-header">
+                <span class="componente-icon">📇</span>
+                <h3>Cards</h3>
+              </div>
+              <p class="componente-desc">Tarjetas versátiles para mostrar contenido</p>
+              <div class="componente-preview">
+                <div class="card-preview">
+                  <div style="background: #667eea; height: 60px; border-radius: 8px;"></div>
+                </div>
+              </div>
+              <a href="javascript:void(0);" class="componente-link" onclick="event.stopPropagation(); loadComponentDetail(event, 'cards');">Ver Más →</a>
+            </div>
+
+            <!-- Componente: Gráficos -->
+            <div class="componente-card" onclick="loadComponentDetail(event, 'graficos')">
+              <div class="componente-header">
+                <span class="componente-icon">📊</span>
+                <h3>Gráficos</h3>
+              </div>
+              <p class="componente-desc">Visualización de datos con Chart.js</p>
+              <div class="componente-preview">
+                <div style="display: flex; gap: 4px; height: 40px; align-items: flex-end;">
+                  <div style="background: #667eea; width: 12px; height: 60%;"></div>
+                  <div style="background: #667eea; width: 12px; height: 80%;"></div>
+                  <div style="background: #667eea; width: 12px; height: 50%;"></div>
+                  <div style="background: #667eea; width: 12px; height: 70%;"></div>
+                </div>
+              </div>
+              <a href="javascript:void(0);" class="componente-link" onclick="event.stopPropagation(); loadComponentDetail(event, 'graficos');">Ver Más →</a>
+            </div>
+
+            <!-- Componente: Formularios -->
+            <div class="componente-card" onclick="loadComponentDetail(event, 'formularios')">
+              <div class="componente-header">
+                <span class="componente-icon">📝</span>
+                <h3>Formularios</h3>
+              </div>
+              <p class="componente-desc">Campos y controles de formularios</p>
+              <div class="componente-preview">
+                <input type="text" placeholder="Campo de entrada" disabled style="width: 100%; padding: 8px; border: 1px solid #e0e0e0; border-radius: 6px;">
+              </div>
+              <a href="javascript:void(0);" class="componente-link" onclick="event.stopPropagation(); loadComponentDetail(event, 'formularios');">Ver Más →</a>
+            </div>
+
+            <!-- Componente: Badges -->
+            <div class="componente-card" onclick="loadComponentDetail(event, 'badges')">
+              <div class="componente-header">
+                <span class="componente-icon">🏷️</span>
+                <h3>Badges</h3>
+              </div>
+              <p class="componente-desc">Etiquetas y distintivos</p>
+              <div class="componente-preview">
+                <span class="badge" style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; display: inline-block;">Nuevo</span>
+              </div>
+              <a href="javascript:void(0);" class="componente-link" onclick="event.stopPropagation(); loadComponentDetail(event, 'badges');">Ver Más →</a>
+            </div>
+
+            <!-- Componente: Modales -->
+            <div class="componente-card" onclick="loadComponentDetail(event, 'modales')">
+              <div class="componente-header">
+                <span class="componente-icon">🪟</span>
+                <h3>Modales</h3>
+              </div>
+              <p class="componente-desc">Diálogos y ventanas emergentes</p>
+              <div class="componente-preview">
+                <div style="border: 2px dashed #667eea; padding: 20px; border-radius: 8px; text-align: center; color: #667eea; font-size: 0.9rem;">
+                  Modal Preview
+                </div>
+              </div>
+              <a href="javascript:void(0);" class="componente-link" onclick="event.stopPropagation(); loadComponentDetail(event, 'modales');">Ver Más →</a>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Modal para detalles -->
+      <div id="componentModal" class="modal" style="display: none;" onclick="closeComponentModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+          <button class="btn-close" onclick="closeComponentModal()">×</button>
+          <div id="componentDetailContent"></div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>&copy; 2025 Mi Plataforma. Todos los derechos reservados.</p>
+      </footer>
+
+    </main>
+
+  </div>
+
+  <script src="/js/componentes.js"></script>
+</body>
+</html>
