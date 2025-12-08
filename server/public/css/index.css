@@ -33,6 +33,10 @@ body {
   color: var(--text-primary);
   line-height: 1.5;
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* ===== GITHUB HEADER ===== */
@@ -186,9 +190,15 @@ body {
 }
 
 /* ===== MAIN CONTAINER ===== */
+.content-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
+}
+
 .github-container {
   display: flex;
-  min-height: calc(100vh - 120px);
+  min-height: auto;
   max-width: 1280px;
   margin: 0 auto;
   padding: 24px 32px;
@@ -716,6 +726,199 @@ body {
   margin-bottom: 12px;
 }
 
+.inicio-content {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arquitectura-diagram {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+}
+
+.description-content {
+  margin-top: 32px;
+  padding: 24px;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.intro-text {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.step-section {
+  margin-top: 24px;
+  padding: 20px;
+  background: var(--bg-main);
+  border-left: 4px solid var(--primary-blue);
+  border-radius: var(--radius-sm);
+}
+
+.step-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.step-section h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.step-section p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.step-section ul {
+  margin-left: 24px;
+  margin-bottom: 12px;
+}
+
+.step-section li {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.step-section strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ===== FOOTER ===== */
+.custom-footer {
+  background-color: #3F4050;
+  /* Dark blue-grey from image */
+  color: #ffffff;
+  padding: 40px 0 20px 0;
+  margin-top: 0;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 30px 20px;
+}
+
+.footer-left-contact {
+  display: flex;
+  gap: 20px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-center-logo {
+  text-align: center;
+}
+
+.logo-text {
+  font-weight: 900;
+  font-size: 24px;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.logo-subtext {
+  font-size: 10px;
+  letter-spacing: 4px;
+  opacity: 0.8;
+}
+
+.footer-right-social {
+  display: flex;
+  gap: 15px;
+}
+
+.social-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+}
+
+.footer-separator {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  max-width: 1200px;
+  margin: 0 auto 20px auto;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  font-size: 12px;
+}
+
+.footer-nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+.footer-nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+
+.footer-nav-links a:hover {
+  opacity: 1;
+}
+
+.footer-copyright {
+  opacity: 0.6;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
   .github-container {
@@ -741,6 +944,25 @@ body {
 
   .header-center {
     display: none;
+  }
+
+  /* Responsive Footer */
+  .footer-top,
+  .footer-bottom {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .footer-left-contact {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
   }
 }
 
