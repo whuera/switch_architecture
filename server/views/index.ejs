@@ -1,161 +1,167 @@
-<!-- filepath: c:\projects\app-shoping-cart-reload\app-shopping-cart-with-terraform\views\index.ejs -->
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title><%= title %></title>
+  <title>
+    <%= title %>
+  </title>
   <link rel="stylesheet" href="/css/index.css">
 </head>
+
 <body>
-  <div class="app-wrapper">
-    
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar">
-      <div class="sidebar-top">
-        <div class="avatar">👤</div>
+
+  <!-- GitHub Top Header -->
+  <header class="github-header">
+    <div class="header-left">
+      <button class="menu-toggle">☰</button>
+      <a href="/" class="logo">
+        <svg height="32" width="32" viewBox="0 0 16 16" fill="currentColor">
+          <path
+            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+          </path>
+        </svg>
+      </a>
+      <div class="repo-path">
+        <a href="#" class="repo-owner">whuera</a>
+        <span class="separator">/</span>
+        <a href="#" class="repo-name">switch_architecture</a>
       </div>
+    </div>
 
-      <nav class="sidebar-menu">
-        <a href="/" class="menu-item active" data-route="home">
-          <span class="icon">🏠</span>
-          <span class="label">Home</span>
-        </a>
-        
-        <!-- Cambiado: href real a /componentes y id para seleccionarlo -->
-        <a href="/componentes" class="menu-item" data-route="componentes" id="menuComponentes">
-          <span class="icon">📦</span>
-          <span class="label">Componentes</span>
-        </a>
-
-        <a href="#admin" class="menu-item" data-route="admin">
-          <span class="icon">👨‍💼</span>
-          <span class="label">Admin</span>
-        </a>
-        <a href="#messages" class="menu-item" data-route="messages">
-          <span class="icon">💬</span>
-          <span class="label">Messages</span>
-        </a>
-        <a href="#settings" class="menu-item" data-route="settings">
-          <span class="icon">⚙️</span>
-          <span class="label">Settings</span>
-        </a>
-      </nav>
-
-      <div class="sidebar-bottom">
-        <a href="#logout" class="menu-item logout" data-route="logout">
-          <span class="icon">🚪</span>
-          <span class="label">Logout</span>
-        </a>
+    <div class="header-center">
+      <div class="search-bar">
+        <input type="text" placeholder="Type / to search">
       </div>
-    </aside>
+    </div>
 
-    <!-- Main Content -->
-    <main class="main-content">
-      
-      <!-- Top Header -->
-      <header class="header">
-        <h1><%= title %></h1>
-        <div class="header-info">
-          <span class="date-info">2020/01</span>
-          <span class="month-info">January</span>
-          <button class="btn-add">+</button>
+    <div class="header-right">
+      <button class="header-btn">+</button>
+      <button class="header-btn">🔔</button>
+      <div class="user-avatar">👤</div>
+    </div>
+  </header>
+
+  <!-- GitHub Navigation Tabs -->
+  <nav class="github-nav">
+    <div class="nav-container">
+      <a href="#" class="nav-item active">
+        <span class="nav-icon">📝</span>
+        Arquitectura
+      </a>
+      <a href="#" class="nav-item">
+        <span class="nav-icon">⚠️</span>
+        Issues
+      </a>
+      <a href="#" class="nav-item">
+        <span class="nav-icon">🔀</span>
+        Pull requests
+      </a>
+      <a href="#" class="nav-item">
+        <span class="nav-icon">▶️</span>
+        Actions
+      </a>
+      <a href="#" class="nav-item" id="componentes-nav">
+        <span class="nav-icon">🔧</span>
+        Componentes
+      </a>
+      <a href="#" class="nav-item">
+        <span class="nav-icon">📚</span>
+        Wiki
+      </a>
+      <a href="#" class="nav-item">
+        <span class="nav-icon">🔒</span>
+        Security
+      </a>
+      <a href="#" class="nav-item">
+        <span class="nav-icon">📊</span>
+        Insights
+      </a>
+      <a href="#" class="nav-item">
+        <span class="nav-icon">⚙️</span>
+        Settings
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="github-container">
+
+    <!-- Main Content Area -->
+    <main class="main-area">
+
+      <!-- Inicio Section (Default view) -->
+      <div id="inicio-section" class="inicio-section">
+        <div class="inicio-card">
+          <h2>🏠 Inicio</h2>
         </div>
-      </header>
-
-      <!-- Content Container -->
-      <div class="content">
-        
-        <!-- Hero Section with Welcome Message -->
-        <section class="hero-section">
-          <div class="hero-card">
-            <h2>Bienvenido</h2>
-            <p><%= description %></p>
-            <button class="btn btn-primary" onclick="handleStart()">Comenzar Ahora</button>
-          </div>
-        </section>
-
-        <!-- Features Section -->
-        <section class="features-section">
-          <h3>Características Principales</h3>
-          <div class="features-grid">
-            <div class="feature-item">
-              <div class="feature-icon">📊</div>
-              <h4>Análisis Avanzado</h4>
-              <p>Obtén insights en tiempo real</p>
-            </div>
-            <div class="feature-item">
-              <div class="feature-icon">🔒</div>
-              <h4>Seguridad</h4>
-              <p>Protección de datos garantizada</p>
-            </div>
-            <div class="feature-item">
-              <div class="feature-icon">⚡</div>
-              <h4>Rendimiento</h4>
-              <p>Operaciones rápidas y eficientes</p>
-            </div>
-            <div class="feature-item">
-              <div class="feature-icon">🌍</div>
-              <h4>Global</h4>
-              <p>Acceso desde cualquier lugar</p>
-            </div>
-          </div>
-        </section>
-
-        <!-- Stats Overview -->
-        <section class="stats-section">
-          <h3>Resumen de Actividad</h3>
-          <div class="stats-grid">
-            <div class="stat-card">
-              <span class="stat-number">25%</span>
-              <span class="stat-label">Crecimiento</span>
-              <div class="progress-bar">
-                <div class="progress-fill" style="width: 25%; background: #667eea;"></div>
-              </div>
-            </div>
-            <div class="stat-card">
-              <span class="stat-number">50%</span>
-              <span class="stat-label">Engagement</span>
-              <div class="progress-bar">
-                <div class="progress-fill" style="width: 50%; background: #764ba2;"></div>
-              </div>
-            </div>
-            <div class="stat-card">
-              <span class="stat-number">75%</span>
-              <span class="stat-label">Conversión</span>
-              <div class="progress-bar">
-                <div class="progress-fill" style="width: 75%; background: #f093fb;"></div>
-              </div>
-            </div>
-            <div class="stat-card">
-              <span class="stat-number">100%</span>
-              <span class="stat-label">Disponibilidad</span>
-              <div class="progress-bar">
-                <div class="progress-fill" style="width: 100%; background: #2ecc71;"></div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Call to Action -->
-        <section class="cta-section">
-          <div class="cta-content">
-            <h2>¿Listo para Comenzar?</h2>
-            <p>Únete a miles de empresas que confían en nosotros</p>
-            <div class="cta-buttons">
-              <button class="btn btn-primary" onclick="handleSignUp()">Registrarse</button>
-              <button class="btn btn-secondary" onclick="handleDemo()">Ver Demo</button>
-            </div>
-          </div>
-        </section>
-
       </div>
 
-      <!-- Footer -->
-      <footer class="footer">
-        <p>&copy; 2025 Mi Plataforma. Todos los derechos reservados.</p>
-      </footer>
+      <!-- Arquitectura B24 eps Section (Hidden by default) -->
+      <div id="arquitectura-section" class="arquitectura-section" style="display: none;">
+        <div class="arquitectura-card">
+          <h2>Arquitectura B24 eps</h2>
+          <p>Esta es la sección de Arquitectura B24 eps del proyecto.</p>
+          <div class="arquitectura-content">
+            <div class="info-grid">
+              <div class="info-item">
+                <h3>📐 Diseño</h3>
+                <p>Arquitectura modular y escalable</p>
+              </div>
+              <div class="info-item">
+                <h3>🔧 Componentes</h3>
+                <p>Sistema de componentes reutilizables</p>
+              </div>
+              <div class="info-item">
+                <h3>📊 Estructura</h3>
+                <p>Organización clara y mantenible</p>
+              </div>
+              <div class="info-item">
+                <h3>🚀 Rendimiento</h3>
+                <p>Optimizado para producción</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Componentes B24 Section (Hidden by default) -->
+      <div id="componentes-section" class="componentes-section" style="display: none;">
+        <div class="componentes-card">
+          <h2>🔧 Componentes B24</h2>
+          <p>Sistema de componentes reutilizables</p>
+          <div class="componentes-content">
+            <div class="info-grid">
+              <div class="info-item">
+                <h3>🧩 UI Components</h3>
+                <p>Componentes de interfaz de usuario</p>
+              </div>
+              <div class="info-item info-item-clickable" id="core-modules-link">
+                <h3>📦 Core Modules</h3>
+                <p>Módulos principales del sistema</p>
+              </div>
+              <div class="info-item">
+                <h3>🔌 API Integration</h3>
+                <p>Integración con servicios externos</p>
+              </div>
+              <div class="info-item">
+                <h3>📚 Documentation</h3>
+                <p>Documentación completa de componentes</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modulos B24 eps Section (Hidden by default) -->
+      <div id="modulos-section" class="modulos-section" style="display: none;">
+        <div class="modulos-card">
+          <h2>📦 Core Modules</h2>
+          <p>Módulos principales del sistema</p>
+        </div>
+      </div>
 
     </main>
 
@@ -163,54 +169,68 @@
 
   <script src="/js/index.js"></script>
   <script>
-    function initNavigation() {
-      try {
-        const menuItems = document.querySelectorAll('.menu-item');
-        
-        menuItems.forEach(item => {
-          item.addEventListener('click', function(e) {
-            const route = this.getAttribute('data-route');
-            const href = this.getAttribute('href');
+    // Toggle Sections
+    document.addEventListener('DOMContentLoaded', function () {
+      const arquitecturaNav = document.querySelector('.nav-item.active');
+      const componentesNav = document.getElementById('componentes-nav');
+      const arquitecturaSection = document.getElementById('arquitectura-section');
+      const componentesSection = document.getElementById('componentes-section');
+      const modulosSection = document.getElementById('modulos-section');
+      const inicioSection = document.getElementById('inicio-section');
 
-            // Si href es ruta absoluta interna, navegar a ella explícitamente.
-            if (href && href.startsWith('/')) {
-              e.preventDefault();
-              // marcar activo y luego navegar
-              menuItems.forEach(m => m.classList.remove('active'));
-              this.classList.add('active');
-              window.location.href = href;
-              return;
-            }
+      function hideAllSections() {
+        if (arquitecturaSection) arquitecturaSection.style.display = 'none';
+        if (componentesSection) componentesSection.style.display = 'none';
+        if (modulosSection) modulosSection.style.display = 'none';
+        if (inicioSection) inicioSection.style.display = 'none';
+      }
 
-            // Para home/logout dejar comportamiento por defecto
-            if (route === 'home' || route === 'logout') {
-              return true;
-            }
+      function showInicioSection() {
+        if (inicioSection) inicioSection.style.display = 'block';
+      }
 
-            // Si no hay href, solo manejar estado activo (SPA parcial)
-            menuItems.forEach(m => m.classList.remove('active'));
-            this.classList.add('active');
-          });
-        });
+      // Toggle Arquitectura Section
+      if (arquitecturaNav) {
+        arquitecturaNav.addEventListener('click', function (e) {
+          e.preventDefault();
 
-        // establecer item activo según URL actual
-        const currentPath = window.location.pathname;
-        menuItems.forEach(item => {
-          const href = item.getAttribute('href');
-          if (href === currentPath) {
-            menuItems.forEach(m => m.classList.remove('active'));
-            item.classList.add('active');
+          if (arquitecturaSection.style.display === 'none' || arquitecturaSection.style.display === '') {
+            hideAllSections();
+            arquitecturaSection.style.display = 'block';
+          } else {
+            hideAllSections();
+            showInicioSection();
           }
         });
-
-      } catch (error) {
-        console.error('Error en initNavigation:', error.message);
       }
-    }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      initNavigation();
+      // Toggle Componentes Section
+      if (componentesNav) {
+        componentesNav.addEventListener('click', function (e) {
+          e.preventDefault();
+
+          if (componentesSection.style.display === 'none' || componentesSection.style.display === '') {
+            hideAllSections();
+            componentesSection.style.display = 'block';
+          } else {
+            hideAllSections();
+            showInicioSection();
+          }
+        });
+      }
+
+      // Toggle Modulos Section from Core Modules link
+      const coreModulesLink = document.getElementById('core-modules-link');
+
+      if (coreModulesLink && modulosSection) {
+        coreModulesLink.addEventListener('click', function (e) {
+          e.preventDefault();
+          hideAllSections();
+          modulosSection.style.display = 'block';
+        });
+      }
     });
   </script>
 </body>
+
 </html>
