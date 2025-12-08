@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+
+<body>
+
+    <!-- GitHub Top Header -->
+    <header class="github-header">
+        <div class="header-left">
+            <button class="menu-toggle">☰</button>
+            <a href="/" class="logo">
+                <svg height="32" width="32" viewBox="0 0 16 16" fill="currentColor">
+                    <path
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                    </path>
+                </svg>
+            </a>
+            <div class="repo-path">
+                <a href="#" class="repo-owner">whuera</a>
+                <span class="separator">/</span>
+                <a href="#" class="repo-name">switch_architecture</a>
+            </div>
+        </div>
+
+        <div class="header-center">
+            <div class="search-bar">
+                <input type="text" placeholder="Type / to search">
+            </div>
+        </div>
+
+        <div class="header-right">
+            <button class="header-btn">+</button>
+            <button class="header-btn">🔔</button>
+            <div class="user-avatar">👤</div>
+        </div>
+    </header>
+
+    <!-- GitHub Navigation Tabs -->
+    <nav class="github-nav">
+        <div class="nav-container">
+            <a href="#" class="nav-item active">
+                <span class="nav-icon">📝</span>
+                Arquitectura
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">⚠️</span>
+                Issues
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">🔀</span>
+                Pull requests
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">▶️</span>
+                Actions
+            </a>
+            <a href="#" class="nav-item" id="componentes-nav">
+                <span class="nav-icon">🔧</span>
+                Componentes
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">📚</span>
+                Wiki
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">🔒</span>
+                Security
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">📊</span>
+                Insights
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                Settings
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="github-container">
+
+        <!-- Main Content Area -->
+        <main class="main-area">
+
+            <!-- Inicio Section (Default view) -->
+            <div id="inicio-section" class="inicio-section">
+                <div class="inicio-card">
+                    <h2>🏠 Inicio</h2>
+                    <div class="inicio-content">
+                        <img src="/images/arquitectura-diagram.png" alt="Diagrama de Arquitectura"
+                            class="arquitectura-diagram">
+                    </div>
+
+                    <div class="description-content">
+                        <br>
+                        <p class="intro-text">
+                            Cuando una transacción financiera (ATM, POS, e-commerce o ISO8583) llega a BASE24-eps, ésta
+                            sigue una serie de pasos ordenados y modulares que garantizan validación, enrutamiento,
+                            autorización y retorno seguro al canal originador.
+                        </p>
+
+                        <div class="step-section">
+                            <h3>✅ 1. Llegada al Originator</h3>
+                            <p>La transacción ingresa por un <strong>Originator process</strong> (ISOORI, ATMORI,
+                                POSORI, HISOORI).</p>
+                            <p>Este componente:</p>
+                            <ul>
+                                <li>Recibe el mensaje desde el canal.</li>
+                                <li>Valida formato, MTI, longitudes y campos mínimos.</li>
+                                <li>Lo parsea según el Message Profile.</li>
+                                <li>Lo convierte a un Transaction Entity interno.</li>
+                                <li>Es la puerta de entrada al ecosistema eps.</li>
+                            </ul>
+                        </div>
+
+                        <div class="step-section">
+                            <h3>✅ 2. Journalización inicial</h3>
+                            <p>Antes de procesarse, el mensaje se registra en el <strong>Journal Service</strong>,
+                                asegurando trazabilidad y capacidad de recuperación ante fallas.</p>
+                        </div>
+
+                        <div class="step-section">
+                            <h3>✅ 3. Determinación del enrutamiento (Routing Engine)</h3>
+                            <p>BASE24-eps decide qué hacer con la transacción usando dos capas:</p>
+
+                            <h4>a) Source Routing (SRC_RTE)</h4>
+                            <p>Evalúa:</p>
+                            <ul>
+                                <li>PAN / BIN</li>
+                                <li>Tipo de transacción</li>
+                                <li>Canal (ATM, POS, Switch externo)</li>
+                                <li>Institution ID</li>
+                            </ul>
+                            <p>Y produce un <strong>Route Code</strong>, que representa la lógica de destino.</p>
+
+                            <h4>b) Destination Routing (DST_RTE)</h4>
+                            <p>Determina si la transacción se autoriza:</p>
+                            <ul>
+                                <li><strong>On-Us</strong> (autorización interna)</li>
+                                <li>En un <strong>host externo</strong> (core del banco)</li>
+                                <li>En un <strong>switch internacional</strong> (Visa, MC, Plus, Redbanc)</li>
+                            </ul>
+                            <p>También define fallback, reintentos, prioridades y formato del mensaje hacia el destino.
+                            </p>
+                        </div>
+
+                        <div class="step-section">
+                            <h3>✅ 4. Envío a Autorización (AUTH)</h3>
+                            <p>El Originator entrega la transacción ya normalizada a <strong>AUTH</strong>, el motor de
+                                autorización.</p>
+                            <p>AUTH determina el entorno de autorización (Authorization Environment) y aplica:</p>
+                            <ul>
+                                <li>Validación del PIN y MAC</li>
+                                <li>Reglas EMV (ARQC, TVR, CVR)</li>
+                                <li>Límites de cliente</li>
+                                <li>Reglas de riesgo</li>
+                                <li>Comportamiento On-Us o External Host</li>
+                            </ul>
+                        </div>
+
+                        <div class="step-section">
+                            <h3>🔵 5. Autorización Interna o Externa</h3>
+
+                            <h4>Autorización On-Us (Interna)</h4>
+                            <p>eps ejecuta validaciones propias del banco, y decide aprobar o rechazar.</p>
+
+                            <h4>Autorización mediante Host Externo</h4>
+                            <p>Si requiere consulta a un sistema externo:</p>
+                            <ul>
+                                <li>AUTH envía el mensaje a través del <strong>Message Delivery Service (MDS)</strong>.
+                                </li>
+                                <li>MDS entrega al host externo y espera la respuesta.</li>
+                                <li>Devuelve la respuesta a AUTH, incluso aplicando conversiones de formato.</li>
+                            </ul>
+                            <p>MDS garantiza:</p>
+                            <ul>
+                                <li>Delivery confiable</li>
+                                <li>Retransmisiones</li>
+                                <li>Timeouts administrados</li>
+                                <li>Balanceo entre destinos</li>
+                            </ul>
+                        </div>
+
+                        <div class="step-section">
+                            <h3>✅ 6. Procesamiento de la Respuesta</h3>
+                            <p>AUTH recibe la respuesta (interna o externa) y:</p>
+                            <ul>
+                                <li>Aplica el <strong>Action Code Profile</strong> para definir el código final.</li>
+                                <li>Ajusta datos según el <strong>Issuer Profile</strong>.</li>
+                                <li>Actualiza el Journal con el resultado.</li>
+                            </ul>
+                        </div>
+
+                        <div class="step-section">
+                            <h3>✅ 7. Construcción de la respuesta y envío al canal</h3>
+                            <p>El Originator arma el mensaje final:</p>
+                            <ul>
+                                <li>MTI de respuesta</li>
+                                <li>Campos obligatorios (ISO8583 o propietario)</li>
+                                <li>Datos EMV si aplica</li>
+                                <li>Conversión a formato nativo del canal (ATM/POS)</li>
+                            </ul>
+                            <p>Luego:</p>
+                            <ul>
+                                <li>Se registra el cierre en el Journal.</li>
+                                <li>Se envía la respuesta al canal originador (ATM, POS, app, switch).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arquitectura B24 eps Section (Hidden by default) -->
+            <div id="arquitectura-section" class="arquitectura-section" style="display: none;">
+                <div class="arquitectura-card">
+                    <h2>Arquitectura B24 eps</h2>
+                    <p>Esta es la sección de Arquitectura B24 eps del proyecto.</p>
+                    <div class="arquitectura-content">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <h3>📐 Diseño</h3>
+                                <p>Arquitectura modular y escalable</p>
+                            </div>
+                            <div class="info-item">
+                                <h3>🔧 Componentes</h3>
+                                <p>Sistema de componentes reutilizables</p>
+                            </div>
+                            <div class="info-item">
+                                <h3>📊 Estructura</h3>
+                                <p>Organización clara y mantenible</p>
+                            </div>
+                            <div class="info-item">
+                                <h3>🚀 Rendimiento</h3>
+                                <p>Optimizado para producción</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Componentes B24 Section (Hidden by default) -->
+            <div id="componentes-section" class="componentes-section" style="display: none;">
+                <div class="componentes-card">
+                    <h2>🔧 Componentes B24</h2>
+                    <p>Sistema de componentes reutilizables</p>
+                    <div class="componentes-content">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <h3>🧩 UI Components</h3>
+                                <p>Componentes de interfaz de usuario</p>
+                            </div>
+                            <div class="info-item info-item-clickable" id="core-modules-link">
+                                <h3>📦 Core Modules</h3>
+                                <p>Módulos principales del sistema</p>
+                            </div>
+                            <div class="info-item">
+                                <h3>🔌 API Integration</h3>
+                                <p>Integración con servicios externos</p>
+                            </div>
+                            <div class="info-item">
+                                <h3>📚 Documentation</h3>
+                                <p>Documentación completa de componentes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modulos B24 eps Section (Hidden by default) -->
+            <div id="modulos-section" class="modulos-section" style="display: none;">
+                <div class="modulos-card">
+                    <h2>📦 Core Modules</h2>
+                    <p>Módulos principales del sistema</p>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="/js/index.js"></script>
+    <script>
+        // Toggle Sections
+        document.addEventListener('DOMContentLoaded', function () {
+            const arquitecturaNav = document.querySelector('.nav-item.active');
+            const componentesNav = document.getElementById('componentes-nav');
+            const arquitecturaSection = document.getElementById('arquitectura-section');
+            const componentesSection = document.getElementById('componentes-section');
+            const modulosSection = document.getElementById('modulos-section');
+            const inicioSection = document.getElementById('inicio-section');
+
+            function hideAllSections() {
+                if (arquitecturaSection) arquitecturaSection.style.display = 'none';
+                if (componentesSection) componentesSection.style.display = 'none';
+                if (modulosSection) modulosSection.style.display = 'none';
+                if (inicioSection) inicioSection.style.display = 'none';
+            }
+
+            function showInicioSection() {
+                if (inicioSection) inicioSection.style.display = 'block';
+            }
+
+            // Toggle Arquitectura Section
+            if (arquitecturaNav) {
+                arquitecturaNav.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    if (arquitecturaSection.style.display === 'none' || arquitecturaSection.style.display === '') {
+                        hideAllSections();
+                        arquitecturaSection.style.display = 'block';
+                    } else {
+                        hideAllSections();
+                        showInicioSection();
+                    }
+                });
+            }
+
+            // Toggle Componentes Section
+            if (componentesNav) {
+                componentesNav.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    if (componentesSection.style.display === 'none' || componentesSection.style.display === '') {
+                        hideAllSections();
+                        componentesSection.style.display = 'block';
+                    } else {
+                        hideAllSections();
+                        showInicioSection();
+                    }
+                });
+            }
+
+            // Toggle Modulos Section from Core Modules link
+            const coreModulesLink = document.getElementById('core-modules-link');
+
+            if (coreModulesLink && modulosSection) {
+                coreModulesLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    hideAllSections();
+                    modulosSection.style.display = 'block';
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
