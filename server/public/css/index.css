@@ -997,3 +997,10 @@ body {
   box-shadow: var(--shadow-sm);
   min-height: 600px;
 }
+.core-modules-diagram {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  margin-top: 24px;
+}
