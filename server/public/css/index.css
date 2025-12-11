@@ -987,10 +987,7 @@ body {
     width: 100%;
   }
 }
-/* ===== WIKI SECTION ===== */
-.wiki-section {
-  margin-top: 24px;
-}
+
 
 .wiki-card {
   background: var(--bg-main);
