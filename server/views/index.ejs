@@ -67,7 +67,8 @@
                 <span class="nav-icon">🔧</span>
                 Componentes
             </a>
-            <a href="#" class="nav-item" id="wiki-nav">
+            <a href="https://deepwiki.com/whuera/switch_architecture" class="nav-item" target="_blank"
+                rel="noopener noreferrer">
                 <span class="nav-icon">📚</span>
                 Wiki
             </a>
@@ -290,15 +291,6 @@
                     </div>
                 </div>
 
-                <!-- Wiki Section (Hidden by default) -->
-                <div id="wiki-section" class="wiki-section" style="display: none;">
-                    <div class="wiki-card">
-                        <h2>📚 Wiki</h2>
-                        <iframe src="https://deepwiki.com/whuera/switch_architecture" width="100%" height="800px"
-                            style="border: none; border-radius: 6px;"></iframe>
-                    </div>
-                </div>
-
             </main>
 
         </div>
@@ -352,18 +344,15 @@
         document.addEventListener('DOMContentLoaded', function () {
             const arquitecturaNav = document.querySelector('.nav-item.active');
             const componentesNav = document.getElementById('componentes-nav');
-            const wikiNav = document.getElementById('wiki-nav');
             const arquitecturaSection = document.getElementById('arquitectura-section');
             const componentesSection = document.getElementById('componentes-section');
             const modulosSection = document.getElementById('modulos-section');
-            const wikiSection = document.getElementById('wiki-section');
             const inicioSection = document.getElementById('inicio-section');
 
             function hideAllSections() {
                 if (arquitecturaSection) arquitecturaSection.style.display = 'none';
                 if (componentesSection) componentesSection.style.display = 'none';
                 if (modulosSection) modulosSection.style.display = 'none';
-                if (wikiSection) wikiSection.style.display = 'none';
                 if (inicioSection) inicioSection.style.display = 'none';
             }
 
@@ -394,21 +383,6 @@
                     if (componentesSection.style.display === 'none' || componentesSection.style.display === '') {
                         hideAllSections();
                         componentesSection.style.display = 'block';
-                    } else {
-                        hideAllSections();
-                        showInicioSection();
-                    }
-                });
-            }
-
-            // Toggle Wiki Section
-            if (wikiNav) {
-                wikiNav.addEventListener('click', function (e) {
-                    e.preventDefault();
-
-                    if (wikiSection.style.display === 'none' || wikiSection.style.display === '') {
-                        hideAllSections();
-                        wikiSection.style.display = 'block';
                     } else {
                         hideAllSections();
                         showInicioSection();
