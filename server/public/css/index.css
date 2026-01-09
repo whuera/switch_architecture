@@ -997,10 +997,34 @@ body {
   box-shadow: var(--shadow-sm);
   min-height: 600px;
 }
+
 .core-modules-diagram {
   max-width: 100%;
   height: auto;
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-md);
   margin-top: 24px;
+}
+
+/* ===== CONTACT BUTTON ===== */
+.contact-btn {
+  background: linear-gradient(135deg, #0969da 0%, #0550ae 100%);
+  color: white !important;
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.contact-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(9, 105, 218, 0.4);
+  opacity: 1 !important;
+  background: linear-gradient(135deg, #0a74f0 0%, #0660d0 100%);
 }
