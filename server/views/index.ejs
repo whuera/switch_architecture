@@ -102,19 +102,19 @@
                             </p>
 
                             <div class="info-grid" style="margin-top: 32px;">
-                                <div class="info-item">
+                                <div class="info-item" id="validacion-btn">
                                     <div class="icon-wrapper">✅</div>
                                     <h3>Validación</h3>
                                 </div>
-                                <div class="info-item">
+                                <div class="info-item" id="enrutamiento-btn">
                                     <div class="icon-wrapper">🔄</div>
                                     <h3>Enrutamiento</h3>
                                 </div>
-                                <div class="info-item">
+                                <div class="info-item" id="autorizacion-btn">
                                     <div class="icon-wrapper">🛡️</div>
                                     <h3>Autorización</h3>
                                 </div>
-                                <div class="info-item">
+                                <div class="info-item" id="journal-btn">
                                     <div class="icon-wrapper">📝</div>
                                     <h3>Journal</h3>
                                 </div>
@@ -270,6 +270,138 @@
         </div>
     </footer>
 
+    <!-- Modal for Validación -->
+    <div id="validacion-modal" class="modal">
+        <div class="modal-content acrylic-modal">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>✅ Motor de Validación</h2>
+                <p>Integridad y seguridad de los datos transaccionales.</p>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3>📄 Validación de Formato</h3>
+                    <p>Asegura que el mensaje cumpla con los estándares:</p>
+                    <ul>
+                        <li>ISO8583 (Versiones 87, 93, 2003).</li>
+                        <li>Estructuras XML / JSON para APIs.</li>
+                        <li>Campos obligatorios y tipos de datos.</li>
+                    </ul>
+                    <div class="modal-tag">Fase 1: Sintaxis</div>
+                </div>
+                <div class="modal-section">
+                    <h3>🔐 Validación de Seguridad</h3>
+                    <p>Verificación de credenciales y criptografía:</p>
+                    <ul>
+                        <li>Validación de PIN (PIN Block).</li>
+                        <li>Verificación de CVV/CVV2.</li>
+                        <li>Criptogramas EMV y llaves dinámicas.</li>
+                    </ul>
+                    <div class="modal-tag">Fase 2: Seguridad</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Enrutamiento -->
+    <div id="enrutamiento-modal" class="modal">
+        <div class="modal-content acrylic-modal">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>🔄 Motor de Enrutamiento</h2>
+                <p>Lógica de decisión y destino de transacciones.</p>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3>📍 Source Routing (SRC_RTE)</h3>
+                    <p>Evalúa el origen de la transacción basándose en:</p>
+                    <ul>
+                        <li>PAN / BIN del cliente.</li>
+                        <li>Tipo de transacción (ATM, POS, E-commerce).</li>
+                        <li>Canal de entrada y Institution ID.</li>
+                    </ul>
+                    <div class="modal-tag">Fase 1: Identificación</div>
+                </div>
+                <div class="modal-section">
+                    <h3>🎯 Destination Routing (DST_RTE)</h3>
+                    <p>Determina el destino final para la autorización:</p>
+                    <ul>
+                        <li><strong>On-Us:</strong> Autorización interna en BASE24-eps.</li>
+                        <li><strong>External Host:</strong> Core bancario o autorizador externo.</li>
+                        <li><strong>Interchange:</strong> Redes internacionales (Visa, Mastercard).</li>
+                    </ul>
+                    <div class="modal-tag">Fase 2: Destino</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Autorización -->
+    <div id="autorizacion-modal" class="modal">
+        <div class="modal-content acrylic-modal">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>🛡️ Motor de Autorización</h2>
+                <p>Gestión de saldos y aprobación de transacciones.</p>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3>🏦 Autorización On-Us</h3>
+                    <p>Procesamiento interno para clientes del banco:</p>
+                    <ul>
+                        <li>Consulta de saldos en tiempo real.</li>
+                        <li>Validación de límites y bloqueos.</li>
+                        <li>Actualización de estados de cuenta.</li>
+                    </ul>
+                    <div class="modal-tag">Tipo: Interno</div>
+                </div>
+                <div class="modal-section">
+                    <h3>🌐 Autorización Off-Us</h3>
+                    <p>Comunicación con redes externas:</p>
+                    <ul>
+                        <li>Envío a Interchanges (Visa/Mastercard).</li>
+                        <li>Manejo de Timeouts y Reintentos.</li>
+                        <li>Traducción de códigos de respuesta.</li>
+                    </ul>
+                    <div class="modal-tag">Tipo: Externo</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Journal -->
+    <div id="journal-modal" class="modal">
+        <div class="modal-content acrylic-modal">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>📝 Sistema de Journaling</h2>
+                <p>Registro histórico y auditoría de operaciones.</p>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3>📊 Registro de Transacciones</h3>
+                    <p>Auditoría completa de cada paso:</p>
+                    <ul>
+                        <li>Log de mensajes de entrada y salida.</li>
+                        <li>Tiempos de respuesta y latencia.</li>
+                        <li>Estado final de la transacción.</li>
+                    </ul>
+                    <div class="modal-tag">Función: Auditoría</div>
+                </div>
+                <div class="modal-section">
+                    <h3>🔄 Recuperación y Reversas</h3>
+                    <p>Manejo de consistencia de datos:</p>
+                    <ul>
+                        <li>Generación automática de reversas.</li>
+                        <li>Conciliación de fin de día.</li>
+                        <li>Recuperación ante fallos del sistema.</li>
+                    </ul>
+                    <div class="modal-tag">Función: Continuidad</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="/js/index.js"></script>
     <script>
         // Toggle Sections
@@ -332,6 +464,38 @@
                     modulosSection.style.display = 'block';
                 });
             }
+
+            // Modal Logic (Generic for all modals)
+            const modalConfigs = [
+                { btnId: 'validacion-btn', modalId: 'validacion-modal' },
+                { btnId: 'enrutamiento-btn', modalId: 'enrutamiento-modal' },
+                { btnId: 'autorizacion-btn', modalId: 'autorizacion-modal' },
+                { btnId: 'journal-btn', modalId: 'journal-modal' }
+            ];
+
+            modalConfigs.forEach(config => {
+                const modal = document.getElementById(config.modalId);
+                const btn = document.getElementById(config.btnId);
+                if (btn && modal) {
+                    const span = modal.querySelector('.close-modal');
+
+                    btn.onclick = function () {
+                        modal.style.display = "flex";
+                    }
+
+                    if (span) {
+                        span.onclick = function () {
+                            modal.style.display = "none";
+                        }
+                    }
+
+                    window.addEventListener('click', function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    });
+                }
+            });
 
             // Set current year in footer
             const yearSpan = document.getElementById('year');
