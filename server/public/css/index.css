@@ -221,7 +221,7 @@ body {
 .github-container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 32px;
+  padding: 24px 32px 120px 32px;
   position: relative;
   z-index: 1;
 }
@@ -420,14 +420,19 @@ body {
 
 /* ===== FOOTER ===== */
 .custom-footer {
-  background-color: #3F4050;
+  background: rgba(63, 64, 80, 0.8);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: #ffffff;
   padding: 15px 0 14px 0;
   width: 100%;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 10;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+
 }
 
 .footer-top {
