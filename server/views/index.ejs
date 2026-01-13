@@ -78,130 +78,46 @@
                 <div id="inicio-section" class="inicio-section">
                     <div class="inicio-card">
                         <h2>🏠 Inicio</h2>
-                        <div class="inicio-content">
-                            <img src="/images/arquitectura-diagram.png" alt="Diagrama de Arquitectura"
-                                class="arquitectura-diagram">
+                        <p>Bienvenido al sistema de arquitectura transaccional BASE24-eps.</p>
+
+                        <div class="investment-card">
+                            <div class="investment-image"
+                                style="background-image: url('/images/arquitectura-diagram.png');"></div>
+                            <div class="investment-content">
+                                <div class="investment-tag">Arquitectura</div>
+                                <div class="investment-text">
+                                    Visualiza el flujo completo de la transacción
+                                    <strong>Diagrama de Arquitectura Switch</strong>
+                                </div>
+                                <div class="chevron-right">›</div>
+                            </div>
                         </div>
 
-                        <div class="description-content">
-                            <br>
+                        <div class="description-content" style="border-radius: 20px; padding: 24px; margin-top: 24px;">
                             <p class="intro-text">
                                 Cuando una transacción financiera (ATM, POS, e-commerce o ISO8583) llega a BASE24-eps,
-                                ésta
-                                sigue una serie de pasos ordenados y modulares que garantizan validación, enrutamiento,
+                                ésta sigue una serie de pasos ordenados y modulares que garantizan validación,
+                                enrutamiento,
                                 autorización y retorno seguro al canal originador.
                             </p>
 
-                            <div class="step-section">
-                                <h3>✅ 1. Llegada al Originator</h3>
-                                <p>La transacción ingresa por un <strong>Originator process</strong> (ISOORI, ATMORI,
-                                    POSORI, HISOORI).</p>
-                                <p>Este componente:</p>
-                                <ul>
-                                    <li>Recibe el mensaje desde el canal.</li>
-                                    <li>Valida formato, MTI, longitudes y campos mínimos.</li>
-                                    <li>Lo parsea según el Message Profile.</li>
-                                    <li>Lo convierte a un Transaction Entity interno.</li>
-                                    <li>Es la puerta de entrada al ecosistema eps.</li>
-                                </ul>
-                            </div>
-
-                            <div class="step-section">
-                                <h3>✅ 2. Journalización inicial</h3>
-                                <p>Antes de procesarse, el mensaje se registra en el <strong>Journal Service</strong>,
-                                    asegurando trazabilidad y capacidad de recuperación ante fallas.</p>
-                            </div>
-
-                            <div class="step-section">
-                                <h3>✅ 3. Determinación del enrutamiento (Routing Engine)</h3>
-                                <p>BASE24-eps decide qué hacer con la transacción usando dos capas:</p>
-
-                                <h4>a) Source Routing (SRC_RTE)</h4>
-                                <p>Evalúa:</p>
-                                <ul>
-                                    <li>PAN / BIN</li>
-                                    <li>Tipo de transacción</li>
-                                    <li>Canal (ATM, POS, Switch externo)</li>
-                                    <li>Institution ID</li>
-                                </ul>
-                                <p>Y produce un <strong>Route Code</strong>, que representa la lógica de destino.</p>
-
-                                <h4>b) Destination Routing (DST_RTE)</h4>
-                                <p>Determina si la transacción se autoriza:</p>
-                                <ul>
-                                    <li><strong>On-Us</strong> (autorización interna)</li>
-                                    <li>En un <strong>host externo</strong> (core del banco)</li>
-                                    <li>En un <strong>switch internacional</strong> (Visa, MC, Plus, Redbanc)</li>
-                                </ul>
-                                <p>También define fallback, reintentos, prioridades y formato del mensaje hacia el
-                                    destino.
-                                </p>
-                            </div>
-
-                            <div class="step-section">
-                                <h3>✅ 4. Envío a Autorización (AUTH)</h3>
-                                <p>El Originator entrega la transacción ya normalizada a <strong>AUTH</strong>, el motor
-                                    de
-                                    autorización.</p>
-                                <p>AUTH determina el entorno de autorización (Authorization Environment) y aplica:</p>
-                                <ul>
-                                    <li>Validación del PIN y MAC</li>
-                                    <li>Reglas EMV (ARQC, TVR, CVR)</li>
-                                    <li>Límites de cliente</li>
-                                    <li>Reglas de riesgo</li>
-                                    <li>Comportamiento On-Us o External Host</li>
-                                </ul>
-                            </div>
-
-                            <div class="step-section">
-                                <h3>🔵 5. Autorización Interna o Externa</h3>
-
-                                <h4>Autorización On-Us (Interna)</h4>
-                                <p>eps ejecuta validaciones propias del banco, y decide aprobar o rechazar.</p>
-
-                                <h4>Autorización mediante Host Externo</h4>
-                                <p>Si requiere consulta a un sistema externo:</p>
-                                <ul>
-                                    <li>AUTH envía el mensaje a través del <strong>Message Delivery Service
-                                            (MDS)</strong>.
-                                    </li>
-                                    <li>MDS entrega al host externo y espera la respuesta.</li>
-                                    <li>Devuelve la respuesta a AUTH, incluso aplicando conversiones de formato.</li>
-                                </ul>
-                                <p>MDS garantiza:</p>
-                                <ul>
-                                    <li>Delivery confiable</li>
-                                    <li>Retransmisiones</li>
-                                    <li>Timeouts administrados</li>
-                                    <li>Balanceo entre destinos</li>
-                                </ul>
-                            </div>
-
-                            <div class="step-section">
-                                <h3>✅ 6. Procesamiento de la Respuesta</h3>
-                                <p>AUTH recibe la respuesta (interna o externa) y:</p>
-                                <ul>
-                                    <li>Aplica el <strong>Action Code Profile</strong> para definir el código final.
-                                    </li>
-                                    <li>Ajusta datos según el <strong>Issuer Profile</strong>.</li>
-                                    <li>Actualiza el Journal with el resultado.</li>
-                                </ul>
-                            </div>
-
-                            <div class="step-section">
-                                <h3>✅ 7. Construcción de la respuesta y envío al canal</h3>
-                                <p>El Originator arma el mensaje final:</p>
-                                <ul>
-                                    <li>MTI de respuesta</li>
-                                    <li>Campos obligatorios (ISO8583 o propietario)</li>
-                                    <li>Datos EMV si aplica</li>
-                                    <li>Conversión a formato nativo del canal (ATM/POS)</li>
-                                </ul>
-                                <p>Luego:</p>
-                                <ul>
-                                    <li>Se registra el cierre en el Journal.</li>
-                                    <li>Se envía la respuesta al canal originador (ATM, POS, app, switch).</li>
-                                </ul>
+                            <div class="info-grid" style="margin-top: 32px;">
+                                <div class="info-item">
+                                    <div class="icon-wrapper">✅</div>
+                                    <h3>Validación</h3>
+                                </div>
+                                <div class="info-item">
+                                    <div class="icon-wrapper">🔄</div>
+                                    <h3>Enrutamiento</h3>
+                                </div>
+                                <div class="info-item">
+                                    <div class="icon-wrapper">🛡️</div>
+                                    <h3>Autorización</h3>
+                                </div>
+                                <div class="info-item">
+                                    <div class="icon-wrapper">📝</div>
+                                    <h3>Journal</h3>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -210,25 +126,39 @@
                 <!-- Arquitectura B24 eps Section (Hidden by default) -->
                 <div id="arquitectura-section" class="arquitectura-section" style="display: none;">
                     <div class="arquitectura-card">
-                        <h2>Arquitectura B24 eps</h2>
-                        <p>Esta es la sección de Arquitectura B24 eps del proyecto.</p>
+                        <h2>📐 Arquitectura B24 eps</h2>
+                        <p>Diseño modular y escalable para el procesamiento de transacciones financieras.</p>
+
+                        <div class="investment-card">
+                            <div class="investment-image"
+                                style="background-image: url('/images/arquitectura-diagram.png');"></div>
+                            <div class="investment-content">
+                                <div class="investment-tag">Arquitectura</div>
+                                <div class="investment-text">
+                                    Conoce el flujo detallado del procesamiento
+                                    <strong>Diagrama de Flujo Transaccional</strong>
+                                </div>
+                                <div class="chevron-right">›</div>
+                            </div>
+                        </div>
+
                         <div class="arquitectura-content">
                             <div class="info-grid">
                                 <div class="info-item">
-                                    <h3>📐 Diseño</h3>
-                                    <p>Arquitectura modular y escalable</p>
+                                    <div class="icon-wrapper">📐</div>
+                                    <h3>Diseño</h3>
                                 </div>
                                 <div class="info-item">
-                                    <h3>🔧 Componentes</h3>
-                                    <p>Sistema de componentes reutilizables</p>
+                                    <div class="icon-wrapper">🔧</div>
+                                    <h3>Componentes</h3>
                                 </div>
                                 <div class="info-item">
-                                    <h3>📊 Estructura</h3>
-                                    <p>Organización clara y mantenible</p>
+                                    <div class="icon-wrapper">📊</div>
+                                    <h3>Estructura</h3>
                                 </div>
                                 <div class="info-item">
-                                    <h3>🚀 Rendimiento</h3>
-                                    <p>Optimizado para producción</p>
+                                    <div class="icon-wrapper">🚀</div>
+                                    <h3>Rendimiento</h3>
                                 </div>
                             </div>
                         </div>
@@ -239,24 +169,38 @@
                 <div id="componentes-section" class="componentes-section" style="display: none;">
                     <div class="componentes-card">
                         <h2>🔧 Componentes B24</h2>
-                        <p>Sistema de componentes reutilizables</p>
+                        <p>Sistema de componentes reutilizables y módulos core.</p>
+
+                        <div class="investment-card" id="core-modules-link" style="cursor: pointer;">
+                            <div class="investment-image"
+                                style="background-image: url('/images/core-modules-diagram.png');"></div>
+                            <div class="investment-content">
+                                <div class="investment-tag">Módulos Core</div>
+                                <div class="investment-text">
+                                    Explora los módulos principales del sistema
+                                    <strong>AUTH, MDS, Journal & More</strong>
+                                </div>
+                                <div class="chevron-right">›</div>
+                            </div>
+                        </div>
+
                         <div class="componentes-content">
                             <div class="info-grid">
                                 <div class="info-item">
-                                    <h3>🧩 UI Components</h3>
-                                    <p>Componentes de interfaz de usuario</p>
-                                </div>
-                                <div class="info-item info-item-clickable" id="core-modules-link">
-                                    <h3>📦 Core Modules</h3>
-                                    <p>Módulos principales del sistema</p>
+                                    <div class="icon-wrapper">🧩</div>
+                                    <h3>UI Components</h3>
                                 </div>
                                 <div class="info-item">
-                                    <h3>🔌 API Integration</h3>
-                                    <p>Integración con servicios externos</p>
+                                    <div class="icon-wrapper">🔌</div>
+                                    <h3>API Integration</h3>
                                 </div>
                                 <div class="info-item">
-                                    <h3>📚 Documentation</h3>
-                                    <p>Documentación completa de componentes</p>
+                                    <div class="icon-wrapper">📚</div>
+                                    <h3>Documentation</h3>
+                                </div>
+                                <div class="info-item">
+                                    <div class="icon-wrapper">🔒</div>
+                                    <h3>Security</h3>
                                 </div>
                             </div>
                         </div>
