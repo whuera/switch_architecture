@@ -12,8 +12,13 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
-      styleSrc: ["'self'", "'unsafe-inline'"]
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.jsdelivr.net", "https://vercel.live"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      connectSrc: ["'self'", "https://azure-app-shopping-cart-reload-225fb76523b0.herokuapp.com", "http://localhost:3000", "https://vercel.live"],
+      imgSrc: ["'self'", "data:", "https:*"],
+      fontSrc: ["'self'", "https:", "data:"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
     }
   }
 }));
@@ -130,7 +135,7 @@ app.get('/componentes', (req, res) => {
 app.get('/api/componente/:id', (req, res) => {
   try {
     const { id } = req.params;
-    
+
     // ✅ Validación de entrada
     if (typeof id !== 'string') {
       return res.status(400).json({
@@ -140,7 +145,7 @@ app.get('/api/componente/:id', (req, res) => {
     }
 
     const sanitizedId = sanitizeString(id).toLowerCase();
-    
+
     if (!sanitizedId || sanitizedId.length === 0) {
       return res.status(400).json({
         success: false,
@@ -150,7 +155,7 @@ app.get('/api/componente/:id', (req, res) => {
 
     // ✅ Obtener componente
     const componente = componentesDB[sanitizedId];
-    
+
     if (!componente) {
       return res.status(404).json({
         success: false,
@@ -191,8 +196,8 @@ app.use((err, req, res, next) => {
   res.status(status).json({
     success: false,
     error: {
-      message: process.env.NODE_ENV === 'production' 
-        ? 'Error interno del servidor' 
+      message: process.env.NODE_ENV === 'production'
+        ? 'Error interno del servidor'
         : err.message,
       status
     }
