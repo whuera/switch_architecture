@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; connect-src 'self' https://azure-app-shopping-cart-reload-225fb76523b0.herokuapp.com http://localhost:3000; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline';">
     <title>
         <%= title %>
     </title>
@@ -260,8 +262,7 @@
                 <a href="#" class="contact-btn">SERVICE</a>
                 <a href="https://whuera.github.io/index_fp.html" target="_blank" rel="noopener noreferrer"
                     class="contact-btn">PROJECTS</a>
-                <a href="https://www.linkedin.com/in/williamhuera/" target="_blank" rel="noopener noreferrer"
-                    class="contact-btn">CONTACT</a>
+                <a href="#" id="contact-btn-modal" class="contact-btn">CONTACT</a>
             </div>
 
             <div class="footer-copyright">
@@ -402,6 +403,44 @@
         </div>
     </div>
 
+    <!-- Modal for Contact -->
+    <div id="contact-modal" class="modal">
+        <div class="modal-content acrylic-modal">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>📩 Contacto</h2>
+                <p>Déjanos tu mensaje y te contactaremos a la brevedad.</p>
+            </div>
+            <div class="modal-body">
+                <form id="contact-form" class="premium-form">
+                    <div class="form-group">
+                        <label for="name">Nombre Completo</label>
+                        <input type="text" id="name" name="name" placeholder="Tu nombre completo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="documentId">Documento de Identidad</label>
+                        <input type="text" id="documentId" name="documentId" placeholder="Ej: 161625522" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo</label>
+                        <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Teléfono</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+56 9..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Comentario</label>
+                        <textarea id="comment" name="comment" rows="4" placeholder="¿En qué podemos ayudarte?"
+                            required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn" id="submit-contact">Enviar Mensaje</button>
+                    <div id="form-response" class="form-response"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="/js/index.js"></script>
     <script>
         // Toggle Sections
@@ -470,7 +509,8 @@
                 { btnId: 'validacion-btn', modalId: 'validacion-modal' },
                 { btnId: 'enrutamiento-btn', modalId: 'enrutamiento-modal' },
                 { btnId: 'autorizacion-btn', modalId: 'autorizacion-modal' },
-                { btnId: 'journal-btn', modalId: 'journal-modal' }
+                { btnId: 'journal-btn', modalId: 'journal-modal' },
+                { btnId: 'contact-btn-modal', modalId: 'contact-modal' }
             ];
 
             modalConfigs.forEach(config => {
@@ -486,16 +526,85 @@
                     if (span) {
                         span.onclick = function () {
                             modal.style.display = "none";
+                            // Reset form and response message when closing
+                            if (config.modalId === 'contact-modal') {
+                                document.getElementById('contact-form').reset();
+                                document.getElementById('form-response').className = 'form-response';
+                                document.getElementById('form-response').textContent = '';
+                            }
                         }
                     }
 
                     window.addEventListener('click', function (event) {
                         if (event.target == modal) {
                             modal.style.display = "none";
+                            if (config.modalId === 'contact-modal') {
+                                document.getElementById('contact-form').reset();
+                                document.getElementById('form-response').className = 'form-response';
+                                document.getElementById('form-response').textContent = '';
+                            }
                         }
                     });
                 }
             });
+
+            // Contact Form Submission
+            const contactForm = document.getElementById('contact-form');
+            const submitBtn = document.getElementById('submit-contact');
+            const formResponse = document.getElementById('form-response');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+
+                    // Block button and show animation state
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('loading');
+                    submitBtn.textContent = 'Enviando...';
+                    formResponse.textContent = '';
+                    formResponse.className = 'form-response';
+
+                    const formData = new FormData(contactForm);
+                    const fullName = formData.get('name');
+                    const nameParts = fullName.trim().split(/\s+/);
+                    const firstName = nameParts[0] || '';
+                    const lastName = nameParts.slice(1).join(' ') || ' ';
+
+                    const payload = {
+                        firstName: firstName,
+                        lastName: lastName,
+                        email: formData.get('email'),
+                        documentId: formData.get('documentId'),
+                        phoneNumber: formData.get('phone'),
+                        comment: formData.get('comment')
+                    };
+
+                    try {
+                        const response = await fetch('https://azure-app-shopping-cart-reload-225fb76523b0.herokuapp.com/api/customer/create', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (response.ok) {
+                            formResponse.textContent = '¡Mensaje enviado con éxito!';
+                            formResponse.classList.add('success');
+                            contactForm.reset();
+                        } else {
+                            throw new Error('Error en el servidor');
+                        }
+                    } catch (error) {
+                        formResponse.textContent = 'Servicio no disponible por el momento';
+                        formResponse.classList.add('error');
+                    } finally {
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('loading');
+                        submitBtn.textContent = 'Enviar Mensaje';
+                    }
+                });
+            }
 
             // Set current year in footer
             const yearSpan = document.getElementById('year');
