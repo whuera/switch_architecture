@@ -60,9 +60,9 @@
                 <span class="nav-icon">📊</span>
                 Insights
             </a>
-            <a href="#" class="nav-item">
+            <a href="#" class="nav-item" id="simuladores-nav">
                 <span class="nav-icon">⚙️</span>
-                Settings
+                Simuladores
             </a>
         </div>
     </nav>
@@ -202,6 +202,56 @@
                                     <div class="icon-wrapper">🔒</div>
                                     <h3>Security</h3>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simuladores B24 Section (Hidden by default) -->
+                <div id="simuladores-section" class="simuladores-section" style="display: none;">
+                    <div class="componentes-card fade-in">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                            <span style="font-size: 2rem;">⚙️</span>
+                            <h2 style="margin: 0; font-size: 2rem; color: #1a2b4b;">Simuladores B24</h2>
+                        </div>
+                        <p style="color: #666; font-size: 1.1rem; margin-bottom: 40px;">Simuladores de flujo
+                            transaccional y plataformas bancarias.</p>
+
+                        <div class="componentes-grid">
+                            <!-- Simulador: ProBank -->
+                            <div class="componente-card">
+                                <div class="componente-header">
+                                    <span class="componente-icon">🏦</span>
+                                    <h3>ProBank</h3>
+                                </div>
+                                <p class="componente-desc">Plataforma de simulación bancaria para pruebas de core.</p>
+                                <div class="componente-preview">
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 2.5rem; margin-bottom: 8px;">💳</div>
+                                        <div style="font-size: 0.8rem; color: #64748b; font-weight: 600;">CORE SIMULATOR
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="https://pro-bank-five.vercel.app/" target="_blank"
+                                    class="componente-link">Acceder al Simulador →</a>
+                            </div>
+
+                            <!-- Simulador: ATM Flow -->
+                            <div class="componente-card">
+                                <div class="componente-header">
+                                    <span class="componente-icon">🏧</span>
+                                    <h3>ATM Flow</h3>
+                                </div>
+                                <p class="componente-desc">Simulador de flujo transaccional para cajeros automáticos.
+                                </p>
+                                <div class="componente-preview">
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 2.5rem; margin-bottom: 8px;">🔄</div>
+                                        <div style="font-size: 0.8rem; color: #64748b; font-weight: 600;">TRANSACTION
+                                            FLOW</div>
+                                    </div>
+                                </div>
+                                <a href="#" class="componente-link">Acceder al Simulador →</a>
                             </div>
                         </div>
                     </div>
@@ -445,14 +495,17 @@
         document.addEventListener('DOMContentLoaded', function () {
             const arquitecturaNav = document.querySelector('.nav-item.active');
             const componentesNav = document.getElementById('componentes-nav');
+            const simuladoresNav = document.getElementById('simuladores-nav');
             const arquitecturaSection = document.getElementById('arquitectura-section');
             const componentesSection = document.getElementById('componentes-section');
+            const simuladoresSection = document.getElementById('simuladores-section');
             const modulosSection = document.getElementById('modulos-section');
             const inicioSection = document.getElementById('inicio-section');
 
             function hideAllSections() {
                 if (arquitecturaSection) arquitecturaSection.style.display = 'none';
                 if (componentesSection) componentesSection.style.display = 'none';
+                if (simuladoresSection) simuladoresSection.style.display = 'none';
                 if (modulosSection) modulosSection.style.display = 'none';
                 if (inicioSection) inicioSection.style.display = 'none';
             }
@@ -484,6 +537,21 @@
                     if (componentesSection.style.display === 'none' || componentesSection.style.display === '') {
                         hideAllSections();
                         componentesSection.style.display = 'block';
+                    } else {
+                        hideAllSections();
+                        showInicioSection();
+                    }
+                });
+            }
+
+            // Toggle Simuladores Section
+            if (simuladoresNav) {
+                simuladoresNav.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    if (simuladoresSection.style.display === 'none' || simuladoresSection.style.display === '') {
+                        hideAllSections();
+                        simuladoresSection.style.display = 'block';
                     } else {
                         hideAllSections();
                         showInicioSection();
@@ -608,6 +676,17 @@
             const yearSpan = document.getElementById('year');
             if (yearSpan) {
                 yearSpan.textContent = new Date().getFullYear();
+            }
+
+            // Handle URL parameters for sections
+            const urlParams = new URLSearchParams(window.location.search);
+            const sectionParam = urlParams.get('section');
+            if (sectionParam === 'simuladores') {
+                hideAllSections();
+                if (simuladoresSection) simuladoresSection.style.display = 'block';
+            } else if (sectionParam === 'componentes') {
+                hideAllSections();
+                if (componentesSection) componentesSection.style.display = 'block';
             }
         });
     </script>
