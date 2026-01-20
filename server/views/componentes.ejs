@@ -1,15 +1,19 @@
 <!-- filepath: c:\projects\app-shoping-cart-reload\app-shopping-cart-with-terraform\views\componentes.ejs -->
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
+  <title>
+    <%= title %>
+  </title>
   <link rel="stylesheet" href="/css/index.css">
 </head>
+
 <body>
   <div class="app-wrapper">
-    
+
     <!-- Sidebar Navigation -->
     <aside class="sidebar">
       <div class="sidebar-top">
@@ -21,7 +25,7 @@
           <span class="icon">🏠</span>
           <span class="label">Home</span>
         </a>
-        
+
         <a href="/componentes" class="menu-item active" data-route="componentes">
           <span class="icon">📦</span>
           <span class="label">Componentes</span>
@@ -35,9 +39,9 @@
           <span class="icon">💬</span>
           <span class="label">Messages</span>
         </a>
-        <a href="#settings" class="menu-item" data-route="settings">
+        <a href="/?section=simuladores" class="menu-item" data-route="simuladores">
           <span class="icon">⚙️</span>
-          <span class="label">Settings</span>
+          <span class="label">Simuladores</span>
         </a>
       </nav>
 
@@ -51,10 +55,12 @@
 
     <!-- Main Content -->
     <main class="main-content">
-      
+
       <!-- Top Header -->
       <header class="header">
-        <h1><%= title %></h1>
+        <h1>
+          <%= title %>
+        </h1>
         <div class="header-info">
           <a href="/" class="btn-back">← Volver al Inicio</a>
         </div>
@@ -62,7 +68,7 @@
 
       <!-- Content Container -->
       <div class="content">
-        
+
         <!-- Componentes Introduction -->
         <section class="intro-section">
           <h2>Componentes de la Plataforma</h2>
@@ -72,7 +78,7 @@
         <!-- Componentes Grid -->
         <section class="componentes-section">
           <div class="componentes-grid">
-            
+
             <!-- Componente: Botones -->
             <div class="componente-card" onclick="loadComponentDetail(event, 'botones')">
               <div class="componente-header">
@@ -84,7 +90,8 @@
                 <button class="btn btn-primary" style="pointer-events: none;">Primario</button>
                 <button class="btn btn-secondary" style="pointer-events: none;">Secundario</button>
               </div>
-              <a href="javascript:void(0);" class="componente-link" onclick="event.stopPropagation(); loadComponentDetail(event, 'botones');">Ver Más →</a>
+              <a href="javascript:void(0);" class="componente-link"
+                onclick="event.stopPropagation(); loadComponentDetail(event, 'botones');">Ver Más →</a>
             </div>
 
             <!-- Componente: Cards -->
@@ -99,7 +106,8 @@
                   <div style="background: #667eea; height: 60px; border-radius: 8px;"></div>
                 </div>
               </div>
-              <a href="javascript:void(0);" class="componente-link" onclick="event.stopPropagation(); loadComponentDetail(event, 'cards');">Ver Más →</a>
+              <a href="javascript:void(0);" class="componente-link"
+                onclick="event.stopPropagation(); loadComponentDetail(event, 'cards');">Ver Más →</a>
             </div>
 
             <!-- Componente: Gráficos -->
@@ -117,7 +125,8 @@
                   <div style="background: #667eea; width: 12px; height: 70%;"></div>
                 </div>
               </div>
-              <a href="javascript:void(0);" class="componente-link" onclick="event.stopPropagation(); loadComponentDetail(event, 'graficos');">Ver Más →</a>
+              <a href="javascript:void(0);" class="componente-link"
+                onclick="event.stopPropagation(); loadComponentDetail(event, 'graficos');">Ver Más →</a>
             </div>
 
             <!-- Componente: Formularios -->
@@ -128,9 +137,11 @@
               </div>
               <p class="componente-desc">Campos y controles de formularios</p>
               <div class="componente-preview">
-                <input type="text" placeholder="Campo de entrada" disabled style="width: 100%; padding: 8px; border: 1px solid #e0e0e0; border-radius: 6px;">
+                <input type="text" placeholder="Campo de entrada" disabled
+                  style="width: 100%; padding: 8px; border: 1px solid #e0e0e0; border-radius: 6px;">
               </div>
-              <a href="javascript:void(0);" class="componente-link" onclick="event.stopPropagation(); loadComponentDetail(event, 'formularios');">Ver Más →</a>
+              <a href="javascript:void(0);" class="componente-link"
+                onclick="event.stopPropagation(); loadComponentDetail(event, 'formularios');">Ver Más →</a>
             </div>
 
             <!-- Componente: Badges -->
@@ -141,9 +152,11 @@
               </div>
               <p class="componente-desc">Etiquetas y distintivos</p>
               <div class="componente-preview">
-                <span class="badge" style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; display: inline-block;">Nuevo</span>
+                <span class="badge"
+                  style="background: #667eea; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; display: inline-block;">Nuevo</span>
               </div>
-              <a href="javascript:void(0);" class="componente-link" onclick="event.stopPropagation(); loadComponentDetail(event, 'badges');">Ver Más →</a>
+              <a href="javascript:void(0);" class="componente-link"
+                onclick="event.stopPropagation(); loadComponentDetail(event, 'badges');">Ver Más →</a>
             </div>
 
             <!-- Componente: Modales -->
@@ -154,11 +167,13 @@
               </div>
               <p class="componente-desc">Diálogos y ventanas emergentes</p>
               <div class="componente-preview">
-                <div style="border: 2px dashed #667eea; padding: 20px; border-radius: 8px; text-align: center; color: #667eea; font-size: 0.9rem;">
+                <div
+                  style="border: 2px dashed #667eea; padding: 20px; border-radius: 8px; text-align: center; color: #667eea; font-size: 0.9rem;">
                   Modal Preview
                 </div>
               </div>
-              <a href="javascript:void(0);" class="componente-link" onclick="event.stopPropagation(); loadComponentDetail(event, 'modales');">Ver Más →</a>
+              <a href="javascript:void(0);" class="componente-link"
+                onclick="event.stopPropagation(); loadComponentDetail(event, 'modales');">Ver Más →</a>
             </div>
 
           </div>
@@ -185,4 +200,5 @@
 
   <script src="/js/componentes.js"></script>
 </body>
+
 </html>
