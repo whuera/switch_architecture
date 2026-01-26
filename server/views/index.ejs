@@ -307,7 +307,7 @@
 
         <div class="footer-bottom">
             <div class="footer-nav-links">
-                <a href="#" class="contact-btn">SERVICE</a>
+                <a href="#" class="contact-btn" id="consultame-btn">Consultame</a>
                 <a href="https://whuera.github.io/index_fp.html" target="_blank" rel="noopener noreferrer"
                     class="contact-btn">PROJECTS</a>
                 <a href="#" id="contact-btn-modal" class="contact-btn">CONTACT</a>
@@ -489,6 +489,30 @@
         </div>
     </div>
 
+    <!-- Chatbot Modal -->
+    <div id="chatbot-modal" class="modal">
+        <div class="modal-content acrylic-modal chatbot-container"
+            style="max-width: 500px; display: flex; flex-direction: column; height: 600px; padding: 20px;">
+            <span class="close-modal" id="close-chatbot">×</span>
+            <div class="modal-header">
+                <h2>🤖 Asistente Virtual</h2>
+                <p>IA experta en Arquitectura Switch</p>
+            </div>
+            <div id="chat-messages"
+                style="flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; background: rgba(0,0,0,0.03); border-radius: 12px; margin-bottom: 20px;">
+                <div class="message assistant"
+                    style="background: white; padding: 10px 15px; border-radius: 15px 15px 15px 0; align-self: flex-start; max-width: 85%; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 14px;">
+                    ¡Hola! Soy tu asistente experto. ¿En qué puedo ayudarte hoy con la arquitectura BASE24-eps?</div>
+            </div>
+            <div class="chat-input-area" style="display: flex; gap: 10px;">
+                <input type="text" id="chat-input" placeholder="Escribe tu consulta aquí..." autocomplete="off"
+                    style="flex: 1; padding: 12px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); outline: none;">
+                <button id="send-chat"
+                    style="padding: 10px 20px; background: #0969da; color: white; border: none; border-radius: 10px; cursor: pointer;">➔</button>
+            </div>
+        </div>
+    </div>
+
     <script src="/js/index.js"></script>
     <script>
         // Toggle Sections
@@ -585,9 +609,10 @@
                 if (btn && modal) {
                     const span = modal.querySelector('.close-modal');
 
-                    btn.onclick = function () {
+                    btn.addEventListener('click', function (e) {
+                        e.preventDefault();
                         modal.style.display = "flex";
-                    }
+                    });
 
                     if (span) {
                         span.onclick = function () {
@@ -613,6 +638,12 @@
                     });
                 }
             });
+
+            // Prevent scroll jump and initialize Consultame Chatbot
+            const consultameBtn = document.getElementById('consultame-btn');
+            if (consultameBtn) {
+                consultameBtn.addEventListener('click', (e) => e.preventDefault());
+            }
 
             // Contact Form Submission
             const contactForm = document.getElementById('contact-form');
@@ -680,13 +711,83 @@
 
             // Handle URL parameters for sections
             const urlParams = new URLSearchParams(window.location.search);
-            const sectionParam = urlParams.get('section');
-            if (sectionParam === 'simuladores') {
-                hideAllSections();
-                if (simuladoresSection) simuladoresSection.style.display = 'block';
-            } else if (sectionParam === 'componentes') {
-                hideAllSections();
-                if (componentesSection) componentesSection.style.display = 'block';
+            // Chatbot Logic
+            const chatbotModal = document.getElementById('chatbot-modal');
+            // consultameBtn is already declared above
+            const closeChatbot = document.getElementById('close-chatbot');
+            const chatInput = document.getElementById('chat-input');
+            const sendChat = document.getElementById('send-chat');
+            const chatMessages = document.getElementById('chat-messages');
+
+            if (consultameBtn && chatbotModal) {
+                consultameBtn.onclick = (e) => {
+                    e.preventDefault();
+                    chatbotModal.style.display = 'flex';
+                };
+            }
+
+            if (closeChatbot) {
+                closeChatbot.onclick = () => { chatbotModal.style.display = 'none'; };
+            }
+
+            async function sendMessage() {
+                const text = chatInput.value.trim();
+                if (!text) return;
+
+                // User Message
+                const userDiv = document.createElement('div');
+                userDiv.style.cssText = "background: #0969da; color: white; padding: 10px 15px; border-radius: 15px 15px 0 15px; align-self: flex-end; max-width: 85%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-size: 14px;";
+                userDiv.textContent = text;
+                chatMessages.appendChild(userDiv);
+                chatInput.value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // Typing indicator
+                const typingDiv = document.createElement('div');
+                typingDiv.style.cssText = "background: white; padding: 10px 15px; border-radius: 15px 15px 15px 0; align-self: flex-start; max-width: 85%; font-size: 14px; opacity: 0.7;";
+                typingDiv.textContent = "...";
+                chatMessages.appendChild(typingDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                try {
+                    const response = await fetch('https://whuera.app.n8n.cloud/webhook-test/rag-query', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            query: text,
+                            chatInput: text
+                        })
+                    });
+
+                    if (!response.ok) throw new Error('n8n response not ok');
+                    const data = await response.json();
+                    chatMessages.removeChild(typingDiv);
+
+                    const assistantDiv = document.createElement('div');
+                    assistantDiv.style.cssText = "background: white; padding: 10px 15px; border-radius: 15px 15px 15px 0; align-self: flex-start; max-width: 85%; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 14px; white-space: pre-wrap;";
+
+                    let responseText = "";
+                    if (Array.isArray(data)) {
+                        responseText = data[0].output || data[0].response || JSON.stringify(data[0]);
+                    } else {
+                        responseText = data.output || data.response || (typeof data === 'string' ? data : JSON.stringify(data));
+                    }
+                    assistantDiv.textContent = responseText;
+                    chatMessages.appendChild(assistantDiv);
+                } catch (error) {
+                    console.error('Chat Error:', error);
+                    chatMessages.removeChild(typingDiv);
+                    const errorDiv = document.createElement('div');
+                    errorDiv.style.cssText = "background: #fee2e2; color: #b91c1c; padding: 10px 15px; border-radius: 15px; align-self: center; font-size: 12px;";
+                    errorDiv.innerHTML = "<strong>Error de conexión.</strong><br>Asegúrate de que n8n esté activo y el Webhook sea POST.";
+                    chatMessages.appendChild(errorDiv);
+                }
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            if (sendChat) sendChat.onclick = sendMessage;
+            if (chatInput) {
+                chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
             }
         });
     </script>

@@ -14,7 +14,7 @@ app.use(helmet({
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.jsdelivr.net", "https://vercel.live"],
       styleSrc: ["'self'", "'unsafe-inline'"],
-      connectSrc: ["'self'", "https://azure-app-shopping-cart-reload-225fb76523b0.herokuapp.com", "http://localhost:3000", "https://vercel.live"],
+      connectSrc: ["'self'", "https://azure-app-shopping-cart-reload-225fb76523b0.herokuapp.com", "http://localhost:3000", "https://vercel.live", "https://whuera.app.n8n.cloud"],
       imgSrc: ["'self'", "data:", "https:*"],
       fontSrc: ["'self'", "https:", "data:"],
       objectSrc: ["'none'"],
