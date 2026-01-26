@@ -76,11 +76,11 @@
 
                 <!-- Inicio Section (Default view) -->
                 <div id="inicio-section" class="inicio-section">
-                    <div class="inicio-card fade-in">
+                    <div class="inicio-card">
                         <h2>🏠 Inicio</h2>
                         <p>Bienvenido al sistema de arquitectura transaccional BASE24-eps.</p>
 
-                        <div class="investment-card fade-in">
+                        <div class="investment-card">
                             <div class="investment-image"
                                 style="background-image: url('/images/arquitectura-diagram.png');"></div>
                             <div class="investment-content">
@@ -102,19 +102,19 @@
                             </p>
 
                             <div class="info-grid" style="margin-top: 32px;">
-                                <div class="info-item fade-in" id="validacion-btn">
+                                <div class="info-item" id="validacion-btn">
                                     <div class="icon-wrapper">✅</div>
                                     <h3>Validación</h3>
                                 </div>
-                                <div class="info-item fade-in" id="enrutamiento-btn">
+                                <div class="info-item" id="enrutamiento-btn">
                                     <div class="icon-wrapper">🔄</div>
                                     <h3>Enrutamiento</h3>
                                 </div>
-                                <div class="info-item fade-in" id="autorizacion-btn">
+                                <div class="info-item" id="autorizacion-btn">
                                     <div class="icon-wrapper">🛡️</div>
                                     <h3>Autorización</h3>
                                 </div>
-                                <div class="info-item fade-in" id="journal-btn">
+                                <div class="info-item" id="journal-btn">
                                     <div class="icon-wrapper">📝</div>
                                     <h3>Journal</h3>
                                 </div>
@@ -125,11 +125,11 @@
 
                 <!-- Arquitectura B24 eps Section (Hidden by default) -->
                 <div id="arquitectura-section" class="arquitectura-section" style="display: none;">
-                    <div class="arquitectura-card fade-in">
+                    <div class="arquitectura-card">
                         <h2>📐 Arquitectura B24 eps</h2>
                         <p>Diseño modular y escalable para el procesamiento de transacciones financieras.</p>
 
-                        <div class="investment-card fade-in">
+                        <div class="investment-card">
                             <div class="investment-image"
                                 style="background-image: url('/images/arquitectura-diagram.png');"></div>
                             <div class="investment-content">
@@ -144,19 +144,19 @@
 
                         <div class="arquitectura-content">
                             <div class="info-grid">
-                                <div class="info-item fade-in">
+                                <div class="info-item">
                                     <div class="icon-wrapper">📐</div>
                                     <h3>Diseño</h3>
                                 </div>
-                                <div class="info-item fade-in">
+                                <div class="info-item">
                                     <div class="icon-wrapper">🔧</div>
                                     <h3>Componentes</h3>
                                 </div>
-                                <div class="info-item fade-in">
+                                <div class="info-item">
                                     <div class="icon-wrapper">📊</div>
                                     <h3>Estructura</h3>
                                 </div>
-                                <div class="info-item fade-in">
+                                <div class="info-item">
                                     <div class="icon-wrapper">🚀</div>
                                     <h3>Rendimiento</h3>
                                 </div>
@@ -167,7 +167,7 @@
 
                 <!-- Componentes B24 Section (Hidden by default) -->
                 <div id="componentes-section" class="componentes-section" style="display: none;">
-                    <div class="componentes-card fade-in">
+                    <div class="componentes-card">
                         <h2>🔧 Componentes B24</h2>
                         <p>Sistema de componentes reutilizables y módulos core.</p>
 
@@ -186,19 +186,19 @@
 
                         <div class="componentes-content">
                             <div class="info-grid">
-                                <div class="info-item fade-in">
+                                <div class="info-item">
                                     <div class="icon-wrapper">🧩</div>
                                     <h3>UI Components</h3>
                                 </div>
-                                <div class="info-item fade-in">
+                                <div class="info-item">
                                     <div class="icon-wrapper">🔌</div>
                                     <h3>API Integration</h3>
                                 </div>
-                                <div class="info-item fade-in">
+                                <div class="info-item">
                                     <div class="icon-wrapper">📚</div>
                                     <h3>Documentation</h3>
                                 </div>
-                                <div class="info-item fade-in">
+                                <div class="info-item">
                                     <div class="icon-wrapper">🔒</div>
                                     <h3>Security</h3>
                                 </div>
@@ -209,7 +209,7 @@
 
                 <!-- Simuladores B24 Section (Hidden by default) -->
                 <div id="simuladores-section" class="simuladores-section" style="display: none;">
-                    <div class="componentes-card fade-in">
+                    <div class="componentes-card">
                         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
                             <span style="font-size: 2rem;">⚙️</span>
                             <h2 style="margin: 0; font-size: 2rem; color: #1a2b4b;">Simuladores B24</h2>
@@ -259,7 +259,7 @@
 
                 <!-- Modulos B24 eps Section (Hidden by default) -->
                 <div id="modulos-section" class="modulos-section" style="display: none;">
-                    <div class="modulos-card fade-in">
+                    <div class="modulos-card">
                         <h2>📦 Core Modules</h2>
                         <p>Módulos principales del sistema</p>
                         <div class="modulos-content">
@@ -288,7 +288,8 @@
             </div>
 
 
-            <div class="footer-right-social">
+            <div class="footer-right-social" style="display: flex; gap: 20px;">
+                <!-- GitHub -->
                 <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
                     <a href="https://github.com/whuera" target="_blank" rel="noopener noreferrer" class="social-icon">
                         <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor" style="display: block;">
@@ -297,8 +298,46 @@
                             </path>
                         </svg>
                     </a>
-                    <span style="font-size: 10px; color: rgba(255,255,255,0.8); letter-spacing: 0.5px;">GitHub
-                        Repositorios</span>
+                    <span style="font-size: 10px; color: rgba(255,255,255,0.8); letter-spacing: 0.5px;">GitHub</span>
+                </div>
+
+                <!-- Consultame (IA Bot) -->
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <a href="#" class="social-icon" id="consultame-btn">
+                        <svg height="24" width="24" viewBox="0 0 24 24" style="display: block;">
+                            <defs>
+                                <radialGradient id="siri-orb-1" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#5ac8fa" />
+                                    <stop offset="100%" stop-color="#5ac8fa" stop-opacity="0" />
+                                </radialGradient>
+                                <radialGradient id="siri-orb-2" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#007aff" />
+                                    <stop offset="100%" stop-color="#007aff" stop-opacity="0" />
+                                </radialGradient>
+                                <radialGradient id="siri-orb-3" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#5856d6" />
+                                    <stop offset="100%" stop-color="#5856d6" stop-opacity="0" />
+                                </radialGradient>
+                                <radialGradient id="siri-orb-4" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#ff2d55" />
+                                    <stop offset="100%" stop-color="#ff2d55" stop-opacity="0" />
+                                </radialGradient>
+                            </defs>
+                            <circle cx="12" cy="12" r="10" fill="black" />
+                            <circle cx="8" cy="8" r="8" fill="url(#siri-orb-1)"
+                                style="mix-blend-mode: screen; opacity: 0.8;" />
+                            <circle cx="16" cy="16" r="8" fill="url(#siri-orb-2)"
+                                style="mix-blend-mode: screen; opacity: 0.8;" />
+                            <circle cx="16" cy="8" r="8" fill="url(#siri-orb-3)"
+                                style="mix-blend-mode: screen; opacity: 0.8;" />
+                            <circle cx="8" cy="16" r="8" fill="url(#siri-orb-4)"
+                                style="mix-blend-mode: screen; opacity: 0.8;" />
+                            <circle cx="12" cy="12" r="10" fill="none" stroke="rgba(255,255,255,0.1)"
+                                stroke-width="0.5" />
+                        </svg>
+                    </a>
+                    <span style="font-size: 10px; color: rgba(255,255,255,0.8); letter-spacing: 0.5px;">IA
+                        Asistente</span>
                 </div>
             </div>
         </div>
@@ -307,7 +346,6 @@
 
         <div class="footer-bottom">
             <div class="footer-nav-links">
-                <a href="#" class="contact-btn" id="consultame-btn">Consultame</a>
                 <a href="https://whuera.github.io/index_fp.html" target="_blank" rel="noopener noreferrer"
                     class="contact-btn">PROJECTS</a>
                 <a href="#" id="contact-btn-modal" class="contact-btn">CONTACT</a>
