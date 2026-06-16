@@ -1110,6 +1110,87 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.5); }
 
+/* ===== PRESENCE MAP ===== */
+.presence-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.presence-card:hover {
+  border-color: var(--border-glow);
+  box-shadow: 0 0 40px rgba(99, 102, 241, 0.08), 0 20px 40px rgba(0,0,0,0.3);
+  transform: translateY(-4px);
+}
+
+.presence-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--border);
+}
+
+.presence-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: blink 2s infinite;
+  flex-shrink: 0;
+}
+
+.world-map-wrap {
+  padding: 0;
+  line-height: 0;
+  min-height: 200px;
+  background: #060d1a;
+}
+
+.world-map-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.map-pulse {
+  animation: mapPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes mapPulse {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.55; }
+}
+
+.country-legend {
+  padding: 10px 16px 14px;
+  font-size: 10px;
+  color: var(--subtle);
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+}
+
+.country-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-bottom: 1px;
+}
+
+.country-dot.latam { background: #3b82f6; }
+.country-dot.eu    { background: #8b5cf6; }
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; gap: 32px; }

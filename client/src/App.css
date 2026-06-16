@@ -1,30 +1,80 @@
 #root {
-  max-width: 1280px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 
+/* Corner marks blueprint style */
+#root::before,
+#root::after {
+  content: '';
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border-color: rgba(126, 200, 227, 0.5);
+  border-style: solid;
+}
+
+#root::before {
+  top: 24px;
+  left: 24px;
+  border-width: 2px 0 0 2px;
+}
+
+#root::after {
+  bottom: 24px;
+  right: 24px;
+  border-width: 0 2px 2px 0;
+}
+
+/* Blueprint panel */
+.card {
+  padding: 2em;
+  border: 1px solid var(--bp-border);
+  background: rgba(10, 22, 40, 0.6);
+  position: relative;
+  margin: 1.5em auto;
+  max-width: 420px;
+}
+
+.card::before {
+  content: 'PANEL-01';
+  position: absolute;
+  top: -10px;
+  left: 16px;
+  background: var(--bp-bg);
+  padding: 0 8px;
+  font-size: 0.65em;
+  letter-spacing: 0.15em;
+  color: var(--bp-accent);
+  text-transform: uppercase;
+}
+
+/* Corner accents on card */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px dashed rgba(126, 200, 227, 0.1);
+  pointer-events: none;
+}
+
 .logo {
-  height: 6em;
-  padding: 1.5em;
+  height: 5em;
+  padding: 1.2em;
   will-change: filter;
   transition: filter 300ms;
+  filter: drop-shadow(0 0 6px rgba(79, 163, 209, 0.4));
 }
+
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 16px rgba(126, 200, 227, 0.8));
 }
 
 @keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -33,10 +83,32 @@
   }
 }
 
-.card {
-  padding: 2em;
+.read-the-docs {
+  color: rgba(126, 200, 227, 0.5);
+  font-size: 0.85em;
+  letter-spacing: 0.08em;
+  margin-top: 1.5em;
 }
 
-.read-the-docs {
-  color: #888;
+/* Subtle crosshair markers */
+.logo-wrapper {
+  position: relative;
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 1rem 2rem;
+  border: 1px solid var(--bp-border);
+  margin-bottom: 1rem;
+}
+
+.logo-wrapper::before {
+  content: 'REFS';
+  position: absolute;
+  top: -10px;
+  left: 12px;
+  background: var(--bp-bg);
+  padding: 0 6px;
+  font-size: 0.6em;
+  letter-spacing: 0.2em;
+  color: var(--bp-accent);
 }
