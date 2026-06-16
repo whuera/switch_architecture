@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %> | Switch Architecture</title>
     <link rel="stylesheet" href="/css/index.css">
+    <script src="/js/d3.min.js"></script>
+    <script src="/js/topojson-client.min.js"></script>
 </head>
 <body>
 
@@ -35,8 +37,8 @@
 
         <nav class="navbar-nav">
             <a href="#" class="nav-link active" data-section="inicio">Inicio</a>
-            <a href="#" class="nav-link" data-section="arquitectura">Arquitectura</a>
-            <a href="#" class="nav-link" data-section="componentes">Componentes</a>
+            <a href="#" class="nav-link" data-section="servicios">Servicios</a>
+            <a href="#" class="nav-link" data-section="plataforma">Plataforma ACI</a>
             <a href="https://deepwiki.com/whuera/switch_architecture" class="nav-link" target="_blank" rel="noopener noreferrer">Wiki ↗</a>
             <a href="#" class="nav-link" data-section="simuladores">Simuladores</a>
         </nav>
@@ -65,157 +67,170 @@
                 <div class="hero-content">
                     <div class="hero-badge">
                         <span class="badge-dot"></span>
-                        Sistema Activo · ISO 8583
+                        Consultora Especializada · ACI BASE24-eps / UPF
                     </div>
                     <h1 class="hero-title">
-                        BASE24-eps
-                        <span class="gradient-text">Switch Architecture</span>
+                        Expertos en
+                        <span class="gradient-text">ACI BASE24-eps</span>
                     </h1>
                     <p class="hero-desc">
-                        Diseño de proyectos de software, arquitectura y consultoría para Fintech.
-                        Procesamiento transaccional de alta disponibilidad para ATM, POS y e-commerce.
+                        Consultoría especializada en diseño, arquitectura e implementación de soluciones
+                        de pago basadas en la plataforma ACI BASE24-eps y UPF. Presencia en 7 países de
+                        América Latina y Europa.
                     </p>
                     <div class="hero-stats">
                         <div class="stat-item">
-                            <span class="stat-val">99.99%</span>
-                            <span class="stat-label">Uptime</span>
+                            <span class="stat-val">7+</span>
+                            <span class="stat-label">Países</span>
                         </div>
                         <div class="stat-divider"></div>
                         <div class="stat-item">
-                            <span class="stat-val">&lt;1ms</span>
-                            <span class="stat-label">Latencia</span>
+                            <span class="stat-val">15+</span>
+                            <span class="stat-label">Proyectos</span>
                         </div>
                         <div class="stat-divider"></div>
                         <div class="stat-item">
-                            <span class="stat-val">ISO8583</span>
-                            <span class="stat-label">Protocolo</span>
+                            <span class="stat-val">10+</span>
+                            <span class="stat-label">Años</span>
                         </div>
                     </div>
                 </div>
                 <div class="hero-visual">
-                    <div class="arch-diagram">
-                        <div class="arch-image" style="background-image: url('/images/arquitectura-diagram.png');"></div>
-                        <div class="arch-tag">Diagrama de Arquitectura Switch</div>
+                    <div class="presence-card">
+                        <div class="presence-header">
+                            <span class="presence-dot"></span>
+                            Presencia Global
+                        </div>
+                        <div class="world-map-wrap" id="world-map-wrap"></div>
+                        <div class="country-legend">
+                            <span class="country-dot latam"></span> Ecuador (×3) &nbsp;·&nbsp;
+                            <span class="country-dot latam"></span> Colombia &nbsp;·&nbsp;
+                            <span class="country-dot latam"></span> Panamá &nbsp;·&nbsp;
+                            <span class="country-dot latam"></span> Costa Rica &nbsp;·&nbsp;
+                            <span class="country-dot latam"></span> Chile &nbsp;·&nbsp;
+                            <span class="country-dot latam"></span> Argentina &nbsp;·&nbsp;
+                            <span class="country-dot eu"></span> España
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="process-section">
-                <p class="process-label">Flujo Transaccional</p>
+                <p class="process-label">Metodología de Consultoría</p>
                 <div class="process-flow">
                     <div class="process-card" id="validacion-btn">
-                        <div class="process-icon">&#9989;</div>
-                        <div class="process-name">Validacion</div>
-                        <div class="process-desc">Formato &amp; Seguridad</div>
+                        <div class="process-icon">&#128270;</div>
+                        <div class="process-name">Diagnóstico</div>
+                        <div class="process-desc">Análisis &amp; Levantamiento</div>
                     </div>
                     <div class="process-arrow">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 11H18M18 11L12 5M18 11L12 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
                     <div class="process-card" id="enrutamiento-btn">
-                        <div class="process-icon">&#128260;</div>
-                        <div class="process-name">Enrutamiento</div>
-                        <div class="process-desc">Source &amp; Destination</div>
+                        <div class="process-icon">&#128208;</div>
+                        <div class="process-name">Diseño</div>
+                        <div class="process-desc">Arquitectura &amp; Solución</div>
                     </div>
                     <div class="process-arrow">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 11H18M18 11L12 5M18 11L12 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
                     <div class="process-card" id="autorizacion-btn">
-                        <div class="process-icon">&#128737;</div>
-                        <div class="process-name">Autorizacion</div>
-                        <div class="process-desc">On-Us &amp; Off-Us</div>
+                        <div class="process-icon">&#128295;</div>
+                        <div class="process-name">Implementación</div>
+                        <div class="process-desc">Configuración &amp; Go-Live</div>
                     </div>
                     <div class="process-arrow">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 11H18M18 11L12 5M18 11L12 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
                     <div class="process-card" id="journal-btn">
-                        <div class="process-icon">&#128221;</div>
-                        <div class="process-name">Journal</div>
-                        <div class="process-desc">Auditoria &amp; Logs</div>
+                        <div class="process-icon">&#128101;</div>
+                        <div class="process-name">Soporte</div>
+                        <div class="process-desc">Mantenimiento &amp; Evolución</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ARQUITECTURA -->
-    <section id="arquitectura-section" class="section hidden">
+    <!-- SERVICIOS -->
+    <section id="servicios-section" class="section hidden">
         <div class="section-inner">
             <div class="section-header">
-                <h2 class="section-title">Arquitectura <span class="gradient-text">B24-eps</span></h2>
-                <p class="section-desc">Diseno modular y escalable para el procesamiento de transacciones financieras.</p>
+                <h2 class="section-title">Nuestros <span class="gradient-text">Servicios</span></h2>
+                <p class="section-desc">Ofrecemos consultoría integral en todas las fases del ciclo de vida de soluciones ACI BASE24-eps y UPF, desde el diseño hasta la operación.</p>
             </div>
 
             <div class="content-card">
                 <div class="card-image" style="background-image: url('/images/arquitectura-diagram.png');"></div>
                 <div class="card-body">
-                    <span class="card-tag">Arquitectura</span>
-                    <h3>Diagrama de Flujo Transaccional</h3>
-                    <p>Visualiza el flujo detallado del procesamiento de transacciones en BASE24-eps, desde el canal originador hasta la respuesta final.</p>
+                    <span class="card-tag">Servicio Principal</span>
+                    <h3>Arquitectura de Soluciones de Pago</h3>
+                    <p>Diseño y documentación de arquitecturas transaccionales de alta disponibilidad sobre la plataforma ACI BASE24-eps, incluyendo integración con redes internacionales y core bancario.</p>
                 </div>
             </div>
 
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">&#128208;</div>
-                    <h3>Diseno</h3>
-                    <p>Arquitectura modular con componentes intercambiables y desacoplados</p>
+                    <div class="feature-icon">&#128270;</div>
+                    <h3>Consultoría Técnica</h3>
+                    <p>Levantamiento, análisis y diagnóstico de plataformas BASE24-eps existentes para identificar brechas y oportunidades</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">&#128295;</div>
-                    <h3>Componentes</h3>
-                    <p>Modulos especializados para cada etapa del proceso transaccional</p>
+                    <div class="feature-icon">&#128200;</div>
+                    <h3>Implementación UPF</h3>
+                    <p>Diseño e implementación de flujos de pago modernos sobre ACI Universal Payments Framework</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">&#128202;</div>
-                    <h3>Estructura</h3>
-                    <p>Capas bien definidas de presentacion, negocio y persistencia</p>
+                    <div class="feature-icon">&#128274;</div>
+                    <h3>Seguridad &amp; HSM</h3>
+                    <p>Configuración de módulos HSM, criptografía EMV, gestión de llaves y cumplimiento PCI-DSS</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">&#128640;</div>
-                    <h3>Rendimiento</h3>
-                    <p>Alta disponibilidad y procesamiento masivo de transacciones</p>
+                    <div class="feature-icon">&#128101;</div>
+                    <h3>Transferencia de Conocimiento</h3>
+                    <p>Capacitación de equipos técnicos locales en arquitectura, operación y mantenimiento de la plataforma</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- COMPONENTES -->
-    <section id="componentes-section" class="section hidden">
+    <!-- PLATAFORMA ACI -->
+    <section id="plataforma-section" class="section hidden">
         <div class="section-inner">
             <div class="section-header">
-                <h2 class="section-title">Componentes <span class="gradient-text">B24</span></h2>
-                <p class="section-desc">Sistema de componentes reutilizables y modulos core del switch.</p>
+                <h2 class="section-title">Plataforma <span class="gradient-text">ACI BASE24-eps</span></h2>
+                <p class="section-desc">Dominio profundo de todos los módulos y capacidades de la plataforma ACI, aplicado a proyectos de alta exigencia en banca y medios de pago.</p>
             </div>
 
             <div class="content-card clickable" id="core-modules-link">
                 <div class="card-image" style="background-image: url('/images/core-modules-diagram.png');"></div>
                 <div class="card-body">
-                    <span class="card-tag">Modulos Core</span>
-                    <h3>AUTH, MDS, Journal &amp; More</h3>
-                    <p>Explora los modulos principales del sistema. Haz clic para ver el diagrama completo.</p>
+                    <span class="card-tag">Módulos Core</span>
+                    <h3>AUTH, MDS, IFX, Journal &amp; más</h3>
+                    <p>Experiencia en configuración y parametrización de los módulos principales del switch. Haz clic para ver el diagrama completo.</p>
                 </div>
             </div>
 
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">&#129689;</div>
-                    <h3>UI Components</h3>
-                    <p>Interfaz de usuario moderna y reactiva para operaciones bancarias</p>
-                </div>
-                <div class="feature-card">
                     <div class="feature-icon">&#128268;</div>
-                    <h3>API Integration</h3>
-                    <p>Conectores para sistemas externos, cores bancarios y redes</p>
+                    <h3>Canales &amp; Redes</h3>
+                    <p>Integración con ATM, POS, e-commerce, Visa, Mastercard, redes locales y core bancario</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">&#128218;</div>
-                    <h3>Documentation</h3>
-                    <p>Documentacion tecnica completa y actualizada del sistema</p>
+                    <div class="feature-icon">&#9881;</div>
+                    <h3>Parametrización</h3>
+                    <p>Configuración de tablas, flujos de autorización, reglas de negocio y enrutamiento transaccional</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">&#128274;</div>
-                    <h3>Security</h3>
-                    <p>Criptografia EMV y validacion en cada capa del procesamiento</p>
+                    <div class="feature-icon">&#128202;</div>
+                    <h3>Monitoreo &amp; Ops</h3>
+                    <p>Definición de estrategias de operación, alertas, journaling y conciliación de transacciones</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#128640;</div>
+                    <h3>Migración &amp; Upgrade</h3>
+                    <p>Planificación y ejecución de migraciones de versiones y expansión de capacidades UPF</p>
                 </div>
             </div>
         </div>
@@ -297,7 +312,7 @@
         <div class="footer-center">
             <a href="https://whuera.github.io/index_fp.html" target="_blank" rel="noopener noreferrer" class="footer-link">PROJECTS</a>
             <a href="#" id="contact-btn-modal" class="footer-link highlight">CONTACT</a>
-            <span class="footer-copy">&copy; <span id="year"></span> Switch Architecture</span>
+            <span class="footer-copy">&copy; <span id="year"></span> B24-eps &amp; UPF Consulting</span>
         </div>
 
         <div class="footer-right">
@@ -310,129 +325,129 @@
 
 <!-- ===== MODALS ===== -->
 
-<!-- Validacion -->
+<!-- Diagnostico -->
 <div id="validacion-modal" class="modal">
     <div class="modal-box">
         <button class="modal-close close-modal">&#10005;</button>
-        <div class="modal-icon">&#9989;</div>
-        <h2>Motor de Validacion</h2>
-        <p class="modal-subtitle">Integridad y seguridad de los datos transaccionales.</p>
+        <div class="modal-icon">&#128270;</div>
+        <h2>Diagnóstico &amp; Análisis</h2>
+        <p class="modal-subtitle">Evaluación profunda del estado actual de la plataforma y definición de la hoja de ruta.</p>
         <div class="modal-sections">
             <div class="modal-section">
-                <h3>Validacion de Formato</h3>
-                <p>Asegura que el mensaje cumpla con los estandares:</p>
+                <h3>Levantamiento de Requerimientos</h3>
+                <p>Entendimiento integral del negocio y la operación:</p>
                 <ul>
-                    <li>ISO8583 (Versiones 87, 93, 2003)</li>
-                    <li>Estructuras XML / JSON para APIs</li>
-                    <li>Campos obligatorios y tipos de datos</li>
+                    <li>Revisión de la arquitectura existente BASE24-eps / UPF</li>
+                    <li>Entrevistas con equipos técnicos y de negocio</li>
+                    <li>Inventario de canales, redes y flujos transaccionales</li>
                 </ul>
-                <span class="modal-tag">Fase 1: Sintaxis</span>
+                <span class="modal-tag">Fase 1: Descubrimiento</span>
             </div>
             <div class="modal-section">
-                <h3>Validacion de Seguridad</h3>
-                <p>Verificacion de credenciales y criptografia:</p>
+                <h3>Análisis de Brechas</h3>
+                <p>Identificación de oportunidades de mejora:</p>
                 <ul>
-                    <li>Validacion de PIN (PIN Block)</li>
-                    <li>Verificacion de CVV/CVV2</li>
-                    <li>Criptogramas EMV y llaves dinamicas</li>
+                    <li>Evaluación de cumplimiento PCI-DSS y EMV</li>
+                    <li>Análisis de rendimiento y disponibilidad</li>
+                    <li>Identificación de riesgos operativos</li>
                 </ul>
-                <span class="modal-tag">Fase 2: Seguridad</span>
+                <span class="modal-tag">Fase 2: Evaluación</span>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Enrutamiento -->
+<!-- Diseño -->
 <div id="enrutamiento-modal" class="modal">
     <div class="modal-box">
         <button class="modal-close close-modal">&#10005;</button>
-        <div class="modal-icon">&#128260;</div>
-        <h2>Motor de Enrutamiento</h2>
-        <p class="modal-subtitle">Logica de decision y destino de transacciones.</p>
+        <div class="modal-icon">&#128208;</div>
+        <h2>Diseño de Arquitectura</h2>
+        <p class="modal-subtitle">Propuesta de solución técnica detallada y alineada a los objetivos del negocio.</p>
         <div class="modal-sections">
             <div class="modal-section">
-                <h3>Source Routing (SRC_RTE)</h3>
-                <p>Evalua el origen de la transaccion basandose en:</p>
+                <h3>Arquitectura de la Solución</h3>
+                <p>Diseño de componentes y flujos transaccionales:</p>
                 <ul>
-                    <li>PAN / BIN del cliente</li>
-                    <li>Tipo de transaccion (ATM, POS, E-commerce)</li>
-                    <li>Canal de entrada y Institution ID</li>
+                    <li>Definición de módulos BASE24-eps (SRC_RTE, DST_RTE, AUTH)</li>
+                    <li>Diseño de conectores con redes Visa, Mastercard e interbancarias</li>
+                    <li>Estrategia de alta disponibilidad y recuperación ante fallas</li>
                 </ul>
-                <span class="modal-tag">Fase 1: Identificacion</span>
+                <span class="modal-tag">Entregable: Documento de Arquitectura</span>
             </div>
             <div class="modal-section">
-                <h3>Destination Routing (DST_RTE)</h3>
-                <p>Determina el destino final para la autorizacion:</p>
+                <h3>Plan de Implementación</h3>
+                <p>Hoja de ruta técnica y de proyecto:</p>
                 <ul>
-                    <li><strong style="color:var(--text)">On-Us:</strong> Autorizacion interna en BASE24-eps</li>
-                    <li><strong style="color:var(--text)">External Host:</strong> Core bancario o autorizador externo</li>
-                    <li><strong style="color:var(--text)">Interchange:</strong> Redes internacionales (Visa, Mastercard)</li>
+                    <li><strong style="color:var(--text)">Etapas:</strong> Desarrollo, pruebas, certificación y go-live</li>
+                    <li><strong style="color:var(--text)">Riesgos:</strong> Identificación y plan de mitigación</li>
+                    <li><strong style="color:var(--text)">Recursos:</strong> Equipo, herramientas y entornos necesarios</li>
                 </ul>
-                <span class="modal-tag">Fase 2: Destino</span>
+                <span class="modal-tag">Entregable: Roadmap</span>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Autorizacion -->
+<!-- Implementación -->
 <div id="autorizacion-modal" class="modal">
     <div class="modal-box">
         <button class="modal-close close-modal">&#10005;</button>
-        <div class="modal-icon">&#128737;</div>
-        <h2>Motor de Autorizacion</h2>
-        <p class="modal-subtitle">Gestion de saldos y aprobacion de transacciones.</p>
+        <div class="modal-icon">&#128295;</div>
+        <h2>Implementación &amp; Go-Live</h2>
+        <p class="modal-subtitle">Ejecución técnica de la solución diseñada, acompañamiento en certificaciones y salida a producción.</p>
         <div class="modal-sections">
             <div class="modal-section">
-                <h3>Autorizacion On-Us</h3>
-                <p>Procesamiento interno para clientes del banco:</p>
+                <h3>Configuración &amp; Parametrización</h3>
+                <p>Implementación técnica sobre la plataforma ACI:</p>
                 <ul>
-                    <li>Consulta de saldos en tiempo real</li>
-                    <li>Validacion de limites y bloqueos</li>
-                    <li>Actualizacion de estados de cuenta</li>
+                    <li>Parametrización de tablas y flujos BASE24-eps</li>
+                    <li>Configuración de HSM, llaves criptográficas y EMV</li>
+                    <li>Integración de canales ATM, POS y e-commerce</li>
                 </ul>
-                <span class="modal-tag">Tipo: Interno</span>
+                <span class="modal-tag">Tipo: Técnico</span>
             </div>
             <div class="modal-section">
-                <h3>Autorizacion Off-Us</h3>
-                <p>Comunicacion con redes externas:</p>
+                <h3>Certificación &amp; Pruebas</h3>
+                <p>Validación con redes y reguladores:</p>
                 <ul>
-                    <li>Envio a Interchanges (Visa/Mastercard)</li>
-                    <li>Manejo de Timeouts y Reintentos</li>
-                    <li>Traduccion de codigos de respuesta</li>
+                    <li>Certificación Visa / Mastercard / redes locales</li>
+                    <li>Pruebas de volumen, carga y recuperación</li>
+                    <li>Acompañamiento en go-live y estabilización</li>
                 </ul>
-                <span class="modal-tag">Tipo: Externo</span>
+                <span class="modal-tag">Tipo: Certificación</span>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Journal -->
+<!-- Soporte -->
 <div id="journal-modal" class="modal">
     <div class="modal-box">
         <button class="modal-close close-modal">&#10005;</button>
-        <div class="modal-icon">&#128221;</div>
-        <h2>Sistema de Journaling</h2>
-        <p class="modal-subtitle">Registro historico y auditoria de operaciones.</p>
+        <div class="modal-icon">&#128101;</div>
+        <h2>Soporte &amp; Evolución</h2>
+        <p class="modal-subtitle">Acompañamiento continuo al equipo técnico y evolución de la plataforma en el tiempo.</p>
         <div class="modal-sections">
             <div class="modal-section">
-                <h3>Registro de Transacciones</h3>
-                <p>Auditoria completa de cada paso:</p>
+                <h3>Soporte Post-Implementación</h3>
+                <p>Estabilización y continuidad operativa:</p>
                 <ul>
-                    <li>Log de mensajes de entrada y salida</li>
-                    <li>Tiempos de respuesta y latencia</li>
-                    <li>Estado final de la transaccion</li>
+                    <li>Atención de incidentes críticos de producción</li>
+                    <li>Revisión de logs, journaling y conciliación</li>
+                    <li>Ajustes de parametrización y optimización</li>
                 </ul>
-                <span class="modal-tag">Funcion: Auditoria</span>
+                <span class="modal-tag">Modalidad: Remota / On-Site</span>
             </div>
             <div class="modal-section">
-                <h3>Recuperacion y Reversas</h3>
-                <p>Manejo de consistencia de datos:</p>
+                <h3>Transferencia de Conocimiento</h3>
+                <p>Capacitación y autonomía del equipo local:</p>
                 <ul>
-                    <li>Generacion automatica de reversas</li>
-                    <li>Conciliacion de fin de dia</li>
-                    <li>Recuperacion ante fallos del sistema</li>
+                    <li>Talleres técnicos de BASE24-eps y UPF</li>
+                    <li>Documentación operativa y runbooks</li>
+                    <li>Asesoría en evolución hacia nuevas versiones</li>
                 </ul>
-                <span class="modal-tag">Funcion: Continuidad</span>
+                <span class="modal-tag">Modalidad: Capacitación</span>
             </div>
         </div>
     </div>
@@ -484,12 +499,12 @@
             <div class="chat-avatar">&#129302;</div>
             <div>
                 <h3>Asistente Virtual</h3>
-                <p>IA experta en Arquitectura Switch</p>
+                <p>IA experta en ACI BASE24-eps &amp; UPF</p>
             </div>
         </div>
         <div id="chat-messages" class="chat-messages">
             <div class="chat-msg assistant">
-                Hola! Soy tu asistente experto en BASE24-eps. En que puedo ayudarte hoy?
+                Hola! Soy el asistente de B24-eps &amp; UPF Consulting. ¿En qué puedo ayudarte hoy?
             </div>
         </div>
         <div class="chat-input-area">
@@ -593,11 +608,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== NAVIGATION =====
     var navLinks = document.querySelectorAll('[data-section]');
     var sections = {
-        inicio:       document.getElementById('inicio-section'),
-        arquitectura: document.getElementById('arquitectura-section'),
-        componentes:  document.getElementById('componentes-section'),
-        simuladores:  document.getElementById('simuladores-section'),
-        modulos:      document.getElementById('modulos-section')
+        inicio:      document.getElementById('inicio-section'),
+        servicios:   document.getElementById('servicios-section'),
+        plataforma:  document.getElementById('plataforma-section'),
+        simuladores: document.getElementById('simuladores-section'),
+        modulos:     document.getElementById('modulos-section')
     };
 
     function showSection(name) {
@@ -778,6 +793,135 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// ===== WORLD MAP (D3 + Natural Earth) =====
+window.addEventListener('load', function() {
+    if (typeof d3 === 'undefined' || typeof topojson === 'undefined') return;
+    renderWorldMap();
+});
+
+async function renderWorldMap() {
+    var wrap = document.getElementById('world-map-wrap');
+    if (!wrap) return;
+
+    var W = wrap.offsetWidth || wrap.getBoundingClientRect().width || 480;
+    var H = Math.round(W * 0.5);
+
+    var svg = d3.select(wrap).append('svg')
+        .attr('viewBox', '0 0 ' + W + ' ' + H)
+        .style('width', '100%').style('height', 'auto').style('display', 'block');
+
+    svg.append('rect').attr('width', W).attr('height', H).attr('fill', '#060d1a');
+
+    var projection = d3.geoMercator()
+        .scale(W / (2 * Math.PI) * 0.96)
+        .translate([W / 2, H / 2 + H * 0.09]);
+
+    var pathGen = d3.geoPath().projection(projection);
+
+    // Graticule grid lines every 30°
+    var graticule = d3.geoGraticule().step([30, 30]);
+    svg.append('path').datum(graticule())
+        .attr('d', pathGen).attr('fill', 'none')
+        .attr('stroke', 'rgba(255,255,255,0.055)').attr('stroke-width', 0.5);
+
+    // Load Natural Earth 110m world data
+    var world;
+    try {
+        world = await d3.json('/countries-110m.json');
+    } catch(e) {
+        console.error('World map data failed:', e);
+        return;
+    }
+
+    var countriesGeo = topojson.feature(world, world.objects.countries);
+    var bordersGeo   = topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; });
+
+    var hl = {
+        '218': { fill: 'rgba(52,211,153,0.48)', stroke: 'rgba(52,211,153,0.78)' }, // Ecuador
+        '170': { fill: 'rgba(52,211,153,0.45)', stroke: 'rgba(52,211,153,0.72)' }, // Colombia
+        '591': { fill: 'rgba(52,211,153,0.42)', stroke: 'rgba(52,211,153,0.68)' }, // Panama
+        '188': { fill: 'rgba(52,211,153,0.42)', stroke: 'rgba(52,211,153,0.68)' }, // Costa Rica
+        '152': { fill: 'rgba(52,211,153,0.40)', stroke: 'rgba(52,211,153,0.65)' }, // Chile
+        '32':  { fill: 'rgba(234,179,8,0.40)',  stroke: 'rgba(234,179,8,0.68)'  }, // Argentina
+        '724': { fill: 'rgba(99,102,241,0.52)', stroke: 'rgba(99,102,241,0.88)' }, // Spain
+    };
+
+    svg.selectAll('path.c')
+        .data(countriesGeo.features).join('path').attr('class', 'c')
+        .attr('d', pathGen)
+        .attr('fill',   function(d) { var h = hl[String(d.id)]; return h ? h.fill   : '#131e2e'; })
+        .attr('stroke', function(d) { var h = hl[String(d.id)]; return h ? h.stroke : 'rgba(148,180,212,0.2)'; })
+        .attr('stroke-width', function(d) { return hl[String(d.id)] ? 0.9 : 0.4; });
+
+    svg.append('path').datum(bordersGeo).attr('d', pathGen)
+        .attr('fill', 'none').attr('stroke', 'rgba(148,180,212,0.18)').attr('stroke-width', 0.4);
+
+    // Glow filter
+    var defs = svg.append('defs');
+    var flt = defs.append('filter').attr('id', 'mglow');
+    flt.append('feGaussianBlur').attr('stdDeviation', '3.5').attr('result', 'b');
+    var mrg = flt.append('feMerge');
+    mrg.append('feMergeNode').attr('in', 'b');
+    mrg.append('feMergeNode').attr('in', 'SourceGraphic');
+
+    // Capital-city marker positions
+    var markers = [
+        { lon: -78.47, lat: -0.23,  color: '#6366f1', large: true  }, // Ecuador
+        { lon: -74.07, lat:  4.71,  color: '#34d399', large: false  }, // Colombia
+        { lon: -79.52, lat:  8.99,  color: '#34d399', large: false  }, // Panama
+        { lon: -84.09, lat:  9.93,  color: '#34d399', large: false  }, // Costa Rica
+        { lon: -70.67, lat: -33.45, color: '#34d399', large: false  }, // Chile
+        { lon: -58.38, lat: -34.60, color: '#eab308', large: false  }, // Argentina
+        { lon:  -3.70, lat:  40.42, color: '#6366f1', large: true   }, // Spain
+    ];
+
+    // Connection lines (behind markers)
+    function line(a, b, col) {
+        var p1 = projection([a.lon, a.lat]);
+        var p2 = projection([b.lon, b.lat]);
+        if (!p1 || !p2) return;
+        svg.append('line')
+            .attr('x1', p1[0]).attr('y1', p1[1]).attr('x2', p2[0]).attr('y2', p2[1])
+            .attr('stroke', col).attr('stroke-width', 0.8)
+            .attr('stroke-dasharray', '3,3').attr('opacity', 0.32);
+    }
+    line(markers[0], markers[1], '#6366f1');
+    line(markers[1], markers[2], '#34d399');
+    line(markers[2], markers[3], '#34d399');
+    line(markers[0], markers[4], '#34d399');
+    line(markers[4], markers[5], '#eab308');
+
+    // Arc Ecuador → Spain
+    var ep = projection([markers[0].lon, markers[0].lat]);
+    var sp = projection([markers[6].lon, markers[6].lat]);
+    if (ep && sp) {
+        svg.append('path')
+            .attr('d', 'M'+ep[0]+','+ep[1]+' Q'+((ep[0]+sp[0])/2)+','+(Math.min(ep[1],sp[1])-H*0.22)+' '+sp[0]+','+sp[1])
+            .attr('fill', 'none').attr('stroke', '#6366f1')
+            .attr('stroke-width', 0.8).attr('stroke-dasharray', '4,4').attr('opacity', 0.22);
+    }
+
+    // Markers
+    var mG = svg.append('g');
+    markers.forEach(function(m) {
+        var pos = projection([m.lon, m.lat]);
+        if (!pos) return;
+        var x = pos[0], y = pos[1], g = mG.append('g');
+        var outerR = m.large ? 22 : 14, dotR = m.large ? 7 : 5.5;
+
+        g.append('circle').attr('cx',x).attr('cy',y).attr('r', outerR)
+            .attr('fill','none').attr('stroke', m.color).attr('stroke-width',1.5)
+            .attr('opacity',0.15).attr('class','map-pulse');
+        if (m.large) {
+            g.append('circle').attr('cx',x).attr('cy',y).attr('r',14)
+                .attr('fill','none').attr('stroke',m.color).attr('stroke-width',1).attr('opacity',0.26);
+        }
+        g.append('circle').attr('cx',x).attr('cy',y).attr('r',dotR)
+            .attr('fill',m.color).attr('opacity',0.92).attr('filter','url(#mglow)');
+        g.append('circle').attr('cx',x).attr('cy',y).attr('r',dotR*0.38).attr('fill','white');
+    });
+}
 </script>
 </body>
 </html>
