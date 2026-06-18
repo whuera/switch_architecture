@@ -93,6 +93,11 @@
                             <span class="stat-val">10+</span>
                             <span class="stat-label">Años</span>
                         </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item stat-item--link" id="expertos-btn">
+                            <span class="stat-val stat-val--accent">&#128100;</span>
+                            <span class="stat-label">Expertos</span>
+                        </div>
                     </div>
                 </div>
                 <div class="hero-visual">
@@ -491,6 +496,66 @@
     </div>
 </div>
 
+<!-- Expertos -->
+<div id="expertos-modal" class="modal">
+    <div class="modal-box expert-box">
+        <button class="modal-close close-modal">&#10005;</button>
+        <div class="expert-card">
+            <div class="expert-photo-wrap">
+                <img src="/images/expert-whuera.jpg" alt="William Huera" class="expert-photo"/>
+                <div class="expert-badge-role">Lead Consultant</div>
+            </div>
+            <div class="expert-info">
+                <h2 class="expert-name">William Eduardo Huera Ortiz</h2>
+                <p class="expert-title">Arquitecto ACI BASE24-eps / UPF &middot; Fintech Consultant</p>
+                <div class="expert-tags">
+                    <span class="expert-tag">ACI BASE24-eps</span>
+                    <span class="expert-tag">UPF</span>
+                    <span class="expert-tag">ISO 8583</span>
+                    <span class="expert-tag">EMV</span>
+                    <span class="expert-tag">PCI-DSS</span>
+                </div>
+                <div class="expert-divider"></div>
+                <h3 class="expert-section-title">Datos Básicos</h3>
+                <div class="expert-grid">
+                    <div class="expert-row">
+                        <span class="expert-key">Nombre</span>
+                        <span class="expert-val">William Eduardo Huera Ortiz</span>
+                    </div>
+                    <div class="expert-row">
+                        <span class="expert-key">Estado Civil</span>
+                        <span class="expert-val">Casado</span>
+                    </div>
+                    <div class="expert-row">
+                        <span class="expert-key">C.I.</span>
+                        <span class="expert-val">1712740644</span>
+                    </div>
+                    <div class="expert-row">
+                        <span class="expert-key">Edad</span>
+                        <span class="expert-val">43 años</span>
+                    </div>
+                    <div class="expert-row">
+                        <span class="expert-key">Dirección</span>
+                        <span class="expert-val">Manglar Alto OE1-98</span>
+                    </div>
+                    <div class="expert-row">
+                        <span class="expert-key">Email</span>
+                        <span class="expert-val"><a href="mailto:whuera@gmail.com">whuera@gmail.com</a></span>
+                    </div>
+                    <div class="expert-row">
+                        <span class="expert-key">Teléfono</span>
+                        <span class="expert-val">0995331328</span>
+                    </div>
+                    <div class="expert-row">
+                        <span class="expert-key">LinkedIn</span>
+                        <span class="expert-val"><a href="https://ec.linkedin.com/in/williamhuera" target="_blank" rel="noopener noreferrer">ec.linkedin.com/in/williamhuera</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Chatbot -->
 <div id="chatbot-modal" class="modal">
     <div class="modal-box chatbot-box">
@@ -666,6 +731,19 @@ document.addEventListener('DOMContentLoaded', function() {
             if (f) f.reset();
             if (r) { r.className = 'form-response'; r.textContent = ''; }
         }
+    }
+
+    // Expertos modal
+    var expertosBtn = document.getElementById('expertos-btn');
+    var expertosModal = document.getElementById('expertos-modal');
+    if (expertosBtn && expertosModal) {
+        expertosBtn.addEventListener('click', function() { expertosModal.style.display = 'flex'; });
+        expertosModal.querySelectorAll('.close-modal').forEach(function(el) {
+            el.addEventListener('click', function() { expertosModal.style.display = 'none'; });
+        });
+        expertosModal.addEventListener('click', function(e) {
+            if (e.target === expertosModal) expertosModal.style.display = 'none';
+        });
     }
 
     modalConfigs.forEach(function(cfg) {

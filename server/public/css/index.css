@@ -982,6 +982,154 @@ body {
   color: #f87171;
 }
 
+/* ===== STAT EXPERTOS BUTTON ===== */
+.stat-item--link {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.stat-item--link:hover { transform: translateY(-2px); }
+.stat-item--link:hover .stat-label { color: var(--primary); }
+.stat-val--accent { font-size: 26px; }
+
+/* ===== EXPERT MODAL ===== */
+.expert-box {
+  max-width: 700px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.expert-card {
+  display: flex;
+  gap: 0;
+}
+
+.expert-photo-wrap {
+  flex-shrink: 0;
+  width: 200px;
+  background: linear-gradient(160deg, rgba(99,102,241,0.15), rgba(15,23,42,0.95));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  gap: 14px;
+  border-right: 1px solid var(--border);
+}
+
+.expert-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--border-glow);
+  box-shadow: 0 0 24px rgba(99,102,241,0.25);
+}
+
+.expert-badge-role {
+  padding: 4px 12px;
+  background: var(--primary-dim);
+  border: 1px solid rgba(99,102,241,0.3);
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.expert-info {
+  flex: 1;
+  padding: 32px 28px;
+  overflow-y: auto;
+}
+
+.expert-name {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+
+.expert-title {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+.expert-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.expert-tag {
+  padding: 3px 10px;
+  background: rgba(99,102,241,0.1);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.expert-divider {
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 16px;
+}
+
+.expert-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+
+.expert-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 16px;
+}
+
+.expert-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.expert-key {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.expert-val {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.expert-val a {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 12px;
+}
+.expert-val a:hover { color: #818cf8; }
+
+@media (max-width: 600px) {
+  .expert-card { flex-direction: column; }
+  .expert-photo-wrap { width: 100%; flex-direction: row; padding: 20px; gap: 16px; border-right: none; border-bottom: 1px solid var(--border); }
+  .expert-grid { grid-template-columns: 1fr; }
+}
+
 /* ===== CHATBOT ===== */
 .chatbot-box {
   max-width: 480px;
