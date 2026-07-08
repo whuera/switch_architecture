@@ -892,6 +892,44 @@ body {
   letter-spacing: 0.03em;
 }
 
+/* ===== MODAL CTA ===== */
+.modal-cta-block {
+  margin-top: 20px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(99,102,241,0.03) 100%);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-cta-text {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.modal-cta-link {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 9px 18px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.modal-cta-link:hover {
+  opacity: 0.88;
+  transform: translateX(2px);
+}
+
 /* ===== CONTACT FORM ===== */
 .contact-form { display: flex; flex-direction: column; gap: 16px; }
 
