@@ -254,6 +254,11 @@
                         <span class="ext-tech">ETL Pipelines</span>
                         <span class="ext-tech">ML Ops</span>
                     </div>
+                    <button class="ext-price-btn ext-price-btn--ai" data-price-node="consulting">
+                        Ver tarifa
+                        <span class="ext-price-pill">$35<span>/hr</span></span>
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
                 </div>
 
                 <!-- Java & Cloud -->
@@ -291,6 +296,11 @@
                         <span class="ext-tech ext-tech--azure">Azure</span>
                         <span class="ext-tech">Docker / K8s</span>
                     </div>
+                    <button class="ext-price-btn ext-price-btn--java" data-price-node="design">
+                        Ver tarifa
+                        <span class="ext-price-pill">$30<span>/hr</span></span>
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
                 </div>
 
                 <!-- PowerBuilder -->
@@ -329,6 +339,11 @@
                         <span class="ext-tech">SQL / ORM</span>
                         <span class="ext-tech">Legacy Migration</span>
                     </div>
+                    <button class="ext-price-btn ext-price-btn--pb" data-price-node="consulting">
+                        Ver tarifa
+                        <span class="ext-price-pill">$35<span>/hr</span></span>
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
                 </div>
 
             </div>
@@ -712,7 +727,7 @@
 
         <div class="pricing-timeline">
 
-            <div class="price-node">
+            <div class="price-node" id="price-node-design">
                 <div class="price-node-track">
                     <div class="price-node-dot dot-design"></div>
                     <div class="price-node-line"></div>
@@ -732,7 +747,7 @@
                 </div>
             </div>
 
-            <div class="price-node">
+            <div class="price-node" id="price-node-support">
                 <div class="price-node-track">
                     <div class="price-node-dot dot-support"></div>
                     <div class="price-node-line"></div>
@@ -752,7 +767,7 @@
                 </div>
             </div>
 
-            <div class="price-node price-node--last">
+            <div class="price-node price-node--last" id="price-node-consulting">
                 <div class="price-node-track">
                     <div class="price-node-dot dot-consulting"></div>
                 </div>
@@ -992,6 +1007,37 @@ document.addEventListener('DOMContentLoaded', function() {
             if (e.target === modal) closeModal(cfg.modalId);
         });
     });
+
+    // ===== EXT CARDS → PRICES MODAL WITH HIGHLIGHT =====
+    document.querySelectorAll('.ext-price-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var nodeKey = btn.getAttribute('data-price-node');
+            document.querySelectorAll('.price-node').forEach(function(n) {
+                n.classList.remove('price-node--active');
+            });
+            var target = document.getElementById('price-node-' + nodeKey);
+            if (target) {
+                target.classList.add('price-node--active');
+                openModal('prices-modal');
+                setTimeout(function() { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 120);
+            }
+        });
+    });
+
+    // Reset highlights when prices modal closes
+    var pricesModal = document.getElementById('prices-modal');
+    if (pricesModal) {
+        pricesModal.querySelectorAll('.close-modal').forEach(function(el) {
+            el.addEventListener('click', function() {
+                document.querySelectorAll('.price-node').forEach(function(n) { n.classList.remove('price-node--active'); });
+            });
+        });
+        pricesModal.addEventListener('click', function(e) {
+            if (e.target === pricesModal) {
+                document.querySelectorAll('.price-node').forEach(function(n) { n.classList.remove('price-node--active'); });
+            }
+        });
+    }
 
     // ===== PRICES → CONTACT =====
     var contactFromPrices = document.getElementById('contact-from-prices');
