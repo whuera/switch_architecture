@@ -1009,33 +1009,31 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ===== EXT CARDS → PRICES MODAL WITH HIGHLIGHT =====
+    function clearPriceHighlights() {
+        document.querySelectorAll('.price-node').forEach(function(n) {
+            n.classList.remove('price-node--active');
+        });
+    }
+
     document.querySelectorAll('.ext-price-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            clearPriceHighlights();
+            openModal('prices-modal');
             var nodeKey = btn.getAttribute('data-price-node');
-            document.querySelectorAll('.price-node').forEach(function(n) {
-                n.classList.remove('price-node--active');
-            });
             var target = document.getElementById('price-node-' + nodeKey);
             if (target) {
                 target.classList.add('price-node--active');
-                openModal('prices-modal');
-                setTimeout(function() { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 120);
+                setTimeout(function() { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 150);
             }
         });
     });
 
-    // Reset highlights when prices modal closes
+    // Reset highlights on close/backdrop
     var pricesModal = document.getElementById('prices-modal');
     if (pricesModal) {
-        pricesModal.querySelectorAll('.close-modal').forEach(function(el) {
-            el.addEventListener('click', function() {
-                document.querySelectorAll('.price-node').forEach(function(n) { n.classList.remove('price-node--active'); });
-            });
-        });
         pricesModal.addEventListener('click', function(e) {
-            if (e.target === pricesModal) {
-                document.querySelectorAll('.price-node').forEach(function(n) { n.classList.remove('price-node--active'); });
-            }
+            if (e.target === pricesModal) clearPriceHighlights();
         });
     }
 
