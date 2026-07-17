@@ -377,23 +377,27 @@ body {
 
 .process-flow {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 10px;
   flex-wrap: wrap;
 }
 
 .process-card {
   flex: 1;
-  min-width: 130px;
+  min-width: 150px;
   background: var(--bg-card);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 22px 16px;
+  padding: 22px 12px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   text-align: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .process-card:hover {
@@ -402,6 +406,68 @@ body {
   box-shadow: 0 20px 40px rgba(0,0,0,0.35), 0 0 24px rgba(99, 102, 241, 0.1);
   background: rgba(99, 102, 241, 0.06);
 }
+
+.process-buttons {
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 6px !important;
+}
+.process-btn {
+  padding: 5px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  border: 1px solid var(--border-glow);
+  border-radius: 6px;
+  background: rgba(14, 165, 233, 0.08);
+  color: var(--accent);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+a.process-btn {
+  text-decoration: none;
+}
+.process-btn:hover {
+  background: rgba(14, 165, 233, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Tarifas modal styles */
+.tarifa-list { margin-top:20px; display:flex; flex-direction:column; gap:20px; }
+.tarifa-item { padding:20px 0; border-bottom:1px solid rgba(255,255,255,0.06); }
+.tarifa-item:last-child { border-bottom:none; }
+.tarifa-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.tarifa-dot { width:12px; height:12px; border-radius:50%; display:inline-block; flex-shrink:0; }
+.tarifa-title { font-size:1.05rem; font-weight:700; color:#e6edf3; }
+.tarifa-price { font-size:1.8rem; font-weight:800; color:#4aea8b; white-space:nowrap; }
+.tarifa-unit { font-size:0.85rem; font-weight:400; color:#8b949e; }
+.tarifa-desc { font-size:0.85rem; color:#c9d1d9; line-height:1.6; margin-bottom:12px; }
+.tarifa-tags { display:flex; flex-wrap:wrap; gap:8px; }
+.tarifa-tag { display:inline-block; padding:4px 10px; border-radius:6px; font-size:0.72rem; font-weight:600; color:#c9d1d9; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.03); text-transform:uppercase; letter-spacing:0.3px; }
+.tarifa-footer { margin-top:20px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.06); font-size:0.78rem; color:#8b949e; text-align:center; }
+.tarifa-cta-btn { display:inline-flex; align-items:center; margin-top:16px; padding:12px 28px; border:1px solid rgba(99,102,241,0.5); background:rgba(99,102,241,0.2); color:#c9d1d9; font-size:0.9rem; font-weight:600; border-radius:8px; cursor:pointer; transition:all 0.2s ease; }
+.tarifa-cta-btn:hover { background:rgba(99,102,241,0.4); border-color:#6366f1; transform:translateY(-2px); }
+
+/* Portfolio / Metrics table styles */
+.pm-table-wrapper { overflow-x:auto; border-radius:10px; border:1px solid rgba(255,255,255,0.06); }
+.pm-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+.pm-table thead { background:rgba(255,255,255,0.05); }
+.pm-table th { padding:12px 14px; text-align:left; color:#58a6ff; font-weight:600; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.5px; white-space:nowrap; border-bottom:1px solid rgba(255,255,255,0.08); }
+.pm-table td { padding:14px; color:#c9d1d9; border-bottom:1px solid rgba(255,255,255,0.04); vertical-align:middle; }
+.pm-table tbody tr { transition:background 0.2s; }
+.pm-table tbody tr:hover { background:rgba(255,255,255,0.03); }
+.pm-project-name { font-weight:600; color:#e6edf3; margin-bottom:2px; }
+.pm-project-client { font-size:0.78rem; color:#8b949e; }
+.pm-badge { display:inline-block; padding:3px 8px; border-radius:4px; font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:0.3px; }
+.pm-badge-national { background:rgba(56,139,253,0.15); color:#58a6ff; border:1px solid rgba(56,139,253,0.25); }
+.pm-badge-international { background:rgba(163,113,247,0.15); color:#bc8cff; border:1px solid rgba(163,113,247,0.25); }
+.pm-status-success { color:#4aea8b; font-weight:600; font-size:0.83rem; white-space:nowrap; }
+.pm-metric { color:#58a6ff; font-weight:700; }
+.pm-summary { display:flex; gap:16px; margin-top:20px; flex-wrap:wrap; }
+.pm-summary-item { flex:1; min-width:120px; text-align:center; padding:16px 12px; border-radius:10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); }
+.pm-summary-number { font-size:1.6rem; font-weight:800; color:#58a6ff; line-height:1; margin-bottom:6px; }
+.pm-summary-label { font-size:0.78rem; color:#8b949e; text-transform:uppercase; letter-spacing:0.3px; }
+.pm-header { margin-bottom:24px; }
 
 .process-icon { font-size: 28px; margin-bottom: 10px; }
 
@@ -419,6 +485,7 @@ body {
   color: var(--primary);
   flex-shrink: 0;
   opacity: 0.5;
+  align-self: center;
 }
 
 /* ===== PRICES CARD ===== */
@@ -1726,7 +1793,8 @@ body {
   .ext-services-grid { grid-template-columns: 1fr; }
   .simulators-grid { grid-template-columns: 1fr; max-width: 460px; }
   .process-flow { flex-wrap: wrap; }
-  .process-card { min-width: 120px; }
+  .process-card { min-width: 130px; }
+  .process-btn { font-size: 9px; padding: 4px 8px; }
 }
 
 @media (max-width: 640px) {
