@@ -4,6 +4,9 @@ const path = require('path');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -216,6 +219,86 @@ app.get('/docs/:filename', (req, res) => {
   } catch (error) {
     console.error('Error en /docs/:filename:', error.message);
     res.status(500).send('Error al cargar documento');
+  }
+});
+
+// API: Enviar correo de contacto
+app.post('/api/contact', async (req, res) => {
+  try {
+    const { name, email, documentId, phone, comment } = req.body;
+
+    if (!name || !email || !comment) {
+      return res.status(400).json({ success: false, error: 'Campos requeridos: nombre, correo y comentario' });
+    }
+
+    // 1. Notificación interna a info@mobilpymes.cl
+    await resend.emails.send({
+      from: 'B24-eps & UPF Consulting <info@mobilpymes.cl>',
+      to: 'info@mobilpymes.cl',
+      subject: `Nuevo contacto: ${sanitizeString(name)}`,
+      html: `
+        <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;background:#0d1117;color:#c9d1d9;border-radius:12px;overflow:hidden;border:1px solid #21262d;">
+          <div style="background:linear-gradient(135deg,#1a1f2e,#0d1117);padding:28px 32px;border-bottom:1px solid #21262d;">
+            <h2 style="margin:0;color:#58a6ff;font-size:20px;">Nuevo Mensaje de Contacto</h2>
+          </div>
+          <div style="padding:28px 32px;">
+            <table style="width:100%;border-collapse:collapse;">
+              <tr><td style="padding:10px 0;color:#8b949e;font-weight:600;width:140px;">Nombre</td><td style="padding:10px 0;color:#e6edf3;">${sanitizeString(name)}</td></tr>
+              <tr><td style="padding:10px 0;color:#8b949e;font-weight:600;">Correo</td><td style="padding:10px 0;"><a href="mailto:${sanitizeString(email)}" style="color:#58a6ff;text-decoration:none;">${sanitizeString(email)}</a></td></tr>
+              <tr><td style="padding:10px 0;color:#8b949e;font-weight:600;">Documento ID</td><td style="padding:10px 0;color:#e6edf3;">${sanitizeString(documentId || 'No proporcionado')}</td></tr>
+              <tr><td style="padding:10px 0;color:#8b949e;font-weight:600;">Teléfono</td><td style="padding:10px 0;color:#e6edf3;">${sanitizeString(phone || 'No proporcionado')}</td></tr>
+            </table>
+            <div style="margin-top:20px;padding:16px;background:rgba(255,255,255,0.03);border:1px solid #21262d;border-radius:8px;">
+              <p style="margin:0 0 8px;color:#8b949e;font-weight:600;font-size:13px;">COMENTARIO</p>
+              <p style="margin:0;color:#e6edf3;line-height:1.6;">${sanitizeString(comment)}</p>
+            </div>
+          </div>
+        </div>
+      `
+    });
+
+    // 2. Respuesta automática al remitente
+    const firstName = sanitizeString(name).split(' ')[0];
+    await resend.emails.send({
+      from: 'B24-eps & UPF Consulting <info@mobilpymes.cl>',
+      to: sanitizeString(email),
+      subject: 'Gracias por contactarnos — B24-eps & UPF Consulting',
+      html: `
+        <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;background:#ffffff;color:#1a1a2e;border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;">
+          <div style="background:linear-gradient(135deg,#0d1117,#1a1f2e);padding:32px;text-align:center;">
+            <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;">B24-eps & UPF Consulting</h1>
+            <p style="margin:8px 0 0;color:#8b949e;font-size:13px;">Consultoría Especializada en Medios de Pago</p>
+          </div>
+          <div style="padding:32px;">
+            <p style="font-size:16px;color:#1a1a2e;margin:0 0 16px;">Estimado/a <strong>${firstName}</strong>,</p>
+            <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 16px;">
+              Agradecemos sinceramente su interés en nuestros servicios de consultoría especializada en ACI BASE24-eps y Universal Payments Framework (UPF).
+            </p>
+            <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 16px;">
+              Hemos recibido su mensaje correctamente y nuestro equipo de especialistas lo revisará a la brevedad. Nos pondremos en contacto con usted dentro de las próximas <strong>24 horas hábiles</strong> para atender su consulta de manera personalizada.
+            </p>
+            <div style="margin:24px 0;padding:20px;background:#f0f9ff;border-left:4px solid #58a6ff;border-radius:0 8px 8px 0;">
+              <p style="margin:0 0 8px;font-size:13px;color:#0369a1;font-weight:700;">SU MENSAJE</p>
+              <p style="margin:0;font-size:13px;color:#4a4a6a;line-height:1.6;font-style:italic;">"${sanitizeString(comment)}"</p>
+            </div>
+            <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 16px;">
+              Mientras tanto, lo invitamos a conocer más sobre nuestras soluciones y casos de éxito en nuestra plataforma web.
+            </p>
+            <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 8px;">Cordialmente,</p>
+            <p style="font-size:14px;color:#1a1a2e;font-weight:700;margin:0;">Equipo B24-eps & UPF Consulting</p>
+          </div>
+          <div style="background:#f8fafc;padding:20px 32px;border-top:1px solid #e5e7eb;text-align:center;">
+            <p style="margin:0 0 4px;font-size:12px;color:#8b949e;">&#128231; info@mobilpymes.cl &nbsp;·&nbsp; &#128222; +56 985689661</p>
+            <p style="margin:0;font-size:11px;color:#b0b8c4;">Presencia en Chile, Ecuador, Colombia, Panamá, Costa Rica, Argentina y España</p>
+          </div>
+        </div>
+      `
+    });
+
+    res.json({ success: true, message: 'Mensaje enviado correctamente' });
+  } catch (error) {
+    console.error('Error en /api/contact:', error.message);
+    res.status(500).json({ success: false, error: 'Error al enviar el mensaje' });
   }
 });
 

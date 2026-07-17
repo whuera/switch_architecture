@@ -1397,13 +1397,31 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             try {
-                var res = await fetch('https://azure-app-shopping-cart-reload-225fb76523b0.herokuapp.com/api/customer/create', {
+                // Guardar en BD externa
+                var resDB = fetch('https://azure-app-shopping-cart-reload-225fb76523b0.herokuapp.com/api/customer/create', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                if (res.ok) {
-                    formResp.textContent = 'Mensaje enviado con exito!';
+
+                // Enviar correos via Resend
+                var resMail = fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: fd.get('name'),
+                        email: fd.get('email'),
+                        documentId: fd.get('documentId'),
+                        phone: fd.get('phone'),
+                        comment: fd.get('comment')
+                    })
+                });
+
+                var results = await Promise.allSettled([resDB, resMail]);
+                var anyOk = results.some(function(r) { return r.status === 'fulfilled' && r.value && r.value.ok; });
+
+                if (anyOk) {
+                    formResp.textContent = 'Mensaje enviado con éxito! Revisa tu correo.';
                     formResp.classList.add('success');
                     contactForm.reset();
                 } else { throw new Error(); }
