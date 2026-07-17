@@ -6,6 +6,7 @@
     <title><%= title %> | Switch Architecture</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="stylesheet" href="/css/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
     <script src="/js/d3.min.js"></script>
     <script src="/js/topojson-client.min.js"></script>
 </head>
@@ -220,11 +221,6 @@
                     <h3>Transferencia de Conocimiento</h3>
                     <p>Capacitación de equipos técnicos locales en arquitectura, operación y mantenimiento de la plataforma</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">&#128218;</div>
-                    <h3>Documentación Técnica Base24-eps &amp; UPF</h3>
-                    <p>Elaboración de documentación técnica detallada: guías de configuración, manuales de operación, diagramas de flujo y especificaciones de módulos BASE24-eps y UPF</p>
-                </div>
             </div>
 
             <!-- Capacidades Extendidas -->
@@ -406,6 +402,11 @@
                     <div class="feature-icon">&#128640;</div>
                     <h3>Migración &amp; Upgrade</h3>
                     <p>Planificación y ejecución de migraciones de versiones y expansión de capacidades UPF</p>
+                </div>
+                <div class="feature-card" id="docs-btn" style="cursor:pointer;">
+                    <div class="feature-icon">&#128218;</div>
+                    <h3>Documentación Técnica Base24-eps &amp; UPF</h3>
+                    <p>Elaboración de documentación técnica detallada: guías de configuración, manuales de operación, diagramas de flujo y especificaciones de módulos BASE24-eps y UPF</p>
                 </div>
             </div>
         </div>
@@ -606,6 +607,30 @@
     </div>
 </div>
 
+
+<!-- Documentación Técnica -->
+<div id="docs-modal" class="modal">
+    <div class="modal-box docs-modal-box">
+        <button class="modal-close close-modal">&#10005;</button>
+        <h2 style="margin-bottom:4px;">Documentación Técnica</h2>
+        <p class="modal-subtitle" style="margin-bottom:16px;">Base24-eps &amp; UPF — Seleccione un documento para visualizar.</p>
+        <div class="docs-viewer">
+            <div class="docs-sidebar">
+                <div class="docs-sidebar-title">Documentos</div>
+                <ul class="docs-list" id="docs-list"></ul>
+            </div>
+            <div class="docs-content" id="docs-content">
+                <div class="docs-placeholder" id="docs-placeholder">
+                    <div style="font-size:3rem;margin-bottom:12px;">&#128196;</div>
+                    <p>Seleccione un documento del menú lateral para visualizarlo.</p>
+                </div>
+                <div class="docs-canvas-wrapper" id="docs-canvas-wrapper" style="display:none;">
+                    <div class="docs-pages" id="docs-pages"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Nuestros Proyectos -->
 <div id="proyectos-modal" class="modal">
@@ -1091,6 +1116,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { btnId: 'enrutamiento-btn', modalId: 'enrutamiento-modal' },
         { btnId: 'autorizacion-btn', modalId: 'autorizacion-modal' },
         { btnId: 'proyectos-btn',    modalId: 'proyectos-modal' },
+        { btnId: 'docs-btn',         modalId: 'docs-modal' },
         { btnId: 'journal-btn',      modalId: 'journal-modal' },
         { btnId: 'contact-btn-modal',modalId: 'contact-modal' },
         { btnId: 'prices-btn',       modalId: 'prices-modal' }
@@ -1141,6 +1167,96 @@ document.addEventListener('DOMContentLoaded', function() {
             if (e.target === modal) closeModal(cfg.modalId);
         });
     });
+
+    // ===== DOCS VIEWER (PDF.js canvas) =====
+    var docsLoaded = false;
+    var docsModalEl = document.getElementById('docs-modal');
+    if (docsModalEl) {
+        docsModalEl.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    }
+
+    if (window.pdfjsLib) {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+    }
+
+    function renderPdf(url) {
+        var pagesContainer = document.getElementById('docs-pages');
+        var wrapper = document.getElementById('docs-canvas-wrapper');
+        var placeholder = document.getElementById('docs-placeholder');
+        pagesContainer.innerHTML = '<div style="text-align:center;padding:40px;color:#8b949e;">Cargando documento...</div>';
+        placeholder.style.display = 'none';
+        wrapper.style.display = 'block';
+
+        pdfjsLib.getDocument(url).promise.then(function(pdf) {
+            pagesContainer.innerHTML = '';
+            var wrapperWidth = wrapper.clientWidth - 40;
+            for (var i = 1; i <= pdf.numPages; i++) {
+                (function(pageNum) {
+                    pdf.getPage(pageNum).then(function(page) {
+                        var baseViewport = page.getViewport({ scale: 1 });
+                        var scale = wrapperWidth / baseViewport.width;
+                        if (scale > 2) scale = 2;
+                        var viewport = page.getViewport({ scale: scale });
+                        var canvas = document.createElement('canvas');
+                        canvas.className = 'docs-page-canvas';
+                        canvas.width = viewport.width;
+                        canvas.height = viewport.height;
+                        canvas.style.userSelect = 'none';
+                        canvas.style.webkitUserSelect = 'none';
+                        canvas.oncontextmenu = function(e) { e.preventDefault(); };
+                        // Insert in order
+                        var inserted = false;
+                        var existing = pagesContainer.querySelectorAll('.docs-page-canvas');
+                        for (var j = 0; j < existing.length; j++) {
+                            if (parseInt(existing[j].getAttribute('data-page')) > pageNum) {
+                                pagesContainer.insertBefore(canvas, existing[j]);
+                                inserted = true;
+                                break;
+                            }
+                        }
+                        if (!inserted) pagesContainer.appendChild(canvas);
+                        canvas.setAttribute('data-page', pageNum);
+                        page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport });
+                    });
+                })(i);
+            }
+        }).catch(function(err) {
+            pagesContainer.innerHTML = '<div style="text-align:center;padding:40px;color:#f87171;">Error al cargar el documento.</div>';
+            console.error('PDF render error:', err);
+        });
+    }
+
+    var docsBtn = document.getElementById('docs-btn');
+    if (docsBtn) {
+        docsBtn.addEventListener('click', function() {
+            if (!docsLoaded) {
+                fetch('/api/docs')
+                    .then(function(r) { return r.json(); })
+                    .then(function(res) {
+                        if (res.success) {
+                            var list = document.getElementById('docs-list');
+                            list.innerHTML = '';
+                            res.data.forEach(function(doc) {
+                                var li = document.createElement('li');
+                                li.className = 'docs-list-item';
+                                li.textContent = doc.name;
+                                li.setAttribute('data-file', doc.filename);
+                                li.addEventListener('click', function() {
+                                    document.querySelectorAll('.docs-list-item').forEach(function(el) { el.classList.remove('active'); });
+                                    li.classList.add('active');
+                                    renderPdf('/docs/' + encodeURIComponent(doc.filename));
+                                });
+                                list.appendChild(li);
+                            });
+                            docsLoaded = true;
+                            var first = list.querySelector('.docs-list-item');
+                            if (first) first.click();
+                        }
+                    })
+                    .catch(function(err) { console.error('Error loading docs:', err); });
+            }
+        });
+    }
 
     // ===== EXT CARDS → PRICES MODAL WITH HIGHLIGHT =====
     function clearPriceHighlights() {

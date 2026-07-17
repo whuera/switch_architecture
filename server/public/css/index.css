@@ -448,6 +448,25 @@ a.process-btn {
 .tarifa-cta-btn { display:inline-flex; align-items:center; margin-top:16px; padding:12px 28px; border:1px solid rgba(99,102,241,0.5); background:rgba(99,102,241,0.2); color:#c9d1d9; font-size:0.9rem; font-weight:600; border-radius:8px; cursor:pointer; transition:all 0.2s ease; }
 .tarifa-cta-btn:hover { background:rgba(99,102,241,0.4); border-color:#6366f1; transform:translateY(-2px); }
 
+/* Docs viewer modal */
+.docs-modal-box { max-width:1100px !important; height:85vh; display:flex; flex-direction:column; }
+.docs-viewer { display:flex; flex:1; gap:0; border:1px solid rgba(255,255,255,0.06); border-radius:10px; overflow:hidden; min-height:0; }
+.docs-sidebar { width:260px; flex-shrink:0; background:rgba(0,0,0,0.2); border-right:1px solid rgba(255,255,255,0.06); overflow-y:auto; display:flex; flex-direction:column; }
+.docs-sidebar-title { padding:14px 16px 10px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#58a6ff; }
+.docs-list { list-style:none; padding:0; margin:0; flex:1; overflow-y:auto; }
+.docs-list-item { padding:10px 16px; font-size:0.82rem; color:#c9d1d9; cursor:pointer; border-bottom:1px solid rgba(255,255,255,0.04); transition:background 0.15s; }
+.docs-list-item:hover { background:rgba(255,255,255,0.04); }
+.docs-list-item.active { background:rgba(88,166,255,0.1); color:#58a6ff; border-left:3px solid #58a6ff; }
+.docs-content { flex:1; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.02); min-height:0; position:relative; overflow:hidden; }
+.docs-placeholder { text-align:center; color:#8b949e; font-size:0.9rem; }
+.docs-canvas-wrapper { width:100%; height:100%; overflow-y:auto; overflow-x:hidden; }
+.docs-pages { display:flex; flex-direction:column; align-items:center; gap:8px; padding:20px; }
+.docs-page-canvas { max-width:100%; box-shadow:0 2px 8px rgba(0,0,0,0.3); border-radius:2px; }
+@media (max-width:768px) {
+  .docs-viewer { flex-direction:column; }
+  .docs-sidebar { width:100%; max-height:150px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); }
+}
+
 /* Portfolio / Metrics table styles */
 .pm-table-wrapper { overflow-x:auto; border-radius:10px; border:1px solid rgba(255,255,255,0.06); }
 .pm-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
