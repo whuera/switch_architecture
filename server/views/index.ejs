@@ -618,6 +618,9 @@
             <div class="docs-sidebar">
                 <div class="docs-sidebar-title">Documentos</div>
                 <ul class="docs-list" id="docs-list"></ul>
+                <div class="docs-sidebar-footer">
+                    <button id="docs-contact-btn" class="docs-contact-btn">&#128172; ¿Necesitas más documentación?</button>
+                </div>
             </div>
             <div class="docs-content" id="docs-content">
                 <div class="docs-placeholder" id="docs-placeholder">
@@ -1223,6 +1226,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }).catch(function(err) {
             pagesContainer.innerHTML = '<div style="text-align:center;padding:40px;color:#f87171;">Error al cargar el documento.</div>';
             console.error('PDF render error:', err);
+        });
+    }
+
+    var docsContactBtn = document.getElementById('docs-contact-btn');
+    if (docsContactBtn) {
+        docsContactBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeModal('docs-modal');
+            setTimeout(function() { openModal('contact-modal'); }, 200);
         });
     }
 
