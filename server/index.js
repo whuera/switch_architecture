@@ -17,7 +17,8 @@ app.use(helmet({
       connectSrc: ["'self'", "https://azure-app-shopping-cart-reload-225fb76523b0.herokuapp.com", "http://localhost:3000", "https://vercel.live", "https://whuera.app.n8n.cloud"],
       imgSrc: ["'self'", "data:", "https:*"],
       fontSrc: ["'self'", "https:", "data:"],
-      objectSrc: ["'none'"],
+      objectSrc: ["'self'", "blob:"],
+      frameSrc: ["'self'", "blob:"],
       upgradeInsecureRequests: [],
     }
   }
@@ -178,6 +179,43 @@ app.get('/api/componente/:id', (req, res) => {
       success: false,
       error: 'Error interno del servidor'
     });
+  }
+});
+
+// API: Listar PDFs disponibles
+const fs = require('fs');
+app.get('/api/docs', (req, res) => {
+  try {
+    const resourcesDir = path.join(__dirname, 'resources');
+    const files = fs.readdirSync(resourcesDir)
+      .filter(f => f.endsWith('.pdf'))
+      .sort()
+      .map(f => ({ filename: f, name: f.replace('.pdf', '') }));
+    res.json({ success: true, data: files });
+  } catch (error) {
+    console.error('Error en /api/docs:', error.message);
+    res.status(500).json({ success: false, error: 'Error al listar documentos' });
+  }
+});
+
+// Servir PDFs solo en modo inline (sin descarga)
+app.get('/docs/:filename', (req, res) => {
+  try {
+    const filename = req.params.filename;
+    if (!filename.endsWith('.pdf') || filename.includes('..')) {
+      return res.status(400).send('Archivo no válido');
+    }
+    const filePath = path.join(__dirname, 'resources', filename);
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).send('Documento no encontrado');
+    }
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'inline');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    fs.createReadStream(filePath).pipe(res);
+  } catch (error) {
+    console.error('Error en /docs/:filename:', error.message);
+    res.status(500).send('Error al cargar documento');
   }
 });
 
