@@ -124,34 +124,59 @@
             <div class="process-section">
                 <p class="process-label">Metodología de Consultoría</p>
                 <div class="process-flow">
-                    <div class="process-card" id="validacion-btn">
+                    <div class="process-card">
                         <div class="process-icon">&#128270;</div>
                         <div class="process-name">Diagnóstico</div>
                         <div class="process-desc">Análisis &amp; Levantamiento</div>
+                        <div class="process-buttons" style="display:flex;gap:8px;margin-top:10px;">
+                            <button id="validacion-btn" class="process-btn">Metodología</button>
+                        </div>
                     </div>
                     <div class="process-arrow">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 11H18M18 11L12 5M18 11L12 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
-                    <div class="process-card" id="enrutamiento-btn">
+                    <div class="process-card">
                         <div class="process-icon">&#128208;</div>
                         <div class="process-name">Diseño</div>
                         <div class="process-desc">Arquitectura &amp; Solución</div>
+                        <div class="process-buttons" style="display:flex;gap:8px;margin-top:10px;">
+                            <button id="enrutamiento-btn" class="process-btn">Metodología</button>
+                            <a href="https://viewdiagram-git-master-whueras-projects.vercel.app/" target="_blank" rel="noopener noreferrer" class="process-btn">Diagramas</a>
+                        </div>
                     </div>
                     <div class="process-arrow">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 11H18M18 11L12 5M18 11L12 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
-                    <div class="process-card" id="autorizacion-btn">
+                    <div class="process-card">
                         <div class="process-icon">&#128295;</div>
                         <div class="process-name">Implementación</div>
                         <div class="process-desc">Configuración &amp; Go-Live</div>
+                        <div class="process-buttons" style="display:flex;gap:8px;margin-top:10px;">
+                            <button id="autorizacion-btn" class="process-btn">Metodología</button>
+                            <button id="proyectos-btn" class="process-btn">Nuestros Proyectos</button>
+                        </div>
                     </div>
                     <div class="process-arrow">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 11H18M18 11L12 5M18 11L12 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
-                    <div class="process-card" id="journal-btn">
+                    <div class="process-card">
                         <div class="process-icon">&#128101;</div>
                         <div class="process-name">Soporte</div>
                         <div class="process-desc">Mantenimiento &amp; Evolución</div>
+                        <div class="process-buttons" style="display:flex;gap:8px;margin-top:10px;">
+                            <button id="journal-btn" class="process-btn">Metodología</button>
+                        </div>
+                    </div>
+                    <div class="process-arrow">
+                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 11H18M18 11L12 5M18 11L12 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <div class="process-card">
+                        <div class="process-icon">&#128176;</div>
+                        <div class="process-name">Tarifas</div>
+                        <div class="process-desc">Costos &amp; Consultoría</div>
+                        <div class="process-buttons" style="display:flex;gap:8px;margin-top:10px;">
+                            <button id="costos-btn" class="process-btn">Ver Tarifas</button>
+                        </div>
                     </div>
                     <div class="price-separator">
                         <span></span>
@@ -205,6 +230,11 @@
                     <div class="feature-icon">&#128101;</div>
                     <h3>Transferencia de Conocimiento</h3>
                     <p>Capacitación de equipos técnicos locales en arquitectura, operación y mantenimiento de la plataforma</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#128218;</div>
+                    <h3>Documentación Técnica Base24-eps &amp; UPF</h3>
+                    <p>Elaboración de documentación técnica detallada: guías de configuración, manuales de operación, diagramas de flujo y especificaciones de módulos BASE24-eps y UPF</p>
                 </div>
             </div>
 
@@ -458,9 +488,9 @@
 <footer class="footer">
     <div class="footer-inner">
         <div class="footer-left">
-            <a href="mailto:whuera@gmail.com" class="footer-contact">
+            <a href="mailto:contactenos@mobilpymes.cl" class="footer-contact">
                 <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
-                whuera@gmail.com
+                contactenos@mobilpymes.cl
             </a>
             <span class="footer-phone">+56 985689661 &middot; +593 995331328</span>
         </div>
@@ -582,6 +612,186 @@
                     <li>Acompañamiento en go-live y estabilización</li>
                 </ul>
                 <span class="modal-tag">Tipo: Certificación</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tarifas -->
+<div id="costos-modal" class="modal">
+    <div class="modal-box" style="max-width:700px;max-height:85vh;overflow-y:auto;">
+        <button class="modal-close close-modal">&#10005;</button>
+        <h2 style="font-size:1.6rem;margin-bottom:6px;">Tarifas de Consultoría</h2>
+        <p class="modal-subtitle">Costos claros y competitivos para cada etapa de su proyecto. Toda tarifa está expresada en dólares americanos (USD) por hora de trabajo efectivo.</p>
+
+        <div class="tarifa-list">
+            <div class="tarifa-item">
+                <div class="tarifa-header">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span class="tarifa-dot" style="background:#6366f1;"></span>
+                        <h3 class="tarifa-title">Diseño de Soluciones</h3>
+                    </div>
+                    <div class="tarifa-price">$30<span class="tarifa-unit">/hr</span></div>
+                </div>
+                <p class="tarifa-desc">Arquitectura y diseño de soluciones transaccionales de alta disponibilidad sobre ACI BASE24-eps y UPF. Incluye documentación de arquitectura, definición de módulos (SRC_RTE, DST_RTE, AUTH, IFX), conectores con redes Visa/Mastercard e interbancarias, y estrategia de recuperación ante fallas.</p>
+                <div class="tarifa-tags">
+                    <span class="tarifa-tag">Arquitectura BASE24-EPS</span>
+                    <span class="tarifa-tag">UPF Framework</span>
+                    <span class="tarifa-tag">Alta Disponibilidad</span>
+                    <span class="tarifa-tag">Documento de Diseño</span>
+                </div>
+            </div>
+
+            <div class="tarifa-item">
+                <div class="tarifa-header">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span class="tarifa-dot" style="background:#58a6ff;"></span>
+                        <h3 class="tarifa-title">Soporte &amp; Mantenimiento</h3>
+                    </div>
+                    <div class="tarifa-price">$25<span class="tarifa-unit">/hr</span></div>
+                </div>
+                <p class="tarifa-desc">Acompañamiento técnico continuo en la operación de plataformas productivas. Atención de incidentes críticos, revisión de logs y journaling, ajustes de parametrización, conciliación de transacciones y soporte post-implementación tanto en modalidad remota como on-site.</p>
+                <div class="tarifa-tags">
+                    <span class="tarifa-tag">Soporte Remoto / On-Site</span>
+                    <span class="tarifa-tag">Gestión de Incidentes</span>
+                    <span class="tarifa-tag">Journaling &amp; Conciliación</span>
+                    <span class="tarifa-tag">Parametrización</span>
+                </div>
+            </div>
+
+            <div class="tarifa-item">
+                <div class="tarifa-header">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <span class="tarifa-dot" style="background:#4aea8b;"></span>
+                        <h3 class="tarifa-title">Consultoría en Desarrollo de Software</h3>
+                    </div>
+                    <div class="tarifa-price">$35<span class="tarifa-unit">/hr</span></div>
+                </div>
+                <p class="tarifa-desc">Asesoría especializada en el desarrollo de integraciones, conectores ISO 8583, flujos UPF y extensiones sobre la plataforma ACI. Cubre diseño de interfaces con core bancario, certificación con redes internacionales, configuración de HSM y cumplimiento PCI-DSS / EMV.</p>
+                <div class="tarifa-tags">
+                    <span class="tarifa-tag">ISO 8583</span>
+                    <span class="tarifa-tag">Integración Core Bancario</span>
+                    <span class="tarifa-tag">HSM &amp; PCI-DSS</span>
+                    <span class="tarifa-tag">Certificación Visa / MC</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tarifa-footer">
+            <span style="margin-right:6px;">&#9432;</span> Tarifas en USD · Modalidad remota u on-site · Proyectos en América Latina y Europa
+        </div>
+        <button id="tarifa-contact-btn" class="tarifa-cta-btn">Solicitar Propuesta Formal &nbsp;&#8594;</button>
+    </div>
+</div>
+
+<!-- Nuestros Proyectos -->
+<div id="proyectos-modal" class="modal">
+    <div class="modal-box" style="max-width:1100px;max-height:85vh;overflow-y:auto;">
+        <button class="modal-close close-modal">&#10005;</button>
+        <div class="pm-container">
+            <div class="pm-header">
+                <h2 style="color:#58a6ff;font-size:1.3rem;margin-bottom:6px;">Portfolio de Proyectos — Casos de Éxito</h2>
+                <p style="color:#8b949e;font-size:0.85rem;">Proyectos liderados como Project Manager / Architect en el sector financiero y medios de pago a nivel internacional.</p>
+            </div>
+            <div class="pm-table-wrapper">
+                <table class="pm-table">
+                    <thead>
+                        <tr>
+                            <th>Proyecto</th>
+                            <th>Alcance</th>
+                            <th>Rol de Gestión</th>
+                            <th>Rol Técnico</th>
+                            <th>Estado</th>
+                            <th>Impacto Estimado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="pm-project-name">ATM Payment Hub</div>
+                                <div class="pm-project-client">Banco Santander Chile</div>
+                            </td>
+                            <td><span class="pm-badge pm-badge-national">Nacional Chile</span></td>
+                            <td>Project Manager</td>
+                            <td>Transactional Architect &amp; Lead</td>
+                            <td><span class="pm-status-success">&#10003; Entregado</span></td>
+                            <td><span class="pm-metric">+3M txns/mes</span> procesadas en red ATM</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="pm-project-name">Fusión BICE — Security</div>
+                                <div class="pm-project-client">Banco BICE Chile</div>
+                            </td>
+                            <td><span class="pm-badge pm-badge-national">Nacional Chile</span></td>
+                            <td>Project Manager</td>
+                            <td>Solutions Architect &amp; Lead</td>
+                            <td><span class="pm-status-success">&#10003; Entregado</span></td>
+                            <td><span class="pm-metric">2 bancos</span> unificados en una sola plataforma</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="pm-project-name">Tarjeta Prepago</div>
+                                <div class="pm-project-client">Banco Pichincha</div>
+                            </td>
+                            <td><span class="pm-badge pm-badge-national">Nacional Ecuador</span></td>
+                            <td>Project Manager</td>
+                            <td>Technical Lead &amp; Sr. Developer</td>
+                            <td><span class="pm-status-success">&#10003; Entregado</span></td>
+                            <td><span class="pm-metric">+500K clientes</span> con acceso a canales ATM/CNB</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="pm-project-name">Remesas MoneyGram</div>
+                                <div class="pm-project-client">Banco Pichincha / MoneyGram</div>
+                            </td>
+                            <td><span class="pm-badge pm-badge-international">Internacional Ecuador — USA</span></td>
+                            <td>Project Manager</td>
+                            <td>Technical Lead &amp; Sr. Developer</td>
+                            <td><span class="pm-status-success">&#10003; Entregado</span></td>
+                            <td><span class="pm-metric">+200K remesas/año</span> en tiempo real</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="pm-project-name">Módulo Autenticación &amp; Seguridad</div>
+                                <div class="pm-project-client">Grupo Banco Davivienda</div>
+                            </td>
+                            <td><span class="pm-badge pm-badge-international">Internacional Colombia — Panamá</span></td>
+                            <td>Project Manager</td>
+                            <td>Senior Developer</td>
+                            <td><span class="pm-status-success">&#10003; Entregado</span></td>
+                            <td><span class="pm-metric">+1M usuarios</span> con MFA y seguridad RSA</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="pm-project-name">Modernización Core Bancario</div>
+                                <div class="pm-project-client">Banco Pichincha</div>
+                            </td>
+                            <td><span class="pm-badge pm-badge-international">Internacional Ecuador — España</span></td>
+                            <td>Project Manager</td>
+                            <td>Technical Lead &amp; Sr. Developer</td>
+                            <td><span class="pm-status-success">&#10003; Entregado</span></td>
+                            <td><span class="pm-metric">4 años</span>, +10 módulos migración SOA completa</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pm-summary">
+                <div class="pm-summary-item">
+                    <div class="pm-summary-number">+50</div>
+                    <div class="pm-summary-label">Proyectos entregados</div>
+                </div>
+                <div class="pm-summary-item">
+                    <div class="pm-summary-number">100%</div>
+                    <div class="pm-summary-label">Tasa de éxito</div>
+                </div>
+                <div class="pm-summary-item">
+                    <div class="pm-summary-number">5</div>
+                    <div class="pm-summary-label">Países impactados</div>
+                </div>
+                <div class="pm-summary-item">
+                    <div class="pm-summary-number">+15</div>
+                    <div class="pm-summary-label">Años de experiencia</div>
+                </div>
             </div>
         </div>
     </div>
@@ -957,6 +1167,8 @@ document.addEventListener('DOMContentLoaded', function() {
         { btnId: 'validacion-btn',   modalId: 'validacion-modal' },
         { btnId: 'enrutamiento-btn', modalId: 'enrutamiento-modal' },
         { btnId: 'autorizacion-btn', modalId: 'autorizacion-modal' },
+        { btnId: 'proyectos-btn',    modalId: 'proyectos-modal' },
+        { btnId: 'costos-btn',       modalId: 'costos-modal' },
         { btnId: 'journal-btn',      modalId: 'journal-modal' },
         { btnId: 'contact-btn-modal',modalId: 'contact-modal' },
         { btnId: 'prices-btn',       modalId: 'prices-modal' }
@@ -989,6 +1201,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         expertosModal.addEventListener('click', function(e) {
             if (e.target === expertosModal) expertosModal.style.display = 'none';
+        });
+    }
+
+    var tarifaContactBtn = document.getElementById('tarifa-contact-btn');
+    if (tarifaContactBtn) {
+        tarifaContactBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeModal('costos-modal');
+            setTimeout(function() { openModal('contact-modal'); }, 200);
         });
     }
 
