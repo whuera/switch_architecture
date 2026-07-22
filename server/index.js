@@ -123,6 +123,16 @@ app.get('/', (req, res) => {
   }
 });
 
+// Ruta: Entrevista Virtual
+app.get('/interview', async (req, res) => {
+  try {
+    await res.render('interview');
+  } catch (error) {
+    console.error('Error en /interview:', error.message);
+    res.status(500).send('Error al cargar la página: ' + error.message);
+  }
+});
+
 // Ruta: Componentes
 app.get('/componentes', (req, res) => {
   try {
