@@ -1343,12 +1343,23 @@ document.addEventListener('DOMContentLoaded', function() {
         return div;
     }
 
+    function addTyping() {
+        var div = document.createElement('div');
+        div.className = 'chat-msg typing';
+        div.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return div;
+    }
+
     async function sendMessage() {
         var text = chatInput.value.trim();
         if (!text) return;
         addMsg(text, 'user');
         chatInput.value = '';
-        var typing = addMsg('...', 'assistant');
+        chatInput.disabled = true;
+        sendChat.disabled = true;
+        var typing = addTyping();
         try {
             var res = await fetch('https://whuera.app.n8n.cloud/webhook/rag-query', {
                 method: 'POST',
@@ -1365,6 +1376,10 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (err) {
             if (typing.parentNode) chatMessages.removeChild(typing);
             addMsg('Error de conexion. Verifica que el servicio este activo.', 'error');
+        } finally {
+            chatInput.disabled = false;
+            sendChat.disabled = false;
+            chatInput.focus();
         }
     }
 
