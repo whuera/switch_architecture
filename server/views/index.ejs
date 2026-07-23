@@ -968,9 +968,12 @@
         <button class="modal-close" id="close-chatbot">&#10005;</button>
         <div class="chat-header">
             <div class="chat-avatar">&#129302;</div>
-            <div>
+            <div style="flex:1;">
                 <h3>Asistente Virtual</h3>
                 <p>IA experta en ACI BASE24-eps &amp; UPF</p>
+            </div>
+            <div id="ia-query-counter" style="display:none;font-size:11px;color:#8b949e;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:3px 10px;white-space:nowrap;">
+                <span id="ia-queries-remaining">3</span>/3 consultas
             </div>
         </div>
         <div id="chat-messages" class="chat-messages">
@@ -984,6 +987,133 @@
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
             </button>
         </div>
+    </div>
+</div>
+
+<!-- ===== IA LEAD GATE OVERLAYS ===== -->
+<style>
+.ia-overlay {
+    position: fixed; inset: 0; z-index: 9000;
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+    background: rgba(10,14,20,0.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.ia-overlay.ia-hidden { display: none; }
+.ia-gate-card {
+    position: relative; width: 100%; max-width: 420px;
+    background: rgba(22,27,34,0.99); border: 1px solid rgba(99,102,241,0.3); border-radius: 20px;
+    padding: 32px 28px; box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+}
+.ia-gate-card .ia-free-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25); border-radius: 100px;
+    padding: 3px 10px; font-size: 11px; font-weight: 700; color: #22c55e; margin-bottom: 16px;
+}
+.ia-gate-card h2 { font-size: 18px; font-weight: 800; color: #e6edf3; margin-bottom: 6px; }
+.ia-gate-card .ia-subtitle { font-size: 13px; color: #8b949e; margin-bottom: 22px; }
+.ia-form-group { margin-bottom: 12px; }
+.ia-form-group label { display: block; font-size: 11px; font-weight: 600; color: #8b949e; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.04em; }
+.ia-form-group input { width: 100%; padding: 10px 13px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 9px; color: #e6edf3; font-size: 14px; font-family: inherit; outline: none; transition: border-color 0.2s; }
+.ia-form-group input:focus { border-color: rgba(99,102,241,0.5); }
+.ia-form-group input::placeholder { color: #484f58; }
+.ia-consent-row { display: flex; align-items: flex-start; gap: 9px; margin: 14px 0 18px; }
+.ia-consent-row input[type="checkbox"] { width: 15px; height: 15px; margin-top: 2px; flex-shrink: 0; accent-color: #6366f1; }
+.ia-consent-row label { font-size: 12px; color: #8b949e; line-height: 1.5; cursor: pointer; }
+.ia-btn-primary { width: 100%; padding: 12px; background: linear-gradient(135deg, #6366f1, #3b82f6); border: none; border-radius: 10px; color: #fff; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; font-family: inherit; }
+.ia-btn-primary:hover:not(:disabled) { opacity: 0.88; }
+.ia-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.ia-form-error { color: #f87171; font-size: 12px; margin-top: 10px; text-align: center; min-height: 18px; }
+.ia-otp-card { position: relative; width: 100%; max-width: 380px; background: rgba(22,27,34,0.99); border: 1px solid rgba(99,102,241,0.3); border-radius: 20px; padding: 32px 28px; box-shadow: 0 24px 64px rgba(0,0,0,0.6); text-align: center; }
+.ia-otp-card h2 { font-size: 18px; font-weight: 800; color: #e6edf3; margin-bottom: 8px; }
+.ia-otp-card .ia-otp-sub { font-size: 13px; color: #8b949e; margin-bottom: 24px; }
+.ia-otp-inputs { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; }
+.ia-otp-inputs input { width: 44px; height: 50px; text-align: center; font-size: 20px; font-weight: 700; font-family: 'Courier New', monospace; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 9px; color: #e6edf3; outline: none; transition: border-color 0.2s; text-transform: uppercase; }
+.ia-otp-inputs input:focus { border-color: rgba(99,102,241,0.55); }
+.ia-otp-note { font-size: 12px; color: #8b949e; margin-bottom: 18px; line-height: 1.5; }
+.ia-btn-resend { background: none; border: none; color: #6366f1; font-size: 13px; cursor: pointer; font-family: inherit; text-decoration: underline; padding: 0; }
+.ia-btn-resend:disabled { color: #484f58; cursor: not-allowed; text-decoration: none; }
+.ia-exhausted-card { width: 100%; max-width: 380px; background: rgba(22,27,34,0.99); border: 1px solid rgba(99,102,241,0.3); border-radius: 20px; padding: 36px 28px; box-shadow: 0 24px 64px rgba(0,0,0,0.6); text-align: center; }
+.ia-exhausted-card h2 { font-size: 20px; font-weight: 800; color: #e6edf3; margin-bottom: 10px; }
+.ia-exhausted-card .ia-ex-desc { font-size: 14px; color: #8b949e; line-height: 1.7; margin-bottom: 22px; }
+.ia-contact-info { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; text-align: left; }
+.ia-contact-info p { font-size: 14px; color: #e6edf3; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.ia-contact-info p:last-child { margin-bottom: 0; }
+.ia-contact-info a { color: #58a6ff; text-decoration: none; }
+.ia-cta-soft { margin-top: 8px; padding: 7px 11px; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); border-radius: 7px; font-size: 12px; color: #818cf8; }
+</style>
+
+<!-- Gate form -->
+<div id="ia-gate-overlay" class="ia-overlay ia-hidden">
+    <div class="ia-gate-card">
+        <button id="ia-gate-close" style="position:absolute;top:14px;right:14px;background:none;border:none;color:#8b949e;font-size:18px;cursor:pointer;line-height:1;padding:4px;">&#10005;</button>
+        <div class="ia-free-badge">3 consultas gratuitas</div>
+        <h2>🔒 Accede al asistente</h2>
+        <p class="ia-subtitle">Ingresa tus datos para comenzar. Sin tarjeta de crédito.</p>
+        <form id="ia-gate-form" autocomplete="off">
+            <input type="text" name="_hp" id="ia-hp" tabindex="-1" style="display:none;position:absolute;left:-9999px" autocomplete="off" />
+            <div class="ia-form-group">
+                <label for="ia-name">Nombre *</label>
+                <input type="text" id="ia-name" placeholder="Tu nombre completo" required maxlength="100" />
+            </div>
+            <div class="ia-form-group">
+                <label for="ia-email">Correo electrónico *</label>
+                <input type="email" id="ia-email" placeholder="tu@empresa.com" required maxlength="200" />
+            </div>
+            <div class="ia-form-group">
+                <label for="ia-company">Empresa</label>
+                <input type="text" id="ia-company" placeholder="Nombre de tu empresa" maxlength="100" />
+            </div>
+            <div class="ia-form-group">
+                <label for="ia-phone">Teléfono</label>
+                <input type="tel" id="ia-phone" placeholder="+56 9 ..." maxlength="30" />
+            </div>
+            <div class="ia-consent-row">
+                <input type="checkbox" id="ia-consent" />
+                <label for="ia-consent">Acepto que mis datos sean utilizados para contactarme con información sobre los servicios de consultoría.</label>
+            </div>
+            <button type="submit" class="ia-btn-primary" id="ia-gate-submit">Continuar →</button>
+            <div class="ia-form-error" id="ia-gate-error"></div>
+        </form>
+    </div>
+</div>
+
+<!-- OTP verification -->
+<div id="ia-otp-overlay" class="ia-overlay ia-hidden">
+    <div class="ia-otp-card">
+        <button id="ia-otp-close" style="position:absolute;top:14px;right:14px;background:none;border:none;color:#8b949e;font-size:18px;cursor:pointer;line-height:1;padding:4px;">&#10005;</button>
+        <div style="font-size:36px;margin-bottom:14px;">📧</div>
+        <h2>Revisa tu correo</h2>
+        <p class="ia-otp-sub">Enviamos el código a <strong id="ia-otp-masked"></strong></p>
+        <div class="ia-otp-inputs" id="ia-otp-inputs">
+            <input type="text" maxlength="1" inputmode="text" class="ia-otp-digit" data-idx="0" />
+            <input type="text" maxlength="1" inputmode="text" class="ia-otp-digit" data-idx="1" />
+            <input type="text" maxlength="1" inputmode="text" class="ia-otp-digit" data-idx="2" />
+            <input type="text" maxlength="1" inputmode="text" class="ia-otp-digit" data-idx="3" />
+            <input type="text" maxlength="1" inputmode="text" class="ia-otp-digit" data-idx="4" />
+            <input type="text" maxlength="1" inputmode="text" class="ia-otp-digit" data-idx="5" />
+        </div>
+        <p class="ia-otp-note">También puedes hacer clic en el enlace que enviamos en el email.</p>
+        <button class="ia-btn-primary" id="ia-otp-verify-btn">Verificar</button>
+        <div class="ia-form-error" id="ia-otp-error"></div>
+        <div style="margin-top:14px;">
+            <button class="ia-btn-resend" id="ia-resend-btn">Reenviar código</button>
+            <span id="ia-resend-timer" style="font-size:12px;color:#484f58;display:none;"></span>
+        </div>
+    </div>
+</div>
+
+<!-- Exhausted -->
+<div id="ia-exhausted-overlay" class="ia-overlay ia-hidden">
+    <div class="ia-exhausted-card">
+        <div style="font-size:40px;margin-bottom:14px;">✨</div>
+        <h2>¡Impresionante, verdad?</h2>
+        <p class="ia-ex-desc">Has usado tus 3 consultas de demo. El asistente puede hacer mucho más con acceso completo.</p>
+        <div class="ia-contact-info">
+            <p>📧 <a href="mailto:info@mobilpymes.cl">info@mobilpymes.cl</a></p>
+            <p>📞 <a href="tel:+56985689661">+56 985689661</a></p>
+        </div>
+        <a href="mailto:info@mobilpymes.cl?subject=Interesado%20en%20el%20asistente%20virtual&body=Hola%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20los%20servicios%20de%20consultor%C3%ADa." class="ia-btn-primary" style="display:block;text-align:center;text-decoration:none;padding:12px;">
+            Hablar con nosotros →
+        </a>
     </div>
 </div>
 
@@ -1310,19 +1440,65 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ===== CHATBOT =====
-    var chatbotModal  = document.getElementById('chatbot-modal');
-    var consultameBtn = document.getElementById('consultame-btn');
-    var closeChatbot  = document.getElementById('close-chatbot');
-    var chatInput     = document.getElementById('chat-input');
-    var sendChat      = document.getElementById('send-chat');
-    var chatMessages  = document.getElementById('chat-messages');
+    var chatbotModal    = document.getElementById('chatbot-modal');
+    var consultameBtn   = document.getElementById('consultame-btn');
+    var closeChatbot    = document.getElementById('close-chatbot');
+    var chatInput       = document.getElementById('chat-input');
+    var sendChat        = document.getElementById('send-chat');
+    var chatMessages    = document.getElementById('chat-messages');
+    var iaQueryCounter  = document.getElementById('ia-query-counter');
+    var iaQueriesEl     = document.getElementById('ia-queries-remaining');
+
+    // Gate overlays
+    var iaGateOverlay     = document.getElementById('ia-gate-overlay');
+    var iaOtpOverlay      = document.getElementById('ia-otp-overlay');
+    var iaExhaustedOverlay= document.getElementById('ia-exhausted-overlay');
+    var iaGateForm        = document.getElementById('ia-gate-form');
+    var iaGateSubmit      = document.getElementById('ia-gate-submit');
+    var iaGateError       = document.getElementById('ia-gate-error');
+    var iaOtpDigits       = document.querySelectorAll('.ia-otp-digit');
+    var iaOtpVerifyBtn    = document.getElementById('ia-otp-verify-btn');
+    var iaOtpError        = document.getElementById('ia-otp-error');
+    var iaOtpMasked       = document.getElementById('ia-otp-masked');
+    var iaResendBtn       = document.getElementById('ia-resend-btn');
+    var iaResendTimer     = document.getElementById('ia-resend-timer');
+
+    var iaPendingEmail    = '';
+    var iaChatState       = 'UNVERIFIED'; // UNVERIFIED | ACTIVE | EXHAUSTED
+    var iaQueriesRemaining= 0;
+
+    function iaShowOverlay(which) {
+        iaGateOverlay.classList.add('ia-hidden');
+        iaOtpOverlay.classList.add('ia-hidden');
+        iaExhaustedOverlay.classList.add('ia-hidden');
+        if (which) document.getElementById('ia-' + which + '-overlay').classList.remove('ia-hidden');
+    }
+
+    function iaOpenChat() {
+        if (chatbotModal) chatbotModal.style.display = 'flex';
+        if (iaQueryCounter) { iaQueryCounter.style.display = ''; iaQueriesEl.textContent = iaQueriesRemaining; }
+    }
 
     if (consultameBtn) {
-        consultameBtn.addEventListener('click', function(e) {
+        consultameBtn.addEventListener('click', async function(e) {
             e.preventDefault();
-            if (chatbotModal) chatbotModal.style.display = 'flex';
+            try {
+                var res = await fetch('/api/chat/session');
+                var data = await res.json();
+                iaChatState = data.status;
+                iaQueriesRemaining = data.queriesRemaining;
+            } catch (_) { iaChatState = 'UNVERIFIED'; }
+
+            if (iaChatState === 'ACTIVE') {
+                iaOpenChat();
+            } else if (iaChatState === 'EXHAUSTED') {
+                iaShowOverlay('exhausted');
+            } else {
+                iaShowOverlay('gate');
+            }
         });
     }
+
     if (closeChatbot) {
         closeChatbot.addEventListener('click', function() {
             if (chatbotModal) chatbotModal.style.display = 'none';
@@ -1333,6 +1509,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (e.target === chatbotModal) chatbotModal.style.display = 'none';
         });
     }
+
+    var iaGateClose = document.getElementById('ia-gate-close');
+    var iaOtpClose  = document.getElementById('ia-otp-close');
+    if (iaGateClose) iaGateClose.addEventListener('click', function() { iaShowOverlay(null); });
+    if (iaOtpClose)  iaOtpClose.addEventListener('click',  function() { iaShowOverlay(null); });
 
     function addMsg(text, type) {
         var div = document.createElement('div');
@@ -1355,27 +1536,66 @@ document.addEventListener('DOMContentLoaded', function() {
     async function sendMessage() {
         var text = chatInput.value.trim();
         if (!text) return;
+        if (iaChatState === 'EXHAUSTED') { chatbotModal.style.display = 'none'; iaShowOverlay('exhausted'); return; }
+
         addMsg(text, 'user');
         chatInput.value = '';
         chatInput.disabled = true;
         sendChat.disabled = true;
         var typing = addTyping();
         try {
-            var res = await fetch('https://whuera.app.n8n.cloud/webhook/rag-query', {
+            var res = await fetch('/api/chat/query', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ query: text, chatInput: text })
+                body: JSON.stringify({ query: text })
             });
             chatMessages.removeChild(typing);
-            if (!res.ok) throw new Error('Error');
             var data = await res.json();
-            var out = Array.isArray(data)
-                ? (data[0].output || data[0].response || JSON.stringify(data[0]))
-                : (data.output || data.response || String(data));
-            addMsg(out, 'assistant');
+
+            if (data.requiresVerification) {
+                chatbotModal.style.display = 'none';
+                iaShowOverlay('gate');
+                return;
+            }
+            if (data.exhausted && !data.success) {
+                iaChatState = 'EXHAUSTED';
+                chatbotModal.style.display = 'none';
+                iaShowOverlay('exhausted');
+                return;
+            }
+            if (!data.success) {
+                addMsg(data.error || 'Error de conexión. Intenta nuevamente.', 'error');
+                return;
+            }
+
+            // Render — split soft CTA if present
+            var rawResponse = data.response || '';
+            var ctaDelimiter = '\n\n---\n';
+            var ctaIdx = rawResponse.indexOf(ctaDelimiter);
+            if (ctaIdx !== -1) {
+                var msgDiv = document.createElement('div');
+                msgDiv.className = 'chat-msg assistant';
+                msgDiv.appendChild(document.createTextNode(rawResponse.substring(0, ctaIdx)));
+                var ctaDiv = document.createElement('div');
+                ctaDiv.className = 'ia-cta-soft';
+                ctaDiv.textContent = rawResponse.substring(ctaIdx + ctaDelimiter.length);
+                msgDiv.appendChild(ctaDiv);
+                chatMessages.appendChild(msgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } else {
+                addMsg(rawResponse, 'assistant');
+            }
+
+            iaQueriesRemaining = data.queriesRemaining;
+            if (iaQueriesEl) iaQueriesEl.textContent = iaQueriesRemaining;
+
+            if (data.exhausted) {
+                iaChatState = 'EXHAUSTED';
+                setTimeout(function() { chatbotModal.style.display = 'none'; iaShowOverlay('exhausted'); }, 1200);
+            }
         } catch (err) {
             if (typing.parentNode) chatMessages.removeChild(typing);
-            addMsg('Error de conexion. Verifica que el servicio este activo.', 'error');
+            addMsg('Error de conexión. Intenta nuevamente.', 'error');
         } finally {
             chatInput.disabled = false;
             sendChat.disabled = false;
@@ -1385,6 +1605,113 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (sendChat)  sendChat.addEventListener('click', sendMessage);
     if (chatInput) chatInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') sendMessage(); });
+
+    // ===== GATE FORM =====
+    if (iaGateForm) {
+        iaGateForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            iaGateError.textContent = '';
+            iaGateSubmit.disabled = true;
+            iaGateSubmit.textContent = 'Enviando…';
+            var name    = document.getElementById('ia-name').value.trim();
+            var email   = document.getElementById('ia-email').value.trim();
+            var company = document.getElementById('ia-company').value.trim();
+            var phone   = document.getElementById('ia-phone').value.trim();
+            var consent = document.getElementById('ia-consent').checked;
+            var hp      = document.getElementById('ia-hp').value;
+            try {
+                var res = await fetch('/api/leads/register', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, company, phone, dataConsent: consent, _hp: hp })
+                });
+                var data = await res.json();
+                if (data.success) {
+                    iaPendingEmail = email;
+                    iaOtpMasked.textContent = data.maskedEmail;
+                    iaShowOverlay('otp');
+                    iaOtpDigits[0].focus();
+                    iaStartResendCooldown(60);
+                } else {
+                    iaGateError.textContent = data.error || 'Error al registrar. Intenta nuevamente.';
+                }
+            } catch (_) { iaGateError.textContent = 'Error de conexión.'; }
+            finally { iaGateSubmit.disabled = false; iaGateSubmit.textContent = 'Continuar →'; }
+        });
+    }
+
+    // ===== OTP =====
+    iaOtpDigits.forEach(function(input, idx) {
+        input.addEventListener('input', function() {
+            var val = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            input.value = val ? val[0] : '';
+            if (val && idx < iaOtpDigits.length - 1) iaOtpDigits[idx + 1].focus();
+        });
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && !input.value && idx > 0) iaOtpDigits[idx - 1].focus();
+            if (e.key === 'Enter') iaVerifyOTP();
+        });
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            var paste = (e.clipboardData || window.clipboardData).getData('text').toUpperCase().replace(/\s/g, '');
+            iaOtpDigits.forEach(function(d, i) { d.value = paste[i] || ''; });
+            iaOtpDigits[Math.min(paste.length, iaOtpDigits.length - 1)].focus();
+        });
+    });
+
+    async function iaVerifyOTP() {
+        iaOtpError.textContent = '';
+        var code = Array.from(iaOtpDigits).map(function(d) { return d.value; }).join('');
+        if (code.length < 6) { iaOtpError.textContent = 'Ingresa el código de 6 caracteres.'; return; }
+        iaOtpVerifyBtn.disabled = true; iaOtpVerifyBtn.textContent = 'Verificando…';
+        try {
+            var res = await fetch('/api/leads/verify-otp', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: iaPendingEmail, code: code })
+            });
+            var data = await res.json();
+            if (data.success) {
+                iaChatState = 'ACTIVE';
+                iaQueriesRemaining = data.queriesRemaining;
+                iaShowOverlay(null);
+                iaOpenChat();
+            } else {
+                iaOtpError.textContent = data.error || 'Código inválido o expirado.';
+                iaOtpDigits.forEach(function(d) { d.value = ''; });
+                iaOtpDigits[0].focus();
+            }
+        } catch (_) { iaOtpError.textContent = 'Error de conexión.'; }
+        finally { iaOtpVerifyBtn.disabled = false; iaOtpVerifyBtn.textContent = 'Verificar'; }
+    }
+    if (iaOtpVerifyBtn) iaOtpVerifyBtn.addEventListener('click', iaVerifyOTP);
+
+    // ===== RESEND =====
+    var iaResendInterval = null;
+    function iaStartResendCooldown(secs) {
+        iaResendBtn.disabled = true; iaResendTimer.style.display = 'inline';
+        var rem = secs;
+        iaResendTimer.textContent = ' (' + rem + 's)';
+        iaResendInterval = setInterval(function() {
+            rem--;
+            if (rem <= 0) { clearInterval(iaResendInterval); iaResendBtn.disabled = false; iaResendTimer.style.display = 'none'; }
+            else iaResendTimer.textContent = ' (' + rem + 's)';
+        }, 1000);
+    }
+    if (iaResendBtn) {
+        iaResendBtn.addEventListener('click', async function() {
+            if (!iaPendingEmail) return;
+            iaResendBtn.disabled = true;
+            try {
+                var res = await fetch('/api/leads/resend-code', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: iaPendingEmail })
+                });
+                var data = await res.json();
+                if (data.success) { iaStartResendCooldown(60); iaOtpError.textContent = ''; }
+                else if (data.waitSeconds) { iaStartResendCooldown(data.waitSeconds); }
+                else { iaOtpError.textContent = data.error || 'No se pudo reenviar.'; iaResendBtn.disabled = false; }
+            } catch (_) { iaOtpError.textContent = 'Error de conexión.'; iaResendBtn.disabled = false; }
+        });
+    }
 
     // ===== CONTACT FORM =====
     var contactForm = document.getElementById('contact-form');

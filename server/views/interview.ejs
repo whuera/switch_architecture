@@ -201,6 +201,20 @@
       margin-top: 1px;
     }
 
+    /* ===== QUERY COUNTER ===== */
+    .query-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 4px 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+    }
+    .query-counter strong { color: var(--text); }
+
     /* ===== SUGGESTED QUESTIONS ===== */
     .suggested-wrap {
       width: 100%;
@@ -294,16 +308,6 @@
       background: #22c55e;
     }
 
-    .chat-topbar-powered {
-      font-size: 10px;
-      color: var(--subtle);
-      text-align: right;
-    }
-    .chat-topbar-powered span {
-      color: var(--primary);
-      font-weight: 600;
-    }
-
     .chat-messages {
       flex: 1;
       overflow-y: auto;
@@ -366,6 +370,16 @@
       30%            { transform: translateY(-6px); opacity: 1; }
     }
 
+    .cta-soft {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: rgba(99,102,241,0.08);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 8px;
+      font-size: 12px;
+      color: #818cf8;
+    }
+
     .chat-input-area {
       display: flex;
       gap: 10px;
@@ -407,6 +421,270 @@
     .chat-send:hover:not(:disabled) { opacity: 0.88; transform: scale(1.04); }
     .chat-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
+    /* ===== OVERLAY BASE ===== */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(13,17,23,0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .overlay.hidden { display: none; }
+
+    /* ===== GATE CARD ===== */
+    .gate-card {
+      width: 100%;
+      max-width: 440px;
+      background: rgba(22,27,34,0.98);
+      border: 1px solid rgba(99,102,241,0.25);
+      border-radius: 20px;
+      padding: 36px 32px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+
+    .gate-card h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .gate-card .subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .gate-card .free-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 100px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #22c55e;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 11px 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus { border-color: rgba(99,102,241,0.5); }
+    .form-group input::placeholder { color: var(--subtle); }
+
+    .consent-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 18px 0 22px;
+    }
+    .consent-row input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      margin-top: 2px;
+      flex-shrink: 0;
+      accent-color: var(--primary);
+    }
+    .consent-row label {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      font-family: inherit;
+    }
+    .btn-primary:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .form-error {
+      color: #f87171;
+      font-size: 12px;
+      margin-top: 12px;
+      text-align: center;
+      min-height: 18px;
+    }
+
+    /* ===== OTP SCREEN ===== */
+    .otp-card {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(22,27,34,0.98);
+      border: 1px solid rgba(99,102,241,0.25);
+      border-radius: 20px;
+      padding: 36px 32px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+
+    .otp-card .otp-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+    .otp-card h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .otp-card .otp-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+    .otp-card .otp-subtitle strong { color: var(--text); }
+
+    .otp-inputs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .otp-inputs input {
+      width: 46px;
+      height: 52px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+      font-family: 'Courier New', monospace;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      text-transform: uppercase;
+    }
+    .otp-inputs input:focus {
+      border-color: rgba(99,102,241,0.6);
+      background: rgba(99,102,241,0.06);
+    }
+
+    .otp-card .otp-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .btn-resend {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 13px;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: underline;
+      padding: 0;
+    }
+    .btn-resend:disabled { color: var(--subtle); cursor: not-allowed; text-decoration: none; }
+
+    /* ===== EXHAUSTED MODAL ===== */
+    .exhausted-card {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(22,27,34,0.98);
+      border: 1px solid rgba(99,102,241,0.25);
+      border-radius: 20px;
+      padding: 40px 32px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+
+    .exhausted-card .ex-icon { font-size: 44px; margin-bottom: 16px; }
+    .exhausted-card h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .exhausted-card .ex-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .contact-info {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+    .contact-info p {
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .contact-info p:last-child { margin-bottom: 0; }
+    .contact-info a { color: #58a6ff; text-decoration: none; }
+    .contact-info a:hover { color: #818cf8; }
+
+    .btn-cta {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      font-family: inherit;
+      transition: opacity 0.2s, transform 0.15s;
+      text-align: center;
+    }
+    .btn-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
     /* ===== FOOTER ===== */
     .footer {
       margin-top: 48px;
@@ -425,12 +703,98 @@
       .intro-card { padding: 20px; }
       .chat-window { height: 460px; }
       .suggested-pill { font-size: 11px; padding: 6px 12px; }
+      .gate-card, .otp-card, .exhausted-card { padding: 28px 20px; }
+      .otp-inputs input { width: 40px; height: 46px; font-size: 18px; }
     }
   </style>
 </head>
 <body>
 
 <canvas id="bg-canvas"></canvas>
+
+<!-- ===== OVERLAY 1: LEAD GATE ===== -->
+<div id="overlay-gate" class="overlay<%= pageState !== 'GATE' ? ' hidden' : '' %>">
+  <div class="gate-card">
+    <div class="free-badge">3 consultas gratuitas</div>
+    <h2>🔒 Accede al asistente</h2>
+    <p class="subtitle">Ingresa tus datos para comenzar. Sin tarjeta de crédito.</p>
+
+    <form id="gate-form" autocomplete="off">
+      <input type="text" name="_hp" id="_hp" tabindex="-1" style="display:none;position:absolute;left:-9999px" autocomplete="off" />
+
+      <div class="form-group">
+        <label for="g-name">Nombre *</label>
+        <input type="text" id="g-name" name="name" placeholder="Tu nombre completo" required maxlength="100" />
+      </div>
+      <div class="form-group">
+        <label for="g-email">Correo electrónico *</label>
+        <input type="email" id="g-email" name="email" placeholder="tu@empresa.com" required maxlength="200" />
+      </div>
+      <div class="form-group">
+        <label for="g-company">Empresa</label>
+        <input type="text" id="g-company" name="company" placeholder="Nombre de tu empresa" maxlength="100" />
+      </div>
+      <div class="form-group">
+        <label for="g-phone">Teléfono</label>
+        <input type="tel" id="g-phone" name="phone" placeholder="+56 9 ..." maxlength="30" />
+      </div>
+
+      <div class="consent-row">
+        <input type="checkbox" id="g-consent" name="dataConsent" />
+        <label for="g-consent">Acepto que mis datos sean utilizados para contactarme con información relevante sobre los servicios de consultoría. <a href="mailto:info@mobilpymes.cl" style="color:#818cf8">Política de datos</a></label>
+      </div>
+
+      <button type="submit" class="btn-primary" id="gate-submit">Continuar →</button>
+      <div class="form-error" id="gate-error"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== OVERLAY 2: OTP VERIFICATION ===== -->
+<div id="overlay-otp" class="overlay hidden">
+  <div class="otp-card">
+    <div class="otp-icon">📧</div>
+    <h2>Revisa tu correo</h2>
+    <p class="otp-subtitle">Enviamos el código a <strong id="otp-masked-email"></strong></p>
+
+    <div class="otp-inputs" id="otp-inputs">
+      <input type="text" maxlength="1" inputmode="text" class="otp-digit" data-idx="0" />
+      <input type="text" maxlength="1" inputmode="text" class="otp-digit" data-idx="1" />
+      <input type="text" maxlength="1" inputmode="text" class="otp-digit" data-idx="2" />
+      <input type="text" maxlength="1" inputmode="text" class="otp-digit" data-idx="3" />
+      <input type="text" maxlength="1" inputmode="text" class="otp-digit" data-idx="4" />
+      <input type="text" maxlength="1" inputmode="text" class="otp-digit" data-idx="5" />
+    </div>
+
+    <p class="otp-note">También puedes hacer clic en el enlace que enviamos en el email.</p>
+
+    <button class="btn-primary" id="otp-verify-btn">Verificar</button>
+    <div class="form-error" id="otp-error"></div>
+
+    <div style="margin-top:16px;">
+      <button class="btn-resend" id="resend-btn">Reenviar código</button>
+      <span id="resend-timer" style="font-size:12px;color:var(--subtle);display:none;"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== OVERLAY 3: EXHAUSTED MODAL ===== -->
+<div id="overlay-exhausted" class="overlay<%= pageState === 'EXHAUSTED' ? '' : ' hidden' %>">
+  <div class="exhausted-card">
+    <div class="ex-icon">✨</div>
+    <h2>¡Impresionante, verdad?</h2>
+    <p class="ex-desc">Has usado tus 3 consultas de demo. El asistente puede hacer mucho más con acceso completo a toda la experiencia de William.</p>
+
+    <div class="contact-info">
+      <p>📧 <a href="mailto:info@mobilpymes.cl">info@mobilpymes.cl</a></p>
+      <p>📞 <a href="tel:+56985689661">+56 985689661</a></p>
+    </div>
+
+    <a href="mailto:info@mobilpymes.cl?subject=Interesado%20en%20el%20asistente%20virtual&body=Hola%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20los%20servicios%20de%20consultor%C3%ADa." class="btn-cta">
+      Hablar con nosotros →
+    </a>
+  </div>
+</div>
 
 <div class="page">
 
@@ -504,6 +868,11 @@
         <div class="chat-topbar-name">Asistente de Entrevista — William Huera</div>
         <div class="chat-topbar-status">En línea · listo para responder</div>
       </div>
+      <% if (pageState === 'ACTIVE') { %>
+      <div class="query-counter" id="query-counter">
+        Consultas: <strong id="queries-remaining"><%= queriesRemaining %></strong> / 3
+      </div>
+      <% } %>
     </div>
 
     <div id="chat-messages" class="chat-messages">
@@ -600,18 +969,55 @@
 })();
 </script>
 
-<!-- CHAT LOGIC -->
+<!-- LEAD GATE & CHAT LOGIC -->
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 
-var chatMessages = document.getElementById('chat-messages');
-var chatInput    = document.getElementById('chat-input');
-var sendChat     = document.getElementById('send-chat');
+// ===== STATE =====
+var pageState = '<%- pageState %>';
+var queriesRemaining = <%- queriesRemaining %>;
+var pendingEmail = '';
+
+// ===== DOM REFS =====
+var overlayGate      = document.getElementById('overlay-gate');
+var overlayOtp       = document.getElementById('overlay-otp');
+var overlayExhausted = document.getElementById('overlay-exhausted');
+var gateForm         = document.getElementById('gate-form');
+var gateSubmit       = document.getElementById('gate-submit');
+var gateError        = document.getElementById('gate-error');
+var otpInputs        = document.querySelectorAll('.otp-digit');
+var otpVerifyBtn     = document.getElementById('otp-verify-btn');
+var otpError         = document.getElementById('otp-error');
+var otpMaskedEmail   = document.getElementById('otp-masked-email');
+var resendBtn        = document.getElementById('resend-btn');
+var resendTimer      = document.getElementById('resend-timer');
+var chatMessages     = document.getElementById('chat-messages');
+var chatInput        = document.getElementById('chat-input');
+var sendChat         = document.getElementById('send-chat');
+var queriesEl        = document.getElementById('queries-remaining');
+var queryCounter     = document.getElementById('query-counter');
+
+// ===== HELPERS =====
+function showOverlay(which) {
+  overlayGate.classList.add('hidden');
+  overlayOtp.classList.add('hidden');
+  overlayExhausted.classList.add('hidden');
+  if (which) document.getElementById('overlay-' + which).classList.remove('hidden');
+}
 
 function addMsg(text, type) {
   var div = document.createElement('div');
   div.className = 'chat-msg ' + type;
   div.textContent = text;
+  chatMessages.appendChild(div);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  return div;
+}
+
+function addMsgHTML(html, type) {
+  var div = document.createElement('div');
+  div.className = 'chat-msg ' + type;
+  div.innerHTML = html;
   chatMessages.appendChild(div);
   chatMessages.scrollTop = chatMessages.scrollHeight;
   return div;
@@ -626,27 +1032,223 @@ function addTyping() {
   return div;
 }
 
+// ===== GATE FORM =====
+gateForm.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  gateError.textContent = '';
+  gateSubmit.disabled = true;
+  gateSubmit.textContent = 'Enviando…';
+
+  var name    = document.getElementById('g-name').value.trim();
+  var email   = document.getElementById('g-email').value.trim();
+  var company = document.getElementById('g-company').value.trim();
+  var phone   = document.getElementById('g-phone').value.trim();
+  var consent = document.getElementById('g-consent').checked;
+  var hp      = document.getElementById('_hp').value;
+
+  try {
+    var res = await fetch('/api/leads/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, company, phone, dataConsent: consent, _hp: hp })
+    });
+    var data = await res.json();
+    if (data.success) {
+      pendingEmail = email;
+      otpMaskedEmail.textContent = data.maskedEmail;
+      showOverlay('otp');
+      otpInputs[0].focus();
+      startResendCooldown(60);
+    } else {
+      gateError.textContent = data.error || 'Error al registrar. Intenta nuevamente.';
+    }
+  } catch (err) {
+    gateError.textContent = 'Error de conexión. Intenta nuevamente.';
+  } finally {
+    gateSubmit.disabled = false;
+    gateSubmit.textContent = 'Continuar →';
+  }
+});
+
+// ===== OTP INPUTS =====
+otpInputs.forEach(function(input, idx) {
+  input.addEventListener('input', function() {
+    var val = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    input.value = val ? val[0] : '';
+    if (val && idx < otpInputs.length - 1) otpInputs[idx + 1].focus();
+  });
+
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Backspace' && !input.value && idx > 0) {
+      otpInputs[idx - 1].focus();
+    }
+    if (e.key === 'Enter') verifyOTP();
+  });
+
+  // Handle paste on any digit
+  input.addEventListener('paste', function(e) {
+    e.preventDefault();
+    var paste = (e.clipboardData || window.clipboardData).getData('text').toUpperCase().replace(/\s/g, '');
+    for (var i = 0; i < otpInputs.length; i++) {
+      otpInputs[i].value = paste[i] || '';
+    }
+    otpInputs[Math.min(paste.length, otpInputs.length - 1)].focus();
+  });
+});
+
+async function verifyOTP() {
+  otpError.textContent = '';
+  var code = Array.from(otpInputs).map(function(i) { return i.value; }).join('');
+  if (code.length < 6) {
+    otpError.textContent = 'Ingresa el código de 6 caracteres.';
+    return;
+  }
+  otpVerifyBtn.disabled = true;
+  otpVerifyBtn.textContent = 'Verificando…';
+
+  try {
+    var res = await fetch('/api/leads/verify-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: pendingEmail, code: code })
+    });
+    var data = await res.json();
+    if (data.success) {
+      queriesRemaining = data.queriesRemaining;
+      pageState = 'ACTIVE';
+      showOverlay(null);
+      if (queriesEl) queriesEl.textContent = queriesRemaining;
+      if (queryCounter) queryCounter.style.display = '';
+    } else {
+      otpError.textContent = data.error || 'Código inválido o expirado.';
+      otpInputs.forEach(function(i) { i.value = ''; });
+      otpInputs[0].focus();
+    }
+  } catch (err) {
+    otpError.textContent = 'Error de conexión. Intenta nuevamente.';
+  } finally {
+    otpVerifyBtn.disabled = false;
+    otpVerifyBtn.textContent = 'Verificar';
+  }
+}
+
+otpVerifyBtn.addEventListener('click', verifyOTP);
+
+// ===== RESEND =====
+var resendCooldownInterval = null;
+
+function startResendCooldown(seconds) {
+  resendBtn.disabled = true;
+  resendTimer.style.display = 'inline';
+  var remaining = seconds;
+  resendTimer.textContent = ' (' + remaining + 's)';
+  resendCooldownInterval = setInterval(function() {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(resendCooldownInterval);
+      resendBtn.disabled = false;
+      resendTimer.style.display = 'none';
+    } else {
+      resendTimer.textContent = ' (' + remaining + 's)';
+    }
+  }, 1000);
+}
+
+resendBtn.addEventListener('click', async function() {
+  if (!pendingEmail) return;
+  resendBtn.disabled = true;
+  try {
+    var res = await fetch('/api/leads/resend-code', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: pendingEmail })
+    });
+    var data = await res.json();
+    if (data.success) {
+      startResendCooldown(60);
+      otpError.textContent = '';
+    } else if (data.waitSeconds) {
+      startResendCooldown(data.waitSeconds);
+    } else {
+      otpError.textContent = data.error || 'No se pudo reenviar.';
+      resendBtn.disabled = false;
+    }
+  } catch (err) {
+    otpError.textContent = 'Error de conexión.';
+    resendBtn.disabled = false;
+  }
+});
+
+// ===== CHAT =====
 async function sendMessage() {
+  if (pageState === 'GATE') { showOverlay('gate'); return; }
+  if (pageState === 'EXHAUSTED') { showOverlay('exhausted'); return; }
+
   var text = chatInput.value.trim();
   if (!text) return;
+
   addMsg(text, 'user');
   chatInput.value = '';
   chatInput.disabled = true;
   sendChat.disabled  = true;
   var typing = addTyping();
+
   try {
-    var res = await fetch('https://whuera.app.n8n.cloud/webhook/rag-query', {
-      method:  'POST',
+    var res = await fetch('/api/chat/query', {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ query: text, chatInput: text })
+      body: JSON.stringify({ query: text })
     });
     chatMessages.removeChild(typing);
-    if (!res.ok) throw new Error('Error');
+
     var data = await res.json();
-    var out = Array.isArray(data)
-      ? (data[0].output || data[0].response || JSON.stringify(data[0]))
-      : (data.output || data.response || String(data));
-    addMsg(out, 'assistant');
+
+    if (data.requiresVerification) {
+      showOverlay('gate');
+      return;
+    }
+
+    if (data.exhausted && !data.success) {
+      pageState = 'EXHAUSTED';
+      showOverlay('exhausted');
+      return;
+    }
+
+    if (!data.success) {
+      addMsg(data.error || 'Error de conexión.', 'error');
+      return;
+    }
+
+    // Render response — split off soft CTA if present
+    var rawResponse = data.response || '';
+    var ctaDelimiter = '\n\n---\n';
+    var ctaIdx = rawResponse.indexOf(ctaDelimiter);
+    if (ctaIdx !== -1) {
+      var mainText = rawResponse.substring(0, ctaIdx);
+      var ctaText  = rawResponse.substring(ctaIdx + ctaDelimiter.length);
+      var msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-msg assistant';
+      var pre = document.createTextNode(mainText);
+      msgDiv.appendChild(pre);
+      var ctaDiv = document.createElement('div');
+      ctaDiv.className = 'cta-soft';
+      ctaDiv.textContent = ctaText;
+      msgDiv.appendChild(ctaDiv);
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    } else {
+      addMsg(rawResponse, 'assistant');
+    }
+
+    // Update counter
+    queriesRemaining = data.queriesRemaining;
+    if (queriesEl) queriesEl.textContent = queriesRemaining;
+
+    if (data.exhausted) {
+      pageState = 'EXHAUSTED';
+      setTimeout(function() { showOverlay('exhausted'); }, 1200);
+    }
+
   } catch (err) {
     if (typing.parentNode) chatMessages.removeChild(typing);
     addMsg('Error de conexión. Por favor intenta nuevamente.', 'error');
@@ -663,11 +1265,18 @@ chatInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') send
 // Suggested pills
 document.querySelectorAll('.suggested-pill').forEach(function(pill) {
   pill.addEventListener('click', function() {
+    if (pageState === 'GATE') { showOverlay('gate'); return; }
+    if (pageState === 'EXHAUSTED') { showOverlay('exhausted'); return; }
     chatInput.value = pill.textContent;
     chatInput.focus();
     sendMessage();
   });
 });
+
+// Show exhausted state on load if already exhausted
+if (pageState === 'EXHAUSTED') {
+  showOverlay('exhausted');
+}
 </script>
 
 </body>

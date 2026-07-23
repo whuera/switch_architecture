@@ -3,9 +3,14 @@ const express = require('express');
 const path = require('path');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const cookieParser = require('cookie-parser');
 
 const { Resend } = require('resend');
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+const { initDB, pool } = require('./db');
+const leadsRouter = require('./routes/leads');
+const chatRouter = require('./routes/chat');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,7 +22,7 @@ app.use(helmet({
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.jsdelivr.net", "https://vercel.live"],
       styleSrc: ["'self'", "'unsafe-inline'"],
-      connectSrc: ["'self'", "https://azure-app-shopping-cart-reload-225fb76523b0.herokuapp.com", "http://localhost:3000", "https://vercel.live", "https://whuera.app.n8n.cloud"],
+      connectSrc: ["'self'", "https://azure-app-shopping-cart-reload-225fb76523b0.herokuapp.com", "http://localhost:3000", "https://vercel.live"],
       imgSrc: ["'self'", "data:", "https:*"],
       fontSrc: ["'self'", "https:", "data:"],
       objectSrc: ["'self'", "blob:"],
@@ -36,6 +41,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Middleware
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
@@ -123,10 +129,31 @@ app.get('/', (req, res) => {
   }
 });
 
+// Rutas API
+app.use('/api/leads', leadsRouter);
+app.use('/api/chat', chatRouter);
+
 // Ruta: Entrevista Virtual
 app.get('/interview', async (req, res) => {
   try {
-    await res.render('interview');
+    const token = req.cookies && req.cookies.demo_session;
+    let pageState = 'GATE';
+    let queriesRemaining = 0;
+
+    if (token) {
+      const result = await pool.query(
+        `SELECT query_count, max_queries, status FROM demo_sessions
+         WHERE session_token = $1 LIMIT 1`,
+        [token]
+      );
+      if (result.rows.length) {
+        const s = result.rows[0];
+        queriesRemaining = Math.max(0, s.max_queries - s.query_count);
+        pageState = s.status === 'EXHAUSTED' ? 'EXHAUSTED' : 'ACTIVE';
+      }
+    }
+
+    await res.render('interview', { pageState, queriesRemaining });
   } catch (error) {
     console.error('Error en /interview:', error.message);
     res.status(500).send('Error al cargar la página: ' + error.message);
@@ -335,6 +362,15 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ Servidor ejecutándose en http://localhost:${PORT}`);
-});
+async function startServer() {
+  if (process.env.DATABASE_URL) {
+    await initDB().catch(err => console.error('⚠️  DB init error:', err.message));
+  } else {
+    console.warn('⚠️  DATABASE_URL no configurado — omitiendo initDB()');
+  }
+  app.listen(PORT, () => {
+    console.log(`✅ Servidor ejecutándose en http://localhost:${PORT}`);
+  });
+}
+
+startServer();
