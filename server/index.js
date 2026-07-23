@@ -27,6 +27,7 @@ app.use(helmet({
       fontSrc: ["'self'", "https:", "data:"],
       objectSrc: ["'self'", "blob:"],
       frameSrc: ["'self'", "blob:"],
+      frameAncestors: ["'self'", "https://whuera.github.io"],
       upgradeInsecureRequests: [],
     }
   }
