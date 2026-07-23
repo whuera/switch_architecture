@@ -30,7 +30,8 @@ app.use(helmet({
       frameAncestors: ["'self'", "https://whuera.github.io"],
       upgradeInsecureRequests: [],
     }
-  }
+  },
+  frameguard: false
 }));
 
 // ✅ SEGURIDAD: Rate limiting
