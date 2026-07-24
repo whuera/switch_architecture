@@ -264,23 +264,35 @@ app.get('/docs/:filename', (req, res) => {
 // API: Enviar correo de contacto
 app.post('/api/contact', async (req, res) => {
   try {
-    const { name, email, documentId, phone, comment } = req.body;
+    const { name, email, documentId, phone, comment, source } = req.body;
 
     if (!name || !email || !comment) {
       return res.status(400).json({ success: false, error: 'Campos requeridos: nombre, correo y comentario' });
     }
 
-    // 1. Notificación interna a info@mobilpymes.cl
+    const isFormacion = source === 'formacion';
+    const firstName = sanitizeString(name).split(' ')[0];
+
+    // ── Email interno ──────────────────────────────────────────────────────────
+    const internalTo = isFormacion ? 'contactenos@mobilpymes.cl' : 'info@mobilpymes.cl';
+    const internalSubject = isFormacion
+      ? `🎓 Solicitud de Formación — ${sanitizeString(name)}`
+      : `Nuevo contacto: ${sanitizeString(name)}`;
+    const internalBadge = isFormacion
+      ? '<span style="display:inline-block;background:#6366f1;color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:12px;letter-spacing:0.05em;">INTERÉS EN PROGRAMAS DE FORMACIÓN</span>'
+      : '';
+
     await resend.emails.send({
       from: 'B24-eps & UPF Consulting <info@mobilpymes.cl>',
-      to: 'info@mobilpymes.cl',
-      subject: `Nuevo contacto: ${sanitizeString(name)}`,
+      to: internalTo,
+      subject: internalSubject,
       html: `
         <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;background:#0d1117;color:#c9d1d9;border-radius:12px;overflow:hidden;border:1px solid #21262d;">
           <div style="background:linear-gradient(135deg,#1a1f2e,#0d1117);padding:28px 32px;border-bottom:1px solid #21262d;">
-            <h2 style="margin:0;color:#58a6ff;font-size:20px;">Nuevo Mensaje de Contacto</h2>
+            <h2 style="margin:0;color:#58a6ff;font-size:20px;">${isFormacion ? '🎓 Solicitud de Programa de Formación' : 'Nuevo Mensaje de Contacto'}</h2>
           </div>
           <div style="padding:28px 32px;">
+            ${internalBadge}
             <table style="width:100%;border-collapse:collapse;">
               <tr><td style="padding:10px 0;color:#8b949e;font-weight:600;width:140px;">Nombre</td><td style="padding:10px 0;color:#e6edf3;">${sanitizeString(name)}</td></tr>
               <tr><td style="padding:10px 0;color:#8b949e;font-weight:600;">Correo</td><td style="padding:10px 0;"><a href="mailto:${sanitizeString(email)}" style="color:#58a6ff;text-decoration:none;">${sanitizeString(email)}</a></td></tr>
@@ -288,43 +300,77 @@ app.post('/api/contact', async (req, res) => {
               <tr><td style="padding:10px 0;color:#8b949e;font-weight:600;">Teléfono</td><td style="padding:10px 0;color:#e6edf3;">${sanitizeString(phone || 'No proporcionado')}</td></tr>
             </table>
             <div style="margin-top:20px;padding:16px;background:rgba(255,255,255,0.03);border:1px solid #21262d;border-radius:8px;">
-              <p style="margin:0 0 8px;color:#8b949e;font-weight:600;font-size:13px;">COMENTARIO</p>
+              <p style="margin:0 0 8px;color:#8b949e;font-weight:600;font-size:13px;">${isFormacion ? 'ÁREA DE INTERÉS / MENSAJE' : 'COMENTARIO'}</p>
               <p style="margin:0;color:#e6edf3;line-height:1.6;">${sanitizeString(comment)}</p>
             </div>
+            ${isFormacion ? `
+            <div style="margin-top:20px;padding:14px 16px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.3);border-radius:8px;">
+              <p style="margin:0;color:#a5b4fc;font-size:13px;line-height:1.5;">⚡ <strong>Acción requerida:</strong> Este cliente potencial ha expresado interés en los programas de formación. Se recomienda contactarlo dentro de las próximas <strong>24 horas</strong> para presentar la oferta formativa y agendar una reunión.</p>
+            </div>` : ''}
           </div>
         </div>
       `
     });
 
-    // 2. Respuesta automática al remitente
-    const firstName = sanitizeString(name).split(' ')[0];
+    // ── Email al cliente ───────────────────────────────────────────────────────
+    const clientSubject = isFormacion
+      ? 'Su solicitud de formación fue recibida — B24-eps & UPF Consulting'
+      : 'Gracias por contactarnos — B24-eps & UPF Consulting';
+
+    const clientBody = isFormacion ? `
+      <p style="font-size:16px;color:#1a1a2e;margin:0 0 16px;">Estimado/a <strong>${firstName}</strong>,</p>
+      <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 16px;">
+        Es un placer para nosotros saber de su interés en nuestros <strong>Programas de Formación Especializada</strong>. En B24-eps &amp; UPF Consulting, creemos firmemente que el conocimiento técnico de calidad es el activo más valioso en la industria de medios de pago.
+      </p>
+      <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 16px;">
+        Hemos recibido su solicitud satisfactoriamente y uno de nuestros especialistas se pondrá en contacto con usted dentro de las próximas <strong>24 horas hábiles</strong> para presentarle en detalle nuestra oferta formativa, adaptada a sus objetivos y al nivel de su equipo.
+      </p>
+      <div style="margin:24px 0;padding:20px;background:#f5f3ff;border-left:4px solid #6366f1;border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 10px;font-size:13px;color:#4338ca;font-weight:700;">NUESTROS PROGRAMAS</p>
+        <ul style="margin:0;padding-left:18px;font-size:13px;color:#4a4a6a;line-height:1.9;">
+          <li><strong style="color:#1a1a2e;">ACI BASE24-eps</strong> — Arquitectura, módulos de autorización, enrutamiento y canales transaccionales</li>
+          <li><strong style="color:#1a1a2e;">UPF (Universal Payments Framework)</strong> — Diseño de flujos de pago modernos e integración con redes internacionales</li>
+          <li><strong style="color:#1a1a2e;">Java &amp; Spring Boot</strong> — Microservicios, APIs REST y patrones de integración en fintech</li>
+          <li><strong style="color:#1a1a2e;">Python</strong> — Automatización, scripting y procesamiento de datos transaccionales</li>
+          <li><strong style="color:#1a1a2e;">IA &amp; LLMs</strong> — Machine learning aplicado al sector financiero e integración de modelos de lenguaje</li>
+        </ul>
+      </div>
+      <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 16px;">
+        Nos entusiasma la oportunidad de acompañarlo en este camino de crecimiento profesional y técnico. Puede estar seguro/a de que recibirá una atención completamente personalizada.
+      </p>
+      <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 8px;">Cordialmente,</p>
+      <p style="font-size:14px;color:#1a1a2e;font-weight:700;margin:0;">Equipo de Formación — B24-eps &amp; UPF Consulting</p>
+    ` : `
+      <p style="font-size:16px;color:#1a1a2e;margin:0 0 16px;">Estimado/a <strong>${firstName}</strong>,</p>
+      <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 16px;">
+        Agradecemos sinceramente su interés en nuestros servicios de consultoría especializada en ACI BASE24-eps y Universal Payments Framework (UPF).
+      </p>
+      <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 16px;">
+        Hemos recibido su mensaje correctamente y nuestro equipo de especialistas lo revisará a la brevedad. Nos pondremos en contacto con usted dentro de las próximas <strong>24 horas hábiles</strong> para atender su consulta de manera personalizada.
+      </p>
+      <div style="margin:24px 0;padding:20px;background:#f0f9ff;border-left:4px solid #58a6ff;border-radius:0 8px 8px 0;">
+        <p style="margin:0 0 8px;font-size:13px;color:#0369a1;font-weight:700;">SU MENSAJE</p>
+        <p style="margin:0;font-size:13px;color:#4a4a6a;line-height:1.6;font-style:italic;">"${sanitizeString(comment)}"</p>
+      </div>
+      <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 16px;">
+        Mientras tanto, lo invitamos a conocer más sobre nuestras soluciones y casos de éxito en nuestra plataforma web.
+      </p>
+      <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 8px;">Cordialmente,</p>
+      <p style="font-size:14px;color:#1a1a2e;font-weight:700;margin:0;">Equipo B24-eps &amp; UPF Consulting</p>
+    `;
+
     await resend.emails.send({
       from: 'B24-eps & UPF Consulting <info@mobilpymes.cl>',
       to: sanitizeString(email),
-      subject: 'Gracias por contactarnos — B24-eps & UPF Consulting',
+      subject: clientSubject,
       html: `
         <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;background:#ffffff;color:#1a1a2e;border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;">
           <div style="background:linear-gradient(135deg,#0d1117,#1a1f2e);padding:32px;text-align:center;">
-            <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;">B24-eps & UPF Consulting</h1>
-            <p style="margin:8px 0 0;color:#8b949e;font-size:13px;">Consultoría Especializada en Medios de Pago</p>
+            <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;">B24-eps &amp; UPF Consulting</h1>
+            <p style="margin:8px 0 0;color:#8b949e;font-size:13px;">${isFormacion ? 'Programas de Formación Especializada' : 'Consultoría Especializada en Medios de Pago'}</p>
           </div>
           <div style="padding:32px;">
-            <p style="font-size:16px;color:#1a1a2e;margin:0 0 16px;">Estimado/a <strong>${firstName}</strong>,</p>
-            <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 16px;">
-              Agradecemos sinceramente su interés en nuestros servicios de consultoría especializada en ACI BASE24-eps y Universal Payments Framework (UPF).
-            </p>
-            <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 16px;">
-              Hemos recibido su mensaje correctamente y nuestro equipo de especialistas lo revisará a la brevedad. Nos pondremos en contacto con usted dentro de las próximas <strong>24 horas hábiles</strong> para atender su consulta de manera personalizada.
-            </p>
-            <div style="margin:24px 0;padding:20px;background:#f0f9ff;border-left:4px solid #58a6ff;border-radius:0 8px 8px 0;">
-              <p style="margin:0 0 8px;font-size:13px;color:#0369a1;font-weight:700;">SU MENSAJE</p>
-              <p style="margin:0;font-size:13px;color:#4a4a6a;line-height:1.6;font-style:italic;">"${sanitizeString(comment)}"</p>
-            </div>
-            <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 16px;">
-              Mientras tanto, lo invitamos a conocer más sobre nuestras soluciones y casos de éxito en nuestra plataforma web.
-            </p>
-            <p style="font-size:14px;color:#4a4a6a;line-height:1.7;margin:0 0 8px;">Cordialmente,</p>
-            <p style="font-size:14px;color:#1a1a2e;font-weight:700;margin:0;">Equipo B24-eps & UPF Consulting</p>
+            ${clientBody}
           </div>
           <div style="background:#f8fafc;padding:20px 32px;border-top:1px solid #e5e7eb;text-align:center;">
             <p style="margin:0 0 4px;font-size:12px;color:#8b949e;">&#128231; info@mobilpymes.cl &nbsp;·&nbsp; &#128222; +56 985689661</p>
