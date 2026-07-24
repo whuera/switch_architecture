@@ -55,9 +55,31 @@
                 <span class="ai-dot"></span>
                 IA Asistente
             </button>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Abrir menú" aria-expanded="false">
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+            </button>
         </div>
     </div>
 </header>
+
+<!-- ===== MOBILE MENU ===== -->
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <nav class="mobile-nav">
+        <a href="#" class="mobile-nav-link active" data-section="inicio">Inicio</a>
+        <a href="#" class="mobile-nav-link" data-section="servicios">Servicios</a>
+        <a href="#" class="mobile-nav-link" data-section="plataforma">Plataforma ACI</a>
+        <a href="https://deepwiki.com/whuera/switch_architecture" class="mobile-nav-link" target="_blank" rel="noopener noreferrer">Wiki ↗</a>
+        <a href="#" class="mobile-nav-link" data-section="simuladores">Simuladores</a>
+    </nav>
+    <div class="mobile-menu-footer">
+        <button class="ai-btn mobile-ai-btn" id="mobile-consultame-btn">
+            <span class="ai-dot"></span>
+            IA Asistente
+        </button>
+    </div>
+</div>
 
 <!-- ===== MAIN CONTENT ===== -->
 <main class="main">
@@ -80,6 +102,9 @@
                         de pago basadas en la plataforma ACI BASE24-eps y UPF. Presencia en 7 países de
                         América Latina y Europa.
                     </p>
+                    <p class="hero-desc hero-desc--cta">
+                        Si tienes un proyecto en marcha o estás evaluando una nueva implementación, estamos aquí para ayudarte. Nuestra misión es clara: acompañarte técnicamente en cada etapa y llevar tu solución a producción en el menor tiempo y al menor costo posible — sin comprometer la calidad ni la seguridad.
+                    </p>
                     <div class="hero-stats">
                         <div class="stat-item">
                             <span class="stat-val">7+</span>
@@ -87,7 +112,7 @@
                         </div>
                         <div class="stat-divider"></div>
                         <div class="stat-item">
-                            <span class="stat-val">15+</span>
+                            <span class="stat-val">100+</span>
                             <span class="stat-label">Proyectos</span>
                         </div>
                         <div class="stat-divider"></div>
@@ -216,10 +241,11 @@
                     <h3>Seguridad &amp; HSM</h3>
                     <p>Configuración de módulos HSM, criptografía EMV, gestión de llaves y cumplimiento PCI-DSS</p>
                 </div>
-                <div class="feature-card">
+                <div class="feature-card feature-card--clickable" id="formacion-btn" role="button" tabindex="0" title="Ver programas de formación">
                     <div class="feature-icon">&#128101;</div>
                     <h3>Transferencia de Conocimiento</h3>
                     <p>Capacitación de equipos técnicos locales en arquitectura, operación y mantenimiento de la plataforma</p>
+                    <span class="feature-cta">Ver programas &rarr;</span>
                 </div>
             </div>
 
@@ -486,7 +512,6 @@
         </div>
 
         <div class="footer-center">
-            <a href="https://whuera.github.io/index_fp.html" target="_blank" rel="noopener noreferrer" class="footer-link">PROJECTS</a>
             <a href="#" id="contact-btn-modal" class="footer-link highlight">CONTACT</a>
             <span class="footer-copy">&copy; <span id="year"></span> B24-eps &amp; UPF Consulting</span>
         </div>
@@ -788,6 +813,7 @@
         <h2>Contacto</h2>
         <p class="modal-subtitle">Dejanos tu mensaje y te contactaremos a la brevedad.</p>
         <form id="contact-form" class="contact-form">
+            <input type="hidden" name="source" id="form-source" value="">
             <div class="form-row">
                 <div class="form-group">
                     <label>Nombre Completo</label>
@@ -815,6 +841,50 @@
             <button type="submit" class="submit-btn" id="submit-contact">Enviar Mensaje</button>
             <div id="form-response" class="form-response"></div>
         </form>
+    </div>
+</div>
+
+<!-- Formacion -->
+<div id="formacion-modal" class="modal">
+    <div class="modal-box">
+        <button class="modal-close close-modal">&#10005;</button>
+        <div class="modal-icon">&#127979;</div>
+        <h2>Programas de Formación Especializada</h2>
+        <p class="modal-subtitle">Transferimos conocimiento de alto nivel a través de programas formativos diseñados para equipos técnicos que buscan profundizar su dominio en plataformas de pago y tecnologías de vanguardia.</p>
+        <button class="formacion-contact-cta" id="formacion-contact-cta">
+            &#128172; Solicitar información sobre los programas
+        </button>
+        <div class="modal-sections">
+            <div class="modal-section">
+                <h3>Plataformas de Pago ACI</h3>
+                <p>Formación técnica integral sobre los sistemas de procesamiento transaccional más utilizados en la industria financiera:</p>
+                <ul>
+                    <li><strong style="color:var(--text)">BASE24-eps</strong> — Arquitectura del sistema, módulos de autorización, enrutamiento y gestión de canales (ATM, POS, e-commerce)</li>
+                    <li><strong style="color:var(--text)">UPF (Universal Payments Framework)</strong> — Diseño de flujos de pago modernos, integración con redes internacionales y personalización de reglas de negocio</li>
+                    <li>Talleres prácticos con escenarios reales de implementación y troubleshooting</li>
+                </ul>
+                <span class="modal-tag">Modalidad: Remota / On-Site</span>
+            </div>
+            <div class="modal-section">
+                <h3>Desarrollo de Software</h3>
+                <p>Cursos orientados a equipos que desarrollan integraciones, servicios y herramientas en el ecosistema fintech:</p>
+                <ul>
+                    <li><strong style="color:var(--text)">Java &amp; Spring Boot</strong> — Desarrollo de microservicios, APIs REST, seguridad y patrones de integración aplicados a sistemas de pago</li>
+                    <li><strong style="color:var(--text)">Python</strong> — Automatización, scripting, procesamiento de datos transaccionales y desarrollo de conectores</li>
+                </ul>
+                <span class="modal-tag">Nivel: Intermedio / Avanzado</span>
+            </div>
+            <div class="modal-section">
+                <h3>Inteligencia Artificial &amp; LLMs</h3>
+                <p>Formación práctica en las tecnologías de IA más relevantes del momento, con aplicación directa al sector financiero:</p>
+                <ul>
+                    <li><strong style="color:var(--text)">Fundamentos de IA</strong> — Machine learning aplicado, modelos predictivos y análisis de fraude transaccional</li>
+                    <li><strong style="color:var(--text)">Large Language Models (LLMs)</strong> — Integración de modelos de lenguaje en flujos operativos, asistentes inteligentes y automatización de procesos con APIs como Claude, OpenAI y modelos open-source</li>
+                    <li>Desarrollo de agentes autónomos y pipelines de procesamiento inteligente</li>
+                </ul>
+                <span class="modal-tag">Enfoque: Aplicación práctica en fintech</span>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -1240,6 +1310,53 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // ===== MOBILE MENU =====
+    var mobileMenuBtn  = document.getElementById('mobile-menu-btn');
+    var mobileMenu     = document.getElementById('mobile-menu');
+
+    function closeMobileMenu() {
+        if (!mobileMenu || !mobileMenuBtn) return;
+        mobileMenu.classList.remove('is-open');
+        mobileMenuBtn.classList.remove('is-open');
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+    }
+
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var isOpen = mobileMenu.classList.toggle('is-open');
+            mobileMenuBtn.classList.toggle('is-open', isOpen);
+            mobileMenuBtn.setAttribute('aria-expanded', String(isOpen));
+            mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+        });
+
+        // Close when a mobile nav link is clicked
+        mobileMenu.querySelectorAll('.mobile-nav-link[data-section]').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                showSection(link.dataset.section);
+                closeMobileMenu();
+            });
+        });
+
+        // Close when clicking outside the menu
+        document.addEventListener('click', function(e) {
+            if (!mobileMenu.contains(e.target) && e.target !== mobileMenuBtn) {
+                closeMobileMenu();
+            }
+        });
+    }
+
+    // Mobile AI button → same action as desktop
+    var mobileConsultameBtn = document.getElementById('mobile-consultame-btn');
+    if (mobileConsultameBtn) {
+        mobileConsultameBtn.addEventListener('click', function() {
+            closeMobileMenu();
+            document.getElementById('consultame-btn').click();
+        });
+    }
+
     var coreLink = document.getElementById('core-modules-link');
     if (coreLink) coreLink.addEventListener('click', function() { showSection('modulos'); });
 
@@ -1252,7 +1369,8 @@ document.addEventListener('DOMContentLoaded', function() {
         { btnId: 'docs-btn',         modalId: 'docs-modal' },
         { btnId: 'journal-btn',      modalId: 'journal-modal' },
         { btnId: 'contact-btn-modal',modalId: 'contact-modal' },
-        { btnId: 'prices-btn',       modalId: 'prices-modal' }
+        { btnId: 'prices-btn',       modalId: 'prices-modal' },
+        { btnId: 'formacion-btn',    modalId: 'formacion-modal' }
     ];
 
     function openModal(id) {
@@ -1291,6 +1409,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!btn || !modal) return;
 
         btn.addEventListener('click', function(e) { e.preventDefault(); openModal(cfg.modalId); });
+        btn.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(cfg.modalId); } });
 
         modal.querySelectorAll('.close-modal').forEach(function(el) {
             el.addEventListener('click', function() { closeModal(cfg.modalId); });
@@ -1713,6 +1832,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // ===== FORMACION CTA → CONTACT MODAL =====
+    var formacionCta = document.getElementById('formacion-contact-cta');
+    if (formacionCta) {
+        formacionCta.addEventListener('click', function() {
+            closeModal('formacion-modal');
+            document.getElementById('form-source').value = 'formacion';
+            var commentField = document.querySelector('#contact-form textarea[name="comment"]');
+            if (commentField && !commentField.value.trim()) {
+                commentField.value = 'Estoy interesado/a en sus programas de formación especializada (BASE24-eps, UPF, Java/Spring Boot, Python, IA/LLM).';
+            }
+            openModal('contact-modal');
+        });
+    }
+
     // ===== CONTACT FORM =====
     var contactForm = document.getElementById('contact-form');
     var submitBtn   = document.getElementById('submit-contact');
@@ -1755,7 +1888,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         email: fd.get('email'),
                         documentId: fd.get('documentId'),
                         phone: fd.get('phone'),
-                        comment: fd.get('comment')
+                        comment: fd.get('comment'),
+                        source: fd.get('source') || ''
                     })
                 });
 
@@ -1766,6 +1900,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     formResp.textContent = 'Mensaje enviado con éxito! Revisa tu correo.';
                     formResp.classList.add('success');
                     contactForm.reset();
+                    document.getElementById('form-source').value = '';
                 } else { throw new Error(); }
             } catch {
                 formResp.textContent = 'Servicio no disponible por el momento';
