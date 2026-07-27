@@ -1,14 +1,15 @@
 (function () {
-  const STORAGE_KEY = 'lang';
-  const DEFAULT_LANG = 'es';
-  let currentLang = localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG;
+  var STORAGE_KEY = 'lang';
+  var DEFAULT_LANG = 'es';
+  var currentLang = localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG;
 
   function applyLang(lang) {
-    const t = translations[lang];
+    if (!window.translations) return;
+    var t = window.translations[lang];
     if (!t) return;
 
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
-      const key = el.dataset.i18n;
+      var key = el.dataset.i18n;
       if (t[key] === undefined) return;
       if (el.hasAttribute('placeholder')) {
         el.placeholder = t[key];
@@ -17,10 +18,9 @@
       }
     });
 
-    // Update toggle button label
-    document.querySelectorAll('.lang-toggle-btn').forEach(function (btn) {
-      btn.textContent = lang === 'es' ? 'EN' : 'ES';
-      btn.setAttribute('aria-label', lang === 'es' ? 'Switch to English' : 'Cambiar a Español');
+    // Actualizar estado visual del switch
+    document.querySelectorAll('.lang-switch').forEach(function (sw) {
+      sw.classList.toggle('en', lang === 'en');
     });
 
     document.documentElement.lang = lang;
@@ -37,9 +37,18 @@
     getCurrentLang: function () { return currentLang; }
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { applyLang(currentLang); });
-  } else {
+  function init() {
     applyLang(currentLang);
+    document.querySelectorAll('.lang-switch').forEach(function (sw) {
+      sw.addEventListener('click', function () {
+        setLang(currentLang === 'es' ? 'en' : 'es');
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
 })();
