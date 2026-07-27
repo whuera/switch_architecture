@@ -2049,11 +2049,15 @@ a.process-btn {
   .process-btn { font-size: 9px; padding: 4px 8px; }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .navbar-inner { padding: 0 16px; gap: 12px; }
   .navbar-nav { display: none; }
   .mobile-menu-btn { display: flex; }
   .mobile-menu { display: block; }
+  .ai-btn:not(.mobile-ai-btn) { display: none; }
+}
+
+@media (max-width: 640px) {
   .section-inner { padding: 0 16px; }
   .section-title { font-size: 28px; }
   .content-card { flex-direction: column; }
