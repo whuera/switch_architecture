@@ -137,23 +137,8 @@ app.use('/api/leads', leadsRouter);
 app.use('/api/chat', chatRouter);
 app.use('/api/admin', adminRouter);
 
-// Ruta: Admin Dashboard
-app.get('/admin', isAdmin, async (req, res) => {
-  try {
-    const r = await fetch('https://shopping-cart-gateway.whuera.workers.dev/api/customer/customers');
-    if (!r.ok) throw new Error(`Worker respondió ${r.status}`);
-    const customers = await r.json();
-
-    const types     = [...new Set(customers.map(c => c.type).filter(Boolean))].sort();
-    const canales   = [...new Set(customers.map(c => c.canal).filter(Boolean))].sort();
-    const appsources = [...new Set(customers.map(c => c.appsource).filter(Boolean))].sort();
-
-    res.render('admin', { customers, types, canales, appsources });
-  } catch (err) {
-    console.error('Error en /admin:', err.message);
-    res.status(500).send('Error al cargar el panel: ' + err.message);
-  }
-});
+// Ruta: Admin — siempre redirige al sitio principal (el panel se carga inline)
+app.get('/admin', (req, res) => res.redirect('/'));
 
 // Ruta: Entrevista Virtual
 app.get('/interview', async (req, res) => {
