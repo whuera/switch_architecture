@@ -2221,6 +2221,12 @@ async function renderWorldMap() {
   closeBtn.addEventListener('click', closeLoginModal);
   loginModal.addEventListener('click', function(e) { if (e.target === loginModal) closeLoginModal(); });
 
+  // Auto-abrir modal si fue redirigido desde /admin sin sesión
+  if (window.location.search.indexOf('admin_login=1') !== -1) {
+    openLoginModal();
+    history.replaceState(null, '', '/');
+  }
+
   function showAdminError(msg) {
     errorEl.className = 'form-response error';
     errorEl.textContent = msg;

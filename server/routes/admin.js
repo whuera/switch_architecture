@@ -3,25 +3,39 @@ const express = require('express');
 const crypto = require('crypto');
 const router = express.Router();
 
-// ── In-memory sessions ────────────────────────────────────────────────────────
-const sessions = new Map(); // token → { expires: Date }
 const SESSION_TTL_MS = 24 * 60 * 60 * 1000; // 24 h
 
-// Clean up expired sessions every hour
-setInterval(() => {
-  const now = Date.now();
-  for (const [token, data] of sessions) {
-    if (data.expires <= now) sessions.delete(token);
-  }
-}, 60 * 60 * 1000);
+// ── Stateless HMAC-signed token (works on Vercel serverless — no shared memory) ─
+function signKey() {
+  return process.env.ADMIN_COOKIE_SECRET || process.env.ADMIN_PASS || 'default-secret';
+}
 
-// ── Middleware: verify session cookie ─────────────────────────────────────────
+function createToken() {
+  const ts = Date.now().toString();
+  const sig = crypto.createHmac('sha256', signKey()).update(ts).digest('hex');
+  return `${ts}.${sig}`;
+}
+
+function verifyToken(token) {
+  if (!token || typeof token !== 'string') return false;
+  const dot = token.lastIndexOf('.');
+  if (dot < 0) return false;
+  const ts = token.slice(0, dot);
+  const sig = token.slice(dot + 1);
+  const tsNum = Number(ts);
+  if (!tsNum || Date.now() - tsNum > SESSION_TTL_MS) return false;
+  const expected = crypto.createHmac('sha256', signKey()).update(ts).digest('hex');
+  try {
+    return crypto.timingSafeEqual(Buffer.from(sig, 'hex'), Buffer.from(expected, 'hex'));
+  } catch (_) {
+    return false;
+  }
+}
+
+// ── Middleware: verify signed cookie ──────────────────────────────────────────
 function isAdmin(req, res, next) {
   const token = req.cookies && req.cookies.admin_session;
-  if (!token) return res.redirect('/?admin_login=1');
-  const session = sessions.get(token);
-  if (!session || session.expires <= Date.now()) {
-    sessions.delete(token);
+  if (!verifyToken(token)) {
     res.clearCookie('admin_session');
     return res.redirect('/?admin_login=1');
   }
@@ -36,7 +50,6 @@ router.post('/login', async (req, res) => {
     const envUser = process.env.ADMIN_USER || '';
     const envPass = process.env.ADMIN_PASS || '';
 
-    // Constant-time comparison for username
     let userOk = false;
     try {
       userOk = typeof username === 'string' &&
@@ -54,16 +67,13 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ success: false, error: 'Credenciales incorrectas' });
     }
 
-    const token = crypto.randomBytes(32).toString('hex');
-    sessions.set(token, { expires: Date.now() + SESSION_TTL_MS });
-
+    const token = createToken();
     res.cookie('admin_session', token, {
       httpOnly: true,
       sameSite: 'Strict',
       maxAge: SESSION_TTL_MS,
       secure: process.env.NODE_ENV === 'production'
     });
-
     res.json({ success: true });
   } catch (err) {
     console.error('Error en POST /api/admin/login:', err.message);
@@ -74,15 +84,11 @@ router.post('/login', async (req, res) => {
 // ── GET /session ──────────────────────────────────────────────────────────────
 router.get('/session', (req, res) => {
   const token = req.cookies && req.cookies.admin_session;
-  const session = token && sessions.get(token);
-  const valid = !!(session && session.expires > Date.now());
-  res.json({ valid });
+  res.json({ valid: verifyToken(token) });
 });
 
 // ── POST /logout ──────────────────────────────────────────────────────────────
 router.post('/logout', (req, res) => {
-  const token = req.cookies && req.cookies.admin_session;
-  if (token) sessions.delete(token);
   res.clearCookie('admin_session');
   res.json({ success: true });
 });
