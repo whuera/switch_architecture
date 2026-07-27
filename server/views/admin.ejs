@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel — Switch Architecture</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d1117;
+      --surface:  #161b22;
+      --surface2: #1c2128;
+      --border:   rgba(255,255,255,0.08);
+      --text:     #e6edf3;
+      --muted:    #8b949e;
+      --subtle:   #484f58;
+      --primary:  #6366f1;
+      --accent:   #3b82f6;
+      --green:    #22c55e;
+      --amber:    #f59e0b;
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Topbar ── */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px; height: 56px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .topbar-icon { display: flex; align-items: center; color: var(--primary); }
+    .topbar-title { font-size: 15px; font-weight: 600; color: var(--text); }
+    .topbar-badge {
+      font-size: 11px; font-weight: 600;
+      background: rgba(99,102,241,0.15); color: var(--primary);
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 20px; padding: 2px 10px; letter-spacing: 0.05em;
+    }
+    .topbar-spacer { flex: 1; }
+    .topbar-link { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+    .topbar-link:hover { color: var(--text); }
+    .logout-btn {
+      font-size: 13px; font-weight: 500; color: var(--muted);
+      background: none; border: 1px solid var(--border);
+      border-radius: 6px; padding: 5px 12px; cursor: pointer; transition: all 0.15s;
+    }
+    .logout-btn:hover { color: #f87171; border-color: rgba(248,113,113,0.35); background: rgba(248,113,113,0.08); }
+
+    /* ── Main ── */
+    .main { max-width: 1400px; margin: 0 auto; padding: 28px 24px 64px; }
+    .page-heading { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .page-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+
+    /* ── Stats ── */
+    .stats-row {
+      display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .stat-pill {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 18px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .stat-pill-label { font-size: 12px; color: var(--muted); }
+    .stat-pill-value { font-size: 20px; font-weight: 700; color: var(--primary); }
+
+    /* ── Filter bar ── */
+    .filter-bar {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 16px;
+      display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .filter-bar label { font-size: 12px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+    .filter-select, .filter-input {
+      background: var(--surface2); color: var(--text);
+      border: 1px solid var(--border); border-radius: 6px;
+      padding: 6px 10px; font-size: 13px; outline: none;
+      transition: border-color 0.15s; min-width: 140px;
+    }
+    .filter-select:focus, .filter-input:focus { border-color: var(--primary); }
+    .filter-select option { background: var(--surface2); }
+    .filter-input { min-width: 200px; }
+    .filter-reset {
+      font-size: 12px; color: var(--muted); background: none;
+      border: 1px solid var(--border); border-radius: 6px;
+      padding: 6px 12px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    }
+    .filter-reset:hover { color: var(--text); border-color: var(--subtle); }
+    .filter-count { font-size: 12px; color: var(--muted); margin-left: auto; white-space: nowrap; }
+
+    /* ── Table ── */
+    .table-section { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th {
+      text-align: left; padding: 10px 14px;
+      font-size: 11px; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.06em;
+      background: var(--surface2); border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.02); }
+    tbody tr.hidden { display: none; }
+    tbody td { padding: 9px 14px; color: var(--text); vertical-align: middle; }
+    .td-muted { color: var(--muted); font-size: 12px; }
+    .td-id { font-size: 11px; color: var(--subtle); font-family: monospace; }
+    .td-comment { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); font-size: 12px; }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      border-radius: 20px; padding: 2px 8px; letter-spacing: 0.03em; white-space: nowrap;
+    }
+    .badge-type   { background: rgba(99,102,241,0.12); color: var(--primary); border: 1px solid rgba(99,102,241,0.25); }
+    .badge-canal  { background: rgba(59,130,246,0.12); color: var(--accent);  border: 1px solid rgba(59,130,246,0.25); }
+    .badge-app    { background: rgba(34,197,94,0.10);  color: var(--green);   border: 1px solid rgba(34,197,94,0.25); }
+    .badge-null   { background: rgba(255,255,255,0.04); color: var(--subtle); border: 1px solid var(--border); }
+
+    /* ── Empty ── */
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+    .empty-icon { font-size: 36px; margin-bottom: 10px; }
+
+    @media (max-width: 640px) {
+      .main { padding: 16px 12px 48px; }
+      .filter-bar { flex-direction: column; align-items: stretch; }
+      .filter-input, .filter-select { min-width: unset; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-icon">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+  </div>
+  <span class="topbar-title">Admin Panel</span>
+  <span class="topbar-badge">Panel Privado</span>
+  <div class="topbar-spacer"></div>
+  <a href="/" class="topbar-link">← Volver al sitio</a>
+  <form action="/api/admin/logout" method="POST" style="display:inline;">
+    <button type="submit" class="logout-btn">Cerrar Sesión</button>
+  </form>
+</header>
+
+<main class="main">
+  <h1 class="page-heading">Customers</h1>
+  <p class="page-sub">Datos del servicio externo · <span id="total-count"><%= customers.length %></span> registros totales</p>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-pill">
+      <div>
+        <div class="stat-pill-label">Total</div>
+        <div class="stat-pill-value"><%= customers.length %></div>
+      </div>
+    </div>
+    <% if (types.length > 0) { %>
+    <div class="stat-pill">
+      <div>
+        <div class="stat-pill-label">Tipos</div>
+        <div class="stat-pill-value" style="color:var(--primary)"><%= types.length %></div>
+      </div>
+    </div>
+    <% } %>
+    <% if (canales.length > 0) { %>
+    <div class="stat-pill">
+      <div>
+        <div class="stat-pill-label">Canales</div>
+        <div class="stat-pill-value" style="color:var(--accent)"><%= canales.length %></div>
+      </div>
+    </div>
+    <% } %>
+    <% if (appsources.length > 0) { %>
+    <div class="stat-pill">
+      <div>
+        <div class="stat-pill-label">App Sources</div>
+        <div class="stat-pill-value" style="color:var(--green)"><%= appsources.length %></div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <label>Buscar</label>
+    <input type="text" class="filter-input" id="f-search" placeholder="Nombre, email, documento…">
+
+    <label>Type</label>
+    <select class="filter-select" id="f-type">
+      <option value="">Todos</option>
+      <% types.forEach(function(t){ %><option value="<%= t %>"><%= t %></option><% }); %>
+      <option value="__null__">— sin tipo —</option>
+    </select>
+
+    <label>Canal</label>
+    <select class="filter-select" id="f-canal">
+      <option value="">Todos</option>
+      <% canales.forEach(function(c){ %><option value="<%= c %>"><%= c %></option><% }); %>
+      <option value="__null__">— sin canal —</option>
+    </select>
+
+    <label>App Source</label>
+    <select class="filter-select" id="f-appsource">
+      <option value="">Todos</option>
+      <% appsources.forEach(function(a){ %><option value="<%= a %>"><%= a %></option><% }); %>
+      <option value="__null__">— sin app —</option>
+    </select>
+
+    <button class="filter-reset" id="f-reset">Limpiar filtros</button>
+    <span class="filter-count" id="f-count"></span>
+  </div>
+
+  <!-- Table -->
+  <div class="table-section">
+    <% if (customers.length === 0) { %>
+    <div class="empty-state">
+      <div class="empty-icon">📭</div>
+      <p>No hay registros disponibles.</p>
+    </div>
+    <% } else { %>
+    <div class="table-wrap">
+      <table id="customers-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Doc. ID</th>
+            <th>Teléfono</th>
+            <th>Type</th>
+            <th>Canal</th>
+            <th>App Source</th>
+            <th>Status</th>
+            <th>Comentario</th>
+          </tr>
+        </thead>
+        <tbody id="customers-tbody">
+          <% customers.forEach(function(c) { %>
+          <tr
+            data-name="<%= ((c.firstName||'') + ' ' + (c.lastName||'')).toLowerCase() %>"
+            data-email="<%= (c.email||'').toLowerCase() %>"
+            data-docid="<%= (c.documentId||'').toLowerCase() %>"
+            data-type="<%= c.type || '' %>"
+            data-canal="<%= c.canal || '' %>"
+            data-appsource="<%= c.appsource || '' %>"
+          >
+            <td class="td-id"><%= c.id %></td>
+            <td><%= [c.firstName, c.lastName].filter(Boolean).join(' ') || '—' %></td>
+            <td class="td-muted"><%= c.email || '—' %></td>
+            <td class="td-muted"><%= c.documentId || '—' %></td>
+            <td class="td-muted"><%= c.phoneNumber || '—' %></td>
+            <td>
+              <% if (c.type) { %>
+                <span class="badge badge-type"><%= c.type %></span>
+              <% } else { %>
+                <span class="badge badge-null">—</span>
+              <% } %>
+            </td>
+            <td>
+              <% if (c.canal) { %>
+                <span class="badge badge-canal"><%= c.canal %></span>
+              <% } else { %>
+                <span class="badge badge-null">—</span>
+              <% } %>
+            </td>
+            <td>
+              <% if (c.appsource) { %>
+                <span class="badge badge-app"><%= c.appsource %></span>
+              <% } else { %>
+                <span class="badge badge-null">—</span>
+              <% } %>
+            </td>
+            <td class="td-muted"><%= c.status || '—' %></td>
+            <td class="td-comment" title="<%= (c.comment||'').replace(/"/g,'&quot;') %>"><%= c.comment || '—' %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+    <% } %>
+  </div>
+</main>
+
+<script>
+(function () {
+  var rows     = Array.from(document.querySelectorAll('#customers-tbody tr'));
+  var fSearch  = document.getElementById('f-search');
+  var fType    = document.getElementById('f-type');
+  var fCanal   = document.getElementById('f-canal');
+  var fApp     = document.getElementById('f-appsource');
+  var fReset   = document.getElementById('f-reset');
+  var fCount   = document.getElementById('f-count');
+
+  function matchesNull(rowVal, filterVal) {
+    if (filterVal === '__null__') return rowVal === '';
+    if (filterVal === '') return true;
+    return rowVal === filterVal;
+  }
+
+  function applyFilters() {
+    var search  = fSearch ? fSearch.value.toLowerCase().trim() : '';
+    var type    = fType ? fType.value : '';
+    var canal   = fCanal ? fCanal.value : '';
+    var app     = fApp ? fApp.value : '';
+    var visible = 0;
+
+    rows.forEach(function (row) {
+      var name     = row.dataset.name    || '';
+      var email    = row.dataset.email   || '';
+      var docid    = row.dataset.docid   || '';
+      var rowType  = row.dataset.type    || '';
+      var rowCanal = row.dataset.canal   || '';
+      var rowApp   = row.dataset.appsource || '';
+
+      var matchSearch = !search || name.includes(search) || email.includes(search) || docid.includes(search);
+      var matchType   = matchesNull(rowType, type);
+      var matchCanal  = matchesNull(rowCanal, canal);
+      var matchApp    = matchesNull(rowApp, app);
+
+      if (matchSearch && matchType && matchCanal && matchApp) {
+        row.classList.remove('hidden');
+        visible++;
+      } else {
+        row.classList.add('hidden');
+      }
+    });
+
+    if (fCount) {
+      fCount.textContent = visible + ' de ' + rows.length + ' registros';
+    }
+  }
+
+  if (fSearch)  fSearch.addEventListener('input', applyFilters);
+  if (fType)    fType.addEventListener('change', applyFilters);
+  if (fCanal)   fCanal.addEventListener('change', applyFilters);
+  if (fApp)     fApp.addEventListener('change', applyFilters);
+
+  if (fReset) {
+    fReset.addEventListener('click', function () {
+      if (fSearch) fSearch.value = '';
+      if (fType)   fType.value   = '';
+      if (fCanal)  fCanal.value  = '';
+      if (fApp)    fApp.value    = '';
+      applyFilters();
+    });
+  }
+
+  applyFilters();
+})();
+</script>
+
+</body>
+</html>
