@@ -11,6 +11,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const { initDB, pool } = require('./db');
 const leadsRouter = require('./routes/leads');
 const chatRouter = require('./routes/chat');
+const { router: adminRouter, isAdmin } = require('./routes/admin');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -134,6 +135,25 @@ app.get('/', (req, res) => {
 // Rutas API
 app.use('/api/leads', leadsRouter);
 app.use('/api/chat', chatRouter);
+app.use('/api/admin', adminRouter);
+
+// Ruta: Admin Dashboard
+app.get('/admin', isAdmin, async (req, res) => {
+  try {
+    const r = await fetch('https://shopping-cart-gateway.whuera.workers.dev/api/customer/customers');
+    if (!r.ok) throw new Error(`Worker respondió ${r.status}`);
+    const customers = await r.json();
+
+    const types     = [...new Set(customers.map(c => c.type).filter(Boolean))].sort();
+    const canales   = [...new Set(customers.map(c => c.canal).filter(Boolean))].sort();
+    const appsources = [...new Set(customers.map(c => c.appsource).filter(Boolean))].sort();
+
+    res.render('admin', { customers, types, canales, appsources });
+  } catch (err) {
+    console.error('Error en /admin:', err.message);
+    res.status(500).send('Error al cargar el panel: ' + err.message);
+  }
+});
 
 // Ruta: Entrevista Virtual
 app.get('/interview', async (req, res) => {

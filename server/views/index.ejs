@@ -56,6 +56,12 @@
                     <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
                 </svg>
             </a>
+            <button class="nav-icon-btn admin-nav-btn" id="admin-btn" title="Admin">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+            </button>
             <button class="ai-btn" id="consultame-btn">
                 <span class="ai-dot"></span>
                 <span data-i18n="nav_ia_btn">IA Asistente</span>
@@ -2057,6 +2063,355 @@ async function renderWorldMap() {
         g.append('circle').attr('cx',x).attr('cy',y).attr('r',dotR*0.38).attr('fill','white');
     });
 }
+</script>
+
+<!-- ===== ADMIN LOGIN MODAL ===== -->
+<div id="admin-login-modal" class="modal">
+  <div class="modal-box" style="max-width:420px;">
+    <button class="modal-close" id="admin-modal-close">&#10005;</button>
+    <div class="modal-icon">&#128274;</div>
+    <h2>Panel de Administración</h2>
+    <p class="modal-subtitle">Acceso restringido. Ingresa tus credenciales.</p>
+    <form id="admin-login-form" autocomplete="off">
+      <div class="form-group" style="margin-bottom:14px;">
+        <label>Usuario</label>
+        <input type="text" id="admin-username" placeholder="admin" required>
+      </div>
+      <div class="form-group" style="margin-bottom:20px;">
+        <label>Contraseña</label>
+        <input type="password" id="admin-password" placeholder="••••••••" required>
+      </div>
+      <button type="button" class="submit-btn" id="admin-submit-btn">Ingresar</button>
+      <div id="admin-login-error" class="form-response" style="margin-top:12px;"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== ADMIN DASHBOARD PANEL ===== -->
+<div id="admin-panel" style="display:none;position:fixed;inset:0;z-index:200;background:#0d1117;overflow-y:auto;">
+  <style>
+    #admin-panel { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; color:#e6edf3; }
+    .ap-topbar {
+      position:sticky;top:0;z-index:10;background:#161b22;border-bottom:1px solid rgba(255,255,255,0.08);
+      padding:0 24px;height:56px;display:flex;align-items:center;gap:12px;
+    }
+    .ap-topbar-title { font-size:15px;font-weight:600; }
+    .ap-badge {
+      font-size:11px;font-weight:600;background:rgba(99,102,241,0.15);color:#6366f1;
+      border:1px solid rgba(99,102,241,0.3);border-radius:20px;padding:2px 10px;
+    }
+    .ap-spacer { flex:1; }
+    .ap-close-btn {
+      font-size:13px;color:#8b949e;background:none;
+      border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:5px 12px;cursor:pointer;transition:all .15s;
+    }
+    .ap-close-btn:hover { color:#e6edf3;border-color:rgba(255,255,255,0.2); }
+    .ap-logout-btn {
+      font-size:13px;font-weight:500;color:#8b949e;background:none;
+      border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:5px 12px;cursor:pointer;transition:all .15s;
+    }
+    .ap-logout-btn:hover { color:#f87171;border-color:rgba(248,113,113,0.35);background:rgba(248,113,113,0.08); }
+    .ap-main { max-width:1400px;margin:0 auto;padding:28px 24px 64px; }
+    .ap-heading { font-size:20px;font-weight:700;margin-bottom:4px; }
+    .ap-sub { font-size:13px;color:#8b949e;margin-bottom:20px; }
+    .ap-stats { display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap; }
+    .ap-stat { background:#161b22;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px 18px; }
+    .ap-stat-label { font-size:12px;color:#8b949e; }
+    .ap-stat-value { font-size:20px;font-weight:700;color:#6366f1; }
+    .ap-filters {
+      background:#161b22;border:1px solid rgba(255,255,255,0.08);border-radius:10px;
+      padding:14px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px;
+    }
+    .ap-filters label { font-size:12px;color:#8b949e;font-weight:600;white-space:nowrap; }
+    .ap-select, .ap-input {
+      background:#1c2128;color:#e6edf3;border:1px solid rgba(255,255,255,0.08);
+      border-radius:6px;padding:6px 10px;font-size:13px;outline:none;transition:border-color .15s;min-width:140px;
+    }
+    .ap-input { min-width:200px; }
+    .ap-select:focus,.ap-input:focus { border-color:#6366f1; }
+    .ap-select option { background:#1c2128; }
+    .ap-reset {
+      font-size:12px;color:#8b949e;background:none;border:1px solid rgba(255,255,255,0.08);
+      border-radius:6px;padding:6px 12px;cursor:pointer;transition:all .15s;white-space:nowrap;
+    }
+    .ap-reset:hover { color:#e6edf3;border-color:#484f58; }
+    .ap-fcount { font-size:12px;color:#8b949e;margin-left:auto;white-space:nowrap; }
+    .ap-table-wrap { background:#161b22;border:1px solid rgba(255,255,255,0.08);border-radius:10px;overflow:hidden; }
+    .ap-table-inner { overflow-x:auto; }
+    .ap-table { width:100%;border-collapse:collapse;font-size:13px; }
+    .ap-table thead th {
+      text-align:left;padding:10px 14px;font-size:11px;font-weight:600;color:#8b949e;
+      text-transform:uppercase;letter-spacing:.06em;background:#1c2128;border-bottom:1px solid rgba(255,255,255,0.08);white-space:nowrap;
+    }
+    .ap-table tbody tr { border-bottom:1px solid rgba(255,255,255,0.05);transition:background .1s; }
+    .ap-table tbody tr:last-child { border-bottom:none; }
+    .ap-table tbody tr:hover { background:rgba(255,255,255,0.02); }
+    .ap-table tbody tr.ap-hidden { display:none; }
+    .ap-table td { padding:9px 14px;vertical-align:middle; }
+    .ap-td-id { font-size:11px;color:#484f58;font-family:monospace; }
+    .ap-td-muted { color:#8b949e;font-size:12px; }
+    .ap-td-comment { max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8b949e;font-size:12px; }
+    .ap-badge { display:inline-block;font-size:11px;font-weight:600;border-radius:20px;padding:2px 8px;white-space:nowrap; }
+    .ap-badge-type  { background:rgba(99,102,241,0.12);color:#6366f1;border:1px solid rgba(99,102,241,0.25); }
+    .ap-badge-canal { background:rgba(59,130,246,0.12);color:#3b82f6;border:1px solid rgba(59,130,246,0.25); }
+    .ap-badge-app   { background:rgba(34,197,94,0.10);color:#22c55e;border:1px solid rgba(34,197,94,0.25); }
+    .ap-badge-null  { background:rgba(255,255,255,0.04);color:#484f58;border:1px solid rgba(255,255,255,0.08); }
+    .ap-loading, .ap-error { text-align:center;padding:60px 20px;color:#8b949e;font-size:14px; }
+    .ap-error { color:#f87171; }
+    @media(max-width:640px){
+      .ap-main{padding:16px 12px 48px;}
+      .ap-filters{flex-direction:column;align-items:stretch;}
+      .ap-select,.ap-input{min-width:unset;width:100%;}
+    }
+  </style>
+
+  <div class="ap-topbar">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+    <span class="ap-topbar-title">Admin Panel</span>
+    <span class="ap-badge">Panel Privado</span>
+    <div class="ap-spacer"></div>
+    <button class="ap-close-btn" id="ap-close-btn">← Volver al sitio</button>
+    <button class="ap-logout-btn" id="ap-logout-btn">Cerrar Sesión</button>
+  </div>
+
+  <div class="ap-main">
+    <h1 class="ap-heading">Customers</h1>
+    <p class="ap-sub">Datos del servicio externo · <span id="ap-total">—</span> registros totales</p>
+    <div id="ap-stats" class="ap-stats"></div>
+    <div id="ap-filters" class="ap-filters" style="display:none;">
+      <label>Buscar</label>
+      <input type="text" class="ap-input" id="ap-search" placeholder="Nombre, email, documento…">
+      <label>Type</label>
+      <select class="ap-select" id="ap-type"><option value="">Todos</option></select>
+      <label>Canal</label>
+      <select class="ap-select" id="ap-canal"><option value="">Todos</option></select>
+      <label>App Source</label>
+      <select class="ap-select" id="ap-appsource"><option value="">Todos</option></select>
+      <button class="ap-reset" id="ap-reset">Limpiar filtros</button>
+      <span class="ap-fcount" id="ap-fcount"></span>
+    </div>
+    <div class="ap-table-wrap">
+      <div id="ap-body"><div class="ap-loading">Cargando datos…</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  /* ── Login modal ── */
+  var loginModal = document.getElementById('admin-login-modal');
+  var adminBtn   = document.getElementById('admin-btn');
+  var closeBtn   = document.getElementById('admin-modal-close');
+  var form       = document.getElementById('admin-login-form');
+  var submitBtn  = document.getElementById('admin-submit-btn');
+  var errorEl    = document.getElementById('admin-login-error');
+
+  function openLoginModal() {
+    loginModal.style.display = 'flex';
+    document.getElementById('admin-username').focus();
+  }
+  function closeLoginModal() {
+    loginModal.style.display = 'none';
+    errorEl.className = 'form-response';
+    errorEl.textContent = '';
+  }
+  adminBtn.addEventListener('click', openLoginModal);
+  closeBtn.addEventListener('click', closeLoginModal);
+  loginModal.addEventListener('click', function(e) { if (e.target === loginModal) closeLoginModal(); });
+
+  function showAdminError(msg) {
+    errorEl.className = 'form-response error';
+    errorEl.textContent = msg;
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Ingresar';
+  }
+
+  /* ── Dashboard panel ── */
+  var panel     = document.getElementById('admin-panel');
+  var apBody    = document.getElementById('ap-body');
+  var apTotal   = document.getElementById('ap-total');
+  var apStats   = document.getElementById('ap-stats');
+  var apFilters = document.getElementById('ap-filters');
+  var apSearch  = document.getElementById('ap-search');
+  var apType    = document.getElementById('ap-type');
+  var apCanal   = document.getElementById('ap-canal');
+  var apApp     = document.getElementById('ap-appsource');
+  var apReset   = document.getElementById('ap-reset');
+  var apFcount  = document.getElementById('ap-fcount');
+  var tableRows = [];
+
+  function openPanel() {
+    panel.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+  function closePanel() {
+    panel.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('ap-close-btn').addEventListener('click', closePanel);
+
+  document.getElementById('ap-logout-btn').addEventListener('click', async function() {
+    await fetch('/api/admin/logout', { method: 'POST' });
+    closePanel();
+  });
+
+  /* ── Filter logic ── */
+  function matchNull(rowVal, filterVal) {
+    if (filterVal === '__null__') return rowVal === '';
+    if (filterVal === '') return true;
+    return rowVal === filterVal;
+  }
+  function applyFilters() {
+    var search = apSearch ? apSearch.value.toLowerCase().trim() : '';
+    var type   = apType   ? apType.value   : '';
+    var canal  = apCanal  ? apCanal.value  : '';
+    var app    = apApp    ? apApp.value    : '';
+    var visible = 0;
+    tableRows.forEach(function(row) {
+      var ok = (!search || (row.dataset.name||'').includes(search) || (row.dataset.email||'').includes(search) || (row.dataset.docid||'').includes(search))
+        && matchNull(row.dataset.type||'', type)
+        && matchNull(row.dataset.canal||'', canal)
+        && matchNull(row.dataset.appsource||'', app);
+      row.classList.toggle('ap-hidden', !ok);
+      if (ok) visible++;
+    });
+    if (apFcount) apFcount.textContent = visible + ' de ' + tableRows.length + ' registros';
+  }
+  if (apSearch)  apSearch.addEventListener('input', applyFilters);
+  if (apType)    apType.addEventListener('change', applyFilters);
+  if (apCanal)   apCanal.addEventListener('change', applyFilters);
+  if (apApp)     apApp.addEventListener('change', applyFilters);
+  if (apReset)   apReset.addEventListener('click', function() {
+    apSearch.value = ''; apType.value = ''; apCanal.value = ''; apApp.value = '';
+    applyFilters();
+  });
+
+  /* ── Fill select ── */
+  function fillSelect(sel, values) {
+    sel.innerHTML = '<option value="">Todos</option>';
+    values.forEach(function(v) {
+      var o = document.createElement('option');
+      o.value = v; o.textContent = v;
+      sel.appendChild(o);
+    });
+    var nullOpt = document.createElement('option');
+    nullOpt.value = '__null__'; nullOpt.textContent = '— sin valor —';
+    sel.appendChild(nullOpt);
+  }
+
+  /* ── Render table ── */
+  function esc(s) {
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function badge(val, cls) {
+    if (!val) return '<span class="ap-badge ap-badge-null">—</span>';
+    return '<span class="ap-badge ' + cls + '">' + esc(val) + '</span>';
+  }
+  function renderTable(customers) {
+    if (!customers.length) {
+      apBody.innerHTML = '<div class="ap-loading">No hay registros disponibles.</div>';
+      return;
+    }
+    var html = '<div class="ap-table-inner"><table class="ap-table"><thead><tr>'
+      + '<th>ID</th><th>Nombre</th><th>Email</th><th>Doc. ID</th><th>Teléfono</th>'
+      + '<th>Type</th><th>Canal</th><th>App Source</th><th>Status</th><th>Comentario</th>'
+      + '</tr></thead><tbody id="ap-tbody">';
+    customers.forEach(function(c) {
+      var name = [c.firstName, c.lastName].filter(Boolean).join(' ');
+      html += '<tr'
+        + ' data-name="' + esc((name).toLowerCase()) + '"'
+        + ' data-email="' + esc((c.email||'').toLowerCase()) + '"'
+        + ' data-docid="' + esc((c.documentId||'').toLowerCase()) + '"'
+        + ' data-type="' + esc(c.type||'') + '"'
+        + ' data-canal="' + esc(c.canal||'') + '"'
+        + ' data-appsource="' + esc(c.appsource||'') + '">'
+        + '<td class="ap-td-id">' + esc(c.id) + '</td>'
+        + '<td>' + esc(name || '—') + '</td>'
+        + '<td class="ap-td-muted">' + esc(c.email||'—') + '</td>'
+        + '<td class="ap-td-muted">' + esc(c.documentId||'—') + '</td>'
+        + '<td class="ap-td-muted">' + esc(c.phoneNumber||'—') + '</td>'
+        + '<td>' + badge(c.type, 'ap-badge-type') + '</td>'
+        + '<td>' + badge(c.canal, 'ap-badge-canal') + '</td>'
+        + '<td>' + badge(c.appsource, 'ap-badge-app') + '</td>'
+        + '<td class="ap-td-muted">' + esc(c.status||'—') + '</td>'
+        + '<td class="ap-td-comment" title="' + esc(c.comment||'') + '">' + esc(c.comment||'—') + '</td>'
+        + '</tr>';
+    });
+    html += '</tbody></table></div>';
+    apBody.innerHTML = html;
+    tableRows = Array.from(document.querySelectorAll('#ap-tbody tr'));
+    applyFilters();
+  }
+
+  /* ── Load customers ── */
+  async function loadDashboard() {
+    openPanel();
+    apBody.innerHTML = '<div class="ap-loading">Cargando datos…</div>';
+    apFilters.style.display = 'none';
+    try {
+      var res  = await fetch('/api/admin/customers');
+      var json = await res.json();
+      if (!json.success) throw new Error(json.error || 'Error del servidor');
+      var customers = json.data;
+      apTotal.textContent = customers.length;
+
+      var types     = [...new Set(customers.map(function(c){return c.type;}).filter(Boolean))].sort();
+      var canales   = [...new Set(customers.map(function(c){return c.canal;}).filter(Boolean))].sort();
+      var appsources = [...new Set(customers.map(function(c){return c.appsource;}).filter(Boolean))].sort();
+
+      apStats.innerHTML =
+        '<div class="ap-stat"><div class="ap-stat-label">Total</div><div class="ap-stat-value">' + customers.length + '</div></div>'
+        + (types.length ? '<div class="ap-stat"><div class="ap-stat-label">Tipos</div><div class="ap-stat-value" style="color:#6366f1">' + types.length + '</div></div>' : '')
+        + (canales.length ? '<div class="ap-stat"><div class="ap-stat-label">Canales</div><div class="ap-stat-value" style="color:#3b82f6">' + canales.length + '</div></div>' : '')
+        + (appsources.length ? '<div class="ap-stat"><div class="ap-stat-label">App Sources</div><div class="ap-stat-value" style="color:#22c55e">' + appsources.length + '</div></div>' : '');
+
+      fillSelect(apType, types);
+      fillSelect(apCanal, canales);
+      fillSelect(apApp, appsources);
+      apFilters.style.display = 'flex';
+      renderTable(customers);
+    } catch(err) {
+      apBody.innerHTML = '<div class="ap-error">Error al cargar datos: ' + err.message + '</div>';
+    }
+  }
+
+  /* ── Login submit ── */
+  async function doLogin() {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Verificando...';
+    errorEl.className = 'form-response';
+    errorEl.textContent = '';
+    try {
+      var res  = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: document.getElementById('admin-username').value,
+          password: document.getElementById('admin-password').value
+        })
+      });
+      var data = await res.json();
+      if (data.success) {
+        closeLoginModal();
+        loadDashboard();
+      } else {
+        showAdminError(data.error || 'Credenciales incorrectas');
+      }
+    } catch(err) {
+      showAdminError('Error de conexión: ' + (err.message || 'Intenta de nuevo'));
+    }
+  }
+  submitBtn.addEventListener('click', doLogin);
+  form.addEventListener('submit', function(e) { e.preventDefault(); doLogin(); });
+
+  /* ── Auto-open si ya hay sesión activa ── */
+  fetch('/api/admin/session').then(function(r){ return r.json(); }).then(function(d){
+    if (d.valid) loadDashboard();
+  });
+})();
 </script>
 </body>
 </html>
