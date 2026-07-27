@@ -1868,12 +1868,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 email:       fd.get('email'),
                 documentId:  fd.get('documentId'),
                 phoneNumber: fd.get('phone'),
-                comment:     fd.get('comment')
+                comment:     fd.get('comment'),
+                appsource:   'web-mobilpymes',
+                canal:       'web',
+                type:        'cliente-prospecto'
             };
 
             try {
                 // Guardar en BD externa
-                var resDB = fetch('https://azure-app-shopping-cart-reload-225fb76523b0.herokuapp.com/api/customer/create', {
+                var resDB = fetch('https://shopping-cart-gateway.whuera.workers.dev/api/customer/create', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
