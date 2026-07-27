@@ -2198,7 +2198,16 @@ async function renderWorldMap() {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Ingresar';
   }
-  adminBtn.addEventListener('click', openLoginModal);
+  // Sesión en memoria del cliente para no re-loguearse al navegar
+  var sessionActive = false;
+
+  adminBtn.addEventListener('click', function() {
+    if (sessionActive) {
+      loadDashboard();
+    } else {
+      openLoginModal();
+    }
+  });
   closeBtn.addEventListener('click', closeLoginModal);
   loginModal.addEventListener('click', function(e) { if (e.target === loginModal) closeLoginModal(); });
 
@@ -2207,6 +2216,11 @@ async function renderWorldMap() {
     openLoginModal();
     history.replaceState(null, '', '/');
   }
+
+  // Verificar sesión existente al cargar (sin navegar automáticamente)
+  fetch('/api/admin/session').then(function(r){ return r.json(); }).then(function(d){
+    sessionActive = d.valid;
+  });
 
   function showAdminError(msg) {
     errorEl.className = 'form-response error';
@@ -2237,6 +2251,7 @@ async function renderWorldMap() {
 
   document.getElementById('ap-logout-btn').addEventListener('click', async function() {
     await fetch('/api/admin/logout', { method: 'POST' });
+    sessionActive = false;
     closePanel();
   });
 
@@ -2377,6 +2392,7 @@ async function renderWorldMap() {
       });
       var data = await res.json();
       if (data.success) {
+        sessionActive = true;
         closeLoginModal();
         loadDashboard();
       } else {
@@ -2388,11 +2404,6 @@ async function renderWorldMap() {
   }
   submitBtn.addEventListener('click', doLogin);
   form.addEventListener('submit', function(e) { e.preventDefault(); doLogin(); });
-
-  /* ── Auto-open si ya hay sesión activa ── */
-  fetch('/api/admin/session').then(function(r){ return r.json(); }).then(function(d){
-    if (d.valid) loadDashboard();
-  });
 })();
 </script>
 </body>
