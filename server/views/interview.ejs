@@ -56,25 +56,43 @@
       margin-bottom: 48px;
     }
 
-    .lang-toggle-btn {
-      height: 32px;
-      padding: 0 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.04);
-      color: #8b949e;
-      font-family: 'Courier New', monospace;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
+    .lang-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       cursor: pointer;
-      transition: all 0.2s;
+      user-select: none;
     }
-    .lang-toggle-btn:hover {
-      color: #e6edf3;
-      border-color: rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.08);
+    .lang-switch .ls-label {
+      font-size: 11px;
+      font-weight: 700;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.05em;
+      color: #8b949e;
+      transition: color 0.2s;
     }
+    .lang-switch .ls-es { color: #e6edf3; }
+    .lang-switch .ls-track {
+      position: relative;
+      width: 34px;
+      height: 18px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+    }
+    .lang-switch .ls-thumb {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 12px;
+      height: 12px;
+      background: #e6edf3;
+      border-radius: 50%;
+      transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+    .lang-switch.en .ls-thumb { transform: translateX(16px); }
+    .lang-switch.en .ls-es    { color: #8b949e; }
+    .lang-switch.en .ls-en    { color: #e6edf3; }
 
     .header-badge {
       display: inline-flex;
@@ -821,7 +839,11 @@
   <!-- HEADER -->
   <header class="header">
     <div style="display:flex;justify-content:center;margin-bottom:12px;">
-      <button class="lang-toggle-btn" onclick="i18n.setLang(i18n.getCurrentLang() === 'es' ? 'en' : 'es')" aria-label="Switch language">EN</button>
+      <label class="lang-switch" title="Cambiar idioma" aria-label="Cambiar idioma">
+        <span class="ls-label ls-es">ES</span>
+        <span class="ls-track"><span class="ls-thumb"></span></span>
+        <span class="ls-label ls-en">EN</span>
+      </label>
     </div>
     <div class="header-badge" data-i18n="iv_badge">Entrevista Virtual en Vivo</div>
     <div class="profile-wrap">
