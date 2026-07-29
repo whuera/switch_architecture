@@ -97,6 +97,10 @@ var translations = {
     sim_atm_label:         'TRANSACTION FLOW',
     sim_atm_link:          'Proximamente',
     sim_atm_badge:         'En desarrollo',
+    sim_b24_desc:          'Simulador interactivo de la plataforma ACI BASE24-eps para validar flujos de autorización, mensajería ISO 8583 y procesamiento transaccional en redes de pago electrónico.',
+    sim_b24_label:         'EPS SIMULATOR',
+    sim_b24_link:          'Acceder al Simulador',
+    sim_b24_badge:         'Activo',
 
     // ── Modulos section ──────────────────────────────────────────────────────
     mod_title:             'Core',
@@ -426,6 +430,10 @@ var translations = {
     sim_atm_label:         'TRANSACTION FLOW',
     sim_atm_link:          'Coming Soon',
     sim_atm_badge:         'In development',
+    sim_b24_desc:          'Interactive simulator for the ACI BASE24-eps platform to validate authorization flows, ISO 8583 messaging and transactional processing in electronic payment networks.',
+    sim_b24_label:         'EPS SIMULATOR',
+    sim_b24_link:          'Access Simulator',
+    sim_b24_badge:         'Active',
 
     // ── Modulos section ──────────────────────────────────────────────────────
     mod_title:             'Core',
