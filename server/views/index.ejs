@@ -458,8 +458,8 @@
     <section id="simuladores-section" class="section hidden">
         <div class="section-inner">
             <div class="section-header">
-                <h2 class="section-title"><span data-i18n="sim_title">Simuladores</span> <span class="gradient-text">B24</span></h2>
-                <p class="section-desc" data-i18n="sim_desc">Simuladores de flujo transaccional y plataformas bancarias para pruebas.</p>
+                <h2 class="section-title"><span data-i18n="sim_title">Simuladores plataforma</span> <span class="gradient-text">Base24 eps</span></h2>
+                <p class="section-desc" data-i18n="sim_desc">Recreamos de extremo a extremo el ciclo de vida de una transacción financiera electrónica. Un cliente inicia la operación desde un cajero ATM, la solicitud viaja a través del switch transaccional Base24 eps donde los mensajes ISO 8583 son enrutados, autorizados y registrados, y finalmente se liquida contra el core bancario de la entidad emisora. Cada simulador representa un eslabón de esa cadena, permitiendo configurar y validar escenarios reales sin afectar ambientes productivos.</p>
             </div>
 
             <div class="simulators-grid">
@@ -486,7 +486,7 @@
                     <div class="sim-header">
                         <span class="sim-icon">&#127975;</span>
                         <h3>ATM Flow</h3>
-                        <span class="sim-status coming" data-i18n="sim_atm_badge">En desarrollo</span>
+                        <span class="sim-status active" data-i18n="sim_atm_badge">Activo</span>
                     </div>
                     <p data-i18n="sim_atm_desc">Simulador de flujo transaccional completo para cajeros automaticos ATM.</p>
                     <div class="sim-preview">
@@ -495,7 +495,10 @@
                             <span class="sim-preview-label" data-i18n="sim_atm_label">TRANSACTION FLOW</span>
                         </div>
                     </div>
-                    <a href="#" class="sim-link disabled" data-i18n="sim_atm_link">Proximamente</a>
+                    <a href="https://atm-simulator-alpha.vercel.app/" target="_blank" rel="noopener noreferrer" class="sim-link">
+                        <span data-i18n="sim_atm_link">Acceder al Simulador</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
                 </div>
 
                 <div class="simulator-card">
